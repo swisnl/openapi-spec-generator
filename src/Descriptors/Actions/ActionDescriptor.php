@@ -11,6 +11,7 @@ use LaravelJsonApi\Contracts\Server\Server;
 use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\ParameterBuilder;
 use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\RequestBodyBuilder;
 use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\ResponseBuilder;
+use LaravelJsonApi\OpenApiSpec\Contracts\DescribesEndpoints;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\ActionDescriptor as ActionDescriptorContract;
 use LaravelJsonApi\OpenApiSpec\Generator;
 use LaravelJsonApi\OpenApiSpec\Route;
@@ -80,7 +81,14 @@ abstract class ActionDescriptor implements ActionDescriptorContract
      */
     protected function description(): string
     {
-        return '';
+        /** @var DescribesEndpoints $schema */
+        $schema = $this->route->schema();
+
+        if (!$schema instanceof DescribesEndpoints) {
+            return '';
+        }
+
+        return $schema->describeEndpoint($this->route->route()->getName());
     }
 
     /**

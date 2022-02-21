@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Posts;
 
 use LaravelJsonApi\HashIds\HashId;
+use LaravelJsonApi\OpenApiSpec\Contracts\DescribesEndpoints;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Post;
 use LaravelJsonApi\Eloquent\Fields\DateTime;
 use LaravelJsonApi\Eloquent\Fields\Relations\BelongsTo;
@@ -37,7 +38,7 @@ use LaravelJsonApi\Eloquent\Schema;
 use LaravelJsonApi\Eloquent\SoftDeletes;
 use LaravelJsonApi\Eloquent\Sorting\SortCountable;
 
-class PostSchema extends Schema
+class PostSchema extends Schema implements DescribesEndpoints
 {
 
     use SoftDeletes;
@@ -60,6 +61,17 @@ class PostSchema extends Schema
      * @var string
      */
     protected $defaultSort = '-createdAt';
+
+    private array $descriptions = [
+        'v1.posts.index' => 'This is an example show all description',
+        'v1.posts.show' => 'This is an example show one description',
+        'v1.posts.author' => 'This is an example show posts author description',
+    ];
+
+    public function describeEndpoint(string $endpoint): string
+    {
+        return $this->descriptions[$endpoint] ?? '';
+    }
 
     /**
      * @inheritDoc
