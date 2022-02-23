@@ -93,4 +93,9 @@ Ensure you have installed Speccy globally and then you can use the following com
 speccy serve storage/app/v1_openapi.yaml
 ```
 
+## Credits
 
+- [Glenn Jacobs](https://github.com/glennjacobs)
+- [Johannes Kees](https://github.com/byte-it)
+- [Björn Brala](https://github.com/bbrala)
+- [Rien van Velzen](https://github.com/Rockheep)
