@@ -66,8 +66,24 @@ Generate the Open API spec
 ```
 php artisan jsonapi:openapi:generate v1
 ```
-Note that a seeded DB is required! The seeded data will be used to generate Samples. 
 
+Note that a seeded DB is required! The seeded data will be used to generate Samples.
+
+It's possible to add descriptions to your endpoints by implementing the DescribesEndpoints interface. The added method
+receives the generated route name as a parameter. This can be used to generate descriptions for all your schema
+endpoints.
+``` php
+class Post extends Schema implements DescribesEndpoints
+{
+    public function describeEndpoint(string $endpoint) {
+        if ($endpoint === 'v1.posts.index') {
+            return 'Description for index method';
+        }
+        
+        return 'Default description';
+    }
+}
+```
 ## Generating Documentation
 
 A quick way to preview your documentation is to use [Speccy](https://speccy.io/).
