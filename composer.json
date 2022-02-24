@@ -1,5 +1,5 @@
 {
-    "name": "byteit/openapi-spec-generator",
+    "name": "swisnl/openapi-spec-generator",
     "description": "Creates Open API spec for a Laravel JSON:API",
     "authors": [
         {
@@ -11,6 +11,17 @@
             "name": "Johannes Kees",
             "homepage": "https://github.com/byte-it",
             "email": "johannes@lets-byte.it"
+        },
+        {
+            "name": "Björn Brala",
+            "email": "bjorn@swis.nl",
+            "homepage": "https://github.com/bbrala"
+        },
+        {
+            "name": "Rien van Velzen",
+            "email": "rvanvelzen@swis.nl",
+            "homepage": "https://github.com/Rockheep",
+            "role": "Developer"
         }
     ],
     "license": "Apache-2.0",
