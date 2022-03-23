@@ -281,8 +281,13 @@ class Route
       IlluminateRoute $route,
       Server $server
     ): bool {
+        $routeName = $route->getName();
+        if ($routeName === null) {
+            return false;
+        }
+
         return Str::contains(
-          $route->getName(),
+          $routeName,
           $server->name(),
         );
     }
