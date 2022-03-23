@@ -73,7 +73,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
           OASchema::string('id')
             ->example($resource->id()),
           OASchema::object('attributes')
-            ->properties(...$fields->get('attributes')),
+            ->properties(...$fields->get('attributes') ?: []),
         ];
 
         if ($fields->has('relationships')) {
@@ -109,7 +109,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
               ->title('type')
               ->default($route->name()),
             OASchema::object('attributes')
-              ->properties(...$fields->get('attributes')),
+              ->properties(...$fields->get('attributes') ?: []),
             OASchema::object('relationships')
               ->properties(...$fields->get('relationships') ?: [])
           );
@@ -138,7 +138,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
             OASchema::string('id')
               ->example($resource->id()),
             OASchema::object('attributes')
-              ->properties(...$fields->get('attributes')),
+              ->properties(...$fields->get('attributes') ?: []),
             OASchema::object('relationships')
               ->properties(...$fields->get('relationships') ?: [])
           )
