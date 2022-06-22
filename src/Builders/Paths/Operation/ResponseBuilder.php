@@ -154,15 +154,20 @@ class ResponseBuilder extends Builder
               MediaType::create()
                 ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
                 ->schema($errorBody)
-                ->examples(Example::create('-')->value(
-                  [
-                    "detail" => "The member id is required.",
-                    "source" => [
-                      "pointer" => "/data",
+                ->examples(Example::create('-')->value([
+                  'jsonapi' => [
+                    'version' => '1.0',
+                  ],
+                  'errors' => [
+                    [
+                      'detail' => 'The member id is required.',
+                      'source' => ['pointer' => '/data'],
+                      'status' => '400',
+                      'title' => 'Non-Compliant JSON:API Document',
                     ],
-                    "status" => "400",
-                    "title" => "Non-Compliant JSON:API Document",
-                  ]))
+                  ],
+                ])
+                )
             ),
           Response::unauthorized('401')
             ->description('Unauthorized Action')
