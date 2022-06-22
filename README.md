@@ -53,7 +53,7 @@ Designed to work with [Laravel JSON:API](https://laraveljsonapi.io/)
 
 Install package
 ```
-composer require byteit/openapi-spec-generator
+composer require swisnl/openapi-spec-generator
 ```
 
 Publish the config file
