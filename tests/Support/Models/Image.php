@@ -49,7 +49,7 @@ class Image extends Model
     protected $fillable = ['url'];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function booting()
     {

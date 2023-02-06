@@ -38,7 +38,7 @@ class CommentSchema extends Schema
     public static string $model = Comment::class;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function fields(): array
     {
@@ -53,7 +53,7 @@ class CommentSchema extends Schema
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function filters(): array
     {
@@ -63,7 +63,7 @@ class CommentSchema extends Schema
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function pagination(): PagePagination
     {

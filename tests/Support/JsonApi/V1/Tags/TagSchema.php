@@ -38,7 +38,7 @@ class TagSchema extends Schema
     public static string $model = Tag::class;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function fields(): array
     {
@@ -57,7 +57,7 @@ class TagSchema extends Schema
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function filters(): array
     {
@@ -67,7 +67,7 @@ class TagSchema extends Schema
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function pagination(): PagePagination
     {

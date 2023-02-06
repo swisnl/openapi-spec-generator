@@ -51,7 +51,7 @@ class Video extends Model
     protected $fillable = ['title', 'url'];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function booting()
     {

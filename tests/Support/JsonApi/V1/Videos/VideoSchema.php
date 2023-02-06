@@ -38,7 +38,7 @@ class VideoSchema extends Schema
     public static string $model = Video::class;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function fields(): array
     {
@@ -53,7 +53,7 @@ class VideoSchema extends Schema
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function filters(): array
     {
@@ -63,7 +63,7 @@ class VideoSchema extends Schema
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function pagination(): PagePagination
     {

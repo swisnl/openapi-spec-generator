@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Auth;
 class PostScope implements Scope
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply(Builder $builder, Model $model)
     {

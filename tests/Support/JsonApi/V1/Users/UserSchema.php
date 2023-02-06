@@ -38,7 +38,7 @@ class UserSchema extends Schema
     public static string $model = User::class;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function fields(): array
     {
@@ -51,7 +51,7 @@ class UserSchema extends Schema
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function filters(): array
     {
@@ -62,7 +62,7 @@ class UserSchema extends Schema
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function pagination(): PagePagination
     {

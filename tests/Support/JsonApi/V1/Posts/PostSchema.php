@@ -73,7 +73,7 @@ class PostSchema extends Schema implements DescribesEndpoints
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function fields(): array
     {
@@ -98,7 +98,7 @@ class PostSchema extends Schema implements DescribesEndpoints
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function filters(): array
     {
@@ -111,7 +111,7 @@ class PostSchema extends Schema implements DescribesEndpoints
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function sortables(): iterable
     {
@@ -121,7 +121,7 @@ class PostSchema extends Schema implements DescribesEndpoints
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function pagination(): PagePagination
     {
