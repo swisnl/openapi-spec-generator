@@ -41,7 +41,7 @@
         "goldspecdigital/oooas": "^2.8",
         "justinrainbow/json-schema": "^5.2",
         "laravel-json-api/hashids": "^1.1",
-        "symfony/yaml": "^5.3"
+        "symfony/yaml": "^5.3|^6.0"
     },
     "require-dev": {
         "ext-json": "*",
