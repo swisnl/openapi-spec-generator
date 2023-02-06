@@ -40,7 +40,7 @@
         "php": ">=7.4|^8.0",
         "goldspecdigital/oooas": "^2.8",
         "justinrainbow/json-schema": "^5.2",
-        "laravel-json-api/hashids": "^1.0@beta",
+        "laravel-json-api/hashids": "^1.1",
         "symfony/yaml": "^5.3"
     },
     "require-dev": {
