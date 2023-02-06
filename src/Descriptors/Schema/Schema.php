@@ -38,6 +38,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
       Eloquent\Filters\Scope::class => Filters\Scope::class,
       Eloquent\Filters\WithTrashed::class => Filters\WithTrashed::class,
       Eloquent\Filters\Where::class => Filters\Where::class,
+      Eloquent\Filters\WhereNull::class => Filters\WhereNull::class,
+      Eloquent\Filters\Has::class => Filters\Has::class,
     ];
 
     /**
