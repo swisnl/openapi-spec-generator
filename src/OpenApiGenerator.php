@@ -2,7 +2,7 @@
 
 namespace LaravelJsonApi\OpenApiSpec;
 
-use Storage;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Yaml\Yaml;
 
 class OpenApiGenerator
@@ -12,22 +12,24 @@ class OpenApiGenerator
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\ValidationException
      */
     public function generate(string $serverKey, string $format = 'yaml'): string
-        {
+    {
+        $generator = new Generator($serverKey);
+        $openapi = $generator->generate();
 
-          $generator = new Generator($serverKey);
-          $openapi = $generator->generate();
+        $openapi->validate();
 
-          $openapi->validate();
+        $storageDisk = Storage::disk(config('openapi.filesystem_disk'));
 
-          if ($format === 'yaml') {
+        $fileName = $serverKey . '_openapi.' . $format;
+
+        if ($format === 'yaml') {
             $output = Yaml::dump($openapi->toArray());
-            // Save to storage
-            Storage::put($serverKey.'_openapi.yaml', $output);
-          } elseif ($format === 'json') {
+        } elseif ($format === 'json') {
             $output = json_encode($openapi->toArray(), JSON_PRETTY_PRINT);
-            Storage::put($serverKey.'_openapi.json', $output);
-          }
-
-          return $output;
         }
+
+        $storageDisk->put($fileName, $output);
+
+        return $output;
+    }
 }
