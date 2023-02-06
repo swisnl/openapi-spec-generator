@@ -6,6 +6,11 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ## [Unreleased]
 
+- Nothing.
+
+
+## [0.5.0] - 2023-02-06
+
 ### Added
 - Allow customizing the storage disk to use [#6](https://github.com/swisnl/openapi-spec-generator/pull/6).
 - Add support for `Has`, `WhereNull` and `WhereNotNull` filters.
