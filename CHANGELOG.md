@@ -4,19 +4,19 @@ All notable changes to `openapi-spec-generator` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## NEXT - YYYY-MM-DD
+[Unreleased]
 
 ### Added
-- Nothing
+- Allow customizing the storage disk to use [#6](https://github.com/swisnl/openapi-spec-generator/pull/6).
 
-### Deprecated
-- Nothing
+
+## [0.4.0] - 2022-02-24
+
+### Added
+- Allow developers to add descriptions to endpoints [#2](https://github.com/swisnl/openapi-spec-generator/pull/2).
+
+### Changed
+- Require `laravel-json-api/laravel` version 2 [#2](https://github.com/swisnl/openapi-spec-generator/pull/2).
 
 ### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+- Fix a wrongly generated doc for to many relationships [#1](https://github.com/swisnl/openapi-spec-generator/pull/1).
