@@ -4,7 +4,7 @@ All notable changes to `openapi-spec-generator` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-[Unreleased]
+## [Unreleased]
 
 ### Added
 - Allow customizing the storage disk to use [#6](https://github.com/swisnl/openapi-spec-generator/pull/6).
