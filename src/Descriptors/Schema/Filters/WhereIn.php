@@ -6,6 +6,7 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Example;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use LaravelJsonApi\Eloquent\Filters\WhereNotIn;
+use LaravelJsonApi\Eloquent\Filters\WherePivotNotIn;
 
 class WhereIn extends FilterDescriptor
 {
@@ -39,6 +40,8 @@ class WhereIn extends FilterDescriptor
 
     protected function description(): string
     {
-        return $this->filter instanceof WhereNotIn ? "A list of {$this->filter->key()}s to exclude by." : "A list of {$this->filter->key()}s to filter by.";
+        return $this->filter instanceof WhereNotIn || $this->filter instanceof WherePivotNotIn
+            ? "A list of {$this->filter->key()}s to exclude by."
+            : "A list of {$this->filter->key()}s to filter by.";
     }
 }
