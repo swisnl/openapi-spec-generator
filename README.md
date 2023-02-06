@@ -146,7 +146,7 @@ This package is [Treeware](https://treeware.earth). If you use it in production,
 [ico-treeware]: https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen.svg?style=flat-square
 [ico-github-actions]: https://img.shields.io/github/actions/workflow/status/swisnl/openapi-spec-generator/tests.yml?label=tests&branch=master&style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/swisnl/openapi-spec-generator.svg?style=flat-square
-[ico-swis]: https://img.shields.io/badge/%F0%9F%9A%80-made%20by%20SWIS-%230737A9.svg?style=flat-square
+[ico-swis]: https://img.shields.io/badge/%F0%9F%9A%80-maintained%20by%20SWIS-%230737A9.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/swisnl/openapi-spec-generator
 [link-github-actions]: https://github.com/swisnl/openapi-spec-generator/actions/workflows/tests.yml
