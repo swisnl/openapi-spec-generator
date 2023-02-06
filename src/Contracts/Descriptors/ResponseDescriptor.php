@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Contracts\Descriptors;
-
 
 interface ResponseDescriptor extends Descriptor
 {

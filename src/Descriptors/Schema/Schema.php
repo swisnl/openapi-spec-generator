@@ -1,10 +1,9 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Schema;
 
-
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema as OASchema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use LaravelJsonApi\Contracts\Schema\Field;
@@ -13,6 +12,7 @@ use LaravelJsonApi\Contracts\Schema\Schema as JASchema;
 use LaravelJsonApi\Contracts\Schema\Sortable;
 use LaravelJsonApi\Core\Resources\JsonApiResource;
 use LaravelJsonApi\Core\Support\Str;
+use LaravelJsonApi\Eloquent;
 use LaravelJsonApi\Eloquent\Fields\ArrayHash;
 use LaravelJsonApi\Eloquent\Fields\ArrayList;
 use LaravelJsonApi\Eloquent\Fields\Attribute;
@@ -27,16 +27,11 @@ use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\SchemaBuilder;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\PaginationDescriptor;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\SortablesDescriptor;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\SchemaDescriptor;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema as OASchema;
 use LaravelJsonApi\OpenApiSpec\Descriptors\Descriptor;
-use LaravelJsonApi\OpenApiSpec\Descriptors\Schema\Filters;
-use LaravelJsonApi\Eloquent;
-use LaravelJsonApi\OpenApiSpec\Generator;
 use LaravelJsonApi\OpenApiSpec\Route;
 
 class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor, PaginationDescriptor
 {
-
     protected array $filterDescriptors = [
       Eloquent\Filters\WhereIdIn::class => Filters\WhereIdIn::class,
       Eloquent\Filters\WhereIn::class => Filters\WhereIn::class,
@@ -46,13 +41,14 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     ];
 
     /**
-     * @param  \LaravelJsonApi\Contracts\Schema\Schema  $schema
-     * @param  string  $objectId
-     * @param  string  $type
-     * @param  string  $name
+     * @param \LaravelJsonApi\Contracts\Schema\Schema $schema
+     * @param string                                  $objectId
+     * @param string                                  $type
+     * @param string                                  $name
+     *
+     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
-     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     public function fetch(
       JASchema $schema,
@@ -60,7 +56,6 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
       string $type,
       string $name
     ): OASchema {
-
         $resource = $this->generator
           ->resources()
           ->resource($schema::model());
@@ -80,6 +75,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
             $properties[] = OASchema::object('relationships')
               ->properties(...$fields->get('relationships'));
         }
+
         return OASchema::object($objectId)
           ->title('Resource/'.ucfirst($name).'/Fetch')
           ->required('type', 'id', 'attributes')
@@ -87,10 +83,11 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param  \LaravelJsonApi\OpenApiSpec\Route  $route
+     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     *
+     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
-     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     public function store(Route $route): OASchema
     {
@@ -102,24 +99,25 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
         $fields = $this->fields($route->schema()->fields(), $resource);
 
         return OASchema::object($objectId)
-          ->title('Resource/'.ucfirst($route->name(true))."/Store")
+          ->title('Resource/'.ucfirst($route->name(true)).'/Store')
           ->required('type', 'attributes')
           ->properties(
-            OASchema::string('type')
-              ->title('type')
-              ->default($route->name()),
-            OASchema::object('attributes')
-              ->properties(...$fields->get('attributes')),
-            OASchema::object('relationships')
-              ->properties(...$fields->get('relationships') ?: [])
+              OASchema::string('type')
+                ->title('type')
+                ->default($route->name()),
+              OASchema::object('attributes')
+                ->properties(...$fields->get('attributes')),
+              OASchema::object('relationships')
+                ->properties(...$fields->get('relationships') ?: [])
           );
     }
 
     /**
-     * @param  \LaravelJsonApi\OpenApiSpec\Route  $route
+     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     *
+     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
-     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     public function update(Route $route): OASchema
     {
@@ -132,15 +130,15 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
         return OASchema::object($objectId)
           ->title('Resource/'.ucfirst($route->name(true)).'/Update')
           ->properties(
-            OASchema::string('type')
-              ->title('type')
-              ->default($route->name()),
-            OASchema::string('id')
-              ->example($resource->id()),
-            OASchema::object('attributes')
-              ->properties(...$fields->get('attributes')),
-            OASchema::object('relationships')
-              ->properties(...$fields->get('relationships') ?: [])
+              OASchema::string('type')
+                ->title('type')
+                ->default($route->name()),
+              OASchema::string('id')
+                ->example($resource->id()),
+              OASchema::object('attributes')
+                ->properties(...$fields->get('attributes')),
+              OASchema::object('relationships')
+                ->properties(...$fields->get('relationships') ?: [])
           )
           ->required('type', 'id', 'attributes');
     }
@@ -150,19 +148,19 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      */
     public function fetchRelationship(Route $route): OASchema
     {
-        if(!$route->isPolymorphic()){
+        if (!$route->isPolymorphic()) {
             $resource = $this->generator->resources()
               ->resource($route->inversSchema()::model());
-        }
-        else{
+        } else {
             $resource = $this->generator->resources()
               ->resource(Arr::first($route->inversSchemas())::model());
         }
 
-      $inverseRelation = $route->relation() !== null ? $route->relation()->inverse() : null;
-      return $this->relationshipData($route->relation(), $resource,
-        $inverseRelation)
-          ->title('Resource/'.ucfirst($route->name(true)).'/Relationship/'.ucfirst($route->relationName()).'/Fetch');
+        $inverseRelation = $route->relation() !== null ? $route->relation()->inverse() : null;
+
+        return $this->relationshipData($route->relation(), $resource,
+            $inverseRelation)
+            ->title('Resource/'.ucfirst($route->name(true)).'/Relationship/'.ucfirst($route->relationName()).'/Fetch');
     }
 
     /**
@@ -170,11 +168,10 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      */
     public function updateRelationship(Route $route): OASchema
     {
-        if(!$route->isPolymorphic()){
+        if (!$route->isPolymorphic()) {
             $resource = $this->generator->resources()
               ->resource($route->inversSchema()::model());
-        }
-        else{
+        } else {
             $resource = $this->generator->resources()
               ->resource(Arr::first($route->inversSchemas())::model());
         }
@@ -189,11 +186,10 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      */
     public function attachRelationship(Route $route): OASchema
     {
-        if(!$route->isPolymorphic()){
+        if (!$route->isPolymorphic()) {
             $resource = $this->generator->resources()
               ->resource($route->inversSchema()::model());
-        }
-        else{
+        } else {
             $resource = $this->generator->resources()
               ->resource(Arr::first($route->inversSchemas())::model());
         }
@@ -208,11 +204,10 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      */
     public function detachRelationship(Route $route): OASchema
     {
-        if(!$route->isPolymorphic()){
+        if (!$route->isPolymorphic()) {
             $resource = $this->generator->resources()
               ->resource($route->inversSchema()::model());
-        }
-        else{
+        } else {
             $resource = $this->generator->resources()
               ->resource(Arr::first($route->inversSchemas())::model());
         }
@@ -222,6 +217,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
+     * @param mixed $objectId
+     *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     public function fetchPolymorphicRelationship(
@@ -232,13 +229,16 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
           ->resource($route->schema()::model());
 
         $inverseRelation = $route->relation() !== null ? $route->relation()->inverse() : null;
+
         return $this->relationshipData($route->relation(), $resource,
-          $inverseRelation)
+            $inverseRelation)
           ->objectId($objectId)
           ->title('Resource/'.ucfirst($route->name(true)).'/Relationship/'.ucfirst($route->relationName()).'/Fetch');
     }
 
     /**
+     * @param mixed $route
+     *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter[]
      */
     public function sortables($route): array
@@ -264,7 +264,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param  \LaravelJsonApi\OpenApiSpec\Route  $route
+     * @param \LaravelJsonApi\OpenApiSpec\Route $route
      *
      * @return array
      */
@@ -324,16 +324,17 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
         return collect($route->schema()->filters())
           ->map(function (Eloquent\Contracts\Filter $filterInstance) use ($route
           ) {
-            $descriptor = $this->getDescriptor($filterInstance);
-            return (new $descriptor($this->generator, $route, $filterInstance))->filter();
+              $descriptor = $this->getDescriptor($filterInstance);
+
+              return (new $descriptor($this->generator, $route, $filterInstance))->filter();
           })
           ->flatten()
           ->toArray();
     }
 
     /**
-     * @param  \LaravelJsonApi\Contracts\Schema\Field[]  $fields
-     * @param  \LaravelJsonApi\Core\Resources\JsonApiResource  $resource
+     * @param \LaravelJsonApi\Contracts\Schema\Field[]       $fields
+     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $resource
      *
      * @return \Illuminate\Support\Collection
      */
@@ -344,25 +345,26 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
         return collect($fields)
           ->mapToGroups(function (Field $field) {
               switch (true) {
-                case $field instanceof Attribute:
-                  $key = 'attributes';
-                  break;
-                case $field instanceof Relation:
-                  $key = 'relationships';
-                  break;
-                default:
-                  $key = 'unknown';
-                }
-                return [$key => $field];
+                  case $field instanceof Attribute:
+                      $key = 'attributes';
+                      break;
+                  case $field instanceof Relation:
+                      $key = 'relationships';
+                      break;
+                  default:
+                      $key = 'unknown';
+              }
+
+              return [$key => $field];
           })
           ->map(function ($fields, $type) use ($resource) {
               switch ($type) {
-                case 'attributes':
-                  return $this->attributes($fields, $resource);
-                case 'relationships':
-                  return $this->relationships($fields, $resource);
-                default:
-                  return null;
+                  case 'attributes':
+                      return $this->attributes($fields, $resource);
+                  case 'relationships':
+                      return $this->relationships($fields, $resource);
+                  default:
+                      return null;
               }
           });
     }
@@ -375,25 +377,25 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
       JsonApiResource $example
     ): array {
         return $fields
-          ->filter(fn($field) => ! ($field instanceof ID))
+          ->filter(fn ($field) => !($field instanceof ID))
           ->map(function (Field $field) use ($example) {
               $fieldId = $field->name();
               switch (true) {
-                case $field instanceof Boolean:
-                    $fieldDataType = OASchema::boolean($fieldId);
-                    break;
-                case $field instanceof Number:
-                    $fieldDataType = OASchema::number($fieldId);
-                    break;
-                case $field instanceof ArrayList:
-                    $fieldDataType = OASchema::array($fieldId);
-                    break;
-                case $field instanceof ArrayHash:
-                case $field instanceof Map:
-                   $fieldDataType = OASchema::object($fieldId);
-                   break;
-                default:
-                  $fieldDataType = OASchema::string($fieldId);
+                  case $field instanceof Boolean:
+                      $fieldDataType = OASchema::boolean($fieldId);
+                      break;
+                  case $field instanceof Number:
+                      $fieldDataType = OASchema::number($fieldId);
+                      break;
+                  case $field instanceof ArrayList:
+                      $fieldDataType = OASchema::array($fieldId);
+                      break;
+                  case $field instanceof ArrayHash:
+                  case $field instanceof Map:
+                      $fieldDataType = OASchema::object($fieldId);
+                      break;
+                  default:
+                      $fieldDataType = OASchema::string($fieldId);
               }
 
               $schema = $fieldDataType->title($field->name());
@@ -404,15 +406,17 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
               if ($field->isReadOnly(null)) {
                   $schema = $schema->readOnly(true);
               }
+
               return $schema;
           })->toArray();
     }
 
     /**
-     * @param  \Illuminate\Support\Collection  $relationships
-     * @param  \LaravelJsonApi\Core\Resources\JsonApiResource  $example
+     * @param \Illuminate\Support\Collection                 $relationships
+     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $example
      *
      * @return array
+     *
      * @todo Fix relation field names
      */
     protected function relationships(
@@ -423,16 +427,16 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
           ->map(function (Relation $relation) use ($example) {
               return $this->relationship($relation, $example);
           })->toArray();
-
     }
 
     /**
      * @param \LaravelJsonApi\Eloquent\Fields\Relations\Relation $relation
-     * @param  \LaravelJsonApi\Core\Resources\JsonApiResource  $example
-     * @param  bool  $includeData
+     * @param \LaravelJsonApi\Core\Resources\JsonApiResource     $example
+     * @param bool                                               $includeData
+     *
+     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
-     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     protected function relationship(
       Relation $relation,
@@ -463,11 +467,12 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
 
     /**
      * @param \LaravelJsonApi\Eloquent\Fields\Relations\Relation $relation
-     * @param  \LaravelJsonApi\Core\Resources\JsonApiResource  $example
-     * @param  string  $type
+     * @param \LaravelJsonApi\Core\Resources\JsonApiResource     $example
+     * @param string                                             $type
+     *
+     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
-     * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     protected function relationshipData(
       Relation $relation,
@@ -475,40 +480,38 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
       string $type
     ): OASchema {
         if ($relation instanceof PolymorphicRelation) {
-
             // @todo Add examples for each available type
             $dataSchema = OASchema::object('data')
               ->title($relation->name())
               ->required('type', 'id')
               ->properties(
-                OASchema::string('type')
-                  ->title('type')
-                  ->enum(...$relation->inverseTypes()),
-                OASchema::string('id')
-                  ->title('id')
+                  OASchema::string('type')
+                    ->title('type')
+                    ->enum(...$relation->inverseTypes()),
+                  OASchema::string('id')
+                    ->title('id')
               );
         } else {
             $dataSchema = OASchema::object('data')
               ->title($relation->name())
               ->required('type', 'id')
               ->properties(
-                OASchema::string('type')
-                  ->title('type')
-                  ->default($type),
-                OASchema::string('id')
-                  ->title('id')
-                  ->example($example->id())
+                  OASchema::string('type')
+                    ->title('type')
+                    ->default($type),
+                  OASchema::string('id')
+                    ->title('id')
+                    ->example($example->id())
               );
         }
-
 
         return $dataSchema;
     }
 
     /**
-     * @param  mixed  $relation
-     * @param  \LaravelJsonApi\Core\Resources\JsonApiResource  $example
-     * @param  string  $type
+     * @param mixed                                          $relation
+     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $example
+     * @param string                                         $type
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
      */
@@ -518,7 +521,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
       string $type
     ): OASchema {
         $name = Str::dasherize(
-          Str::plural($relation->relationName())
+            Str::plural($relation->relationName())
         );
 
         /*
@@ -540,18 +543,18 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
         return OASchema::object('links')
           ->readOnly(true)
           ->properties(
-            OASchema::string('related')
-              ->title('related')
-              ->example($relatedLink),
-            OASchema::string('self')
-              ->title('self')
-              ->example($selfLink),
+              OASchema::string('related')
+                ->title('related')
+                ->example($relatedLink),
+              OASchema::string('self')
+                ->title('self')
+                ->example($selfLink),
           );
     }
 
     /**
-     * @param  \LaravelJsonApi\OpenApiSpec\Route  $route
-     * @param  \LaravelJsonApi\Core\Resources\JsonApiResource  $resource
+     * @param \LaravelJsonApi\OpenApiSpec\Route              $route
+     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $resource
      *
      * @return array
      */
@@ -561,6 +564,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
           $route->name(),
           $resource->id(),
         ]);
+
         return [
           OASchema::string('self')
             ->title('self')
@@ -569,7 +573,6 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     *
      * @todo Get descriptors from Attributes
      */
     protected function getDescriptor(Eloquent\Contracts\Filter $filter
@@ -582,10 +585,12 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param Route $route
+     * @param Route           $route
      * @param JsonApiResource $resource
-     * @return OASchema
+     *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
+     *
+     * @return OASchema
      */
     protected function getDataSchema(Route $route, JsonApiResource $resource): OASchema
     {
@@ -604,7 +609,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
             $dataSchema = OASchema::array('data')
                 ->items($dataSchema);
         }
+
         return $dataSchema;
     }
-
 }

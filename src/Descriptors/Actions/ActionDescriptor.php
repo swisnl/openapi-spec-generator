@@ -1,6 +1,5 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Actions;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
@@ -18,7 +17,6 @@ use LaravelJsonApi\OpenApiSpec\Route;
 
 abstract class ActionDescriptor implements ActionDescriptorContract
 {
-
     protected ParameterBuilder $parameterBuilder;
 
     protected RequestBodyBuilder $requestBodyBuilder;
@@ -51,19 +49,19 @@ abstract class ActionDescriptor implements ActionDescriptorContract
     public function action(): Operation
     {
         switch ($this->route->method()) {
-          case 'POST':
-            $operation = Operation::post();
-            break;
-          case 'PATCH':
-            $operation = Operation::patch();
-            break;
-          case 'DELETE':
-            $operation = Operation::delete();
-            break;
-          case 'GET':
-          default:
-            $operation = Operation::get();
-            break;
+            case 'POST':
+                $operation = Operation::post();
+                break;
+            case 'PATCH':
+                $operation = Operation::patch();
+                break;
+            case 'DELETE':
+                $operation = Operation::delete();
+                break;
+            case 'GET':
+            default:
+                $operation = Operation::get();
+                break;
         }
 
         return $operation
@@ -94,36 +92,40 @@ abstract class ActionDescriptor implements ActionDescriptorContract
     /**
      * @return string
      */
-    protected function summary(): string{
+    protected function summary(): string
+    {
         return '';
     }
 
     /**
      * @return string[]
      */
-    protected function tags(): array{
+    protected function tags(): array
+    {
         return [ucfirst($this->route->name())];
     }
 
     /**
      * @return Parameter[]
      */
-    protected function parameters(): array{
+    protected function parameters(): array
+    {
         return $this->parameterBuilder->build($this->route);
     }
 
     /**
      * @return Response[]
      */
-    protected function responses(): array{
+    protected function responses(): array
+    {
         return $this->responseBuilder->build($this->route);
     }
 
     /**
      * @return RequestBody|null
      */
-    protected function requestBody(): ?RequestBody{
+    protected function requestBody(): ?RequestBody
+    {
         return $this->requestBodyBuilder->build($this->route);
     }
-
 }

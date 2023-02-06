@@ -2,10 +2,10 @@
 
 namespace LaravelJsonApi\OpenApiSpec\Tests;
 
+use Illuminate\Support\Facades\App;
 use LaravelJsonApi\OpenApiSpec\OpenApiServiceProvider;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Server;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\App;
 use Vinkla\Hashids\HashidsServiceProvider;
 
 abstract class TestCase extends BaseTestCase
@@ -29,14 +29,14 @@ abstract class TestCase extends BaseTestCase
 
     protected function defineRoutes($router)
     {
-        $router->group(['prefix' => 'api', 'middleware' => 'api', 'namespace' => 'LaravelJsonApi\OpenApiSpec\Tests\Support\Controllers'], function() {
+        $router->group(['prefix' => 'api', 'middleware' => 'api', 'namespace' => 'LaravelJsonApi\OpenApiSpec\Tests\Support\Controllers'], function () {
             $jsonApiRoute = App::make(\LaravelJsonApi\Laravel\Routing\Registrar::class);
 
             $jsonApiRoute->server('v1')
               ->prefix('v1')
               ->namespace('Api\V1')
               ->resources(function ($server) {
-                  /** Posts */
+                  /* Posts */
                   $server->resource('posts')->relationships(function ($relationships) {
                       $relationships->hasOne('author')->readOnly();
                       $relationships->hasMany('comments')->readOnly();
@@ -47,7 +47,7 @@ abstract class TestCase extends BaseTestCase
                       $actions->withId()->post('publish');
                   });
 
-                  /** Videos */
+                  /* Videos */
                   $server->resource('videos')->relationships(function ($relationships) {
                       $relationships->hasMany('tags');
                   });
@@ -57,7 +57,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function defineDatabaseMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/Support/Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/Support/Database/Migrations');
     }
 
     protected function getPackageProviders($app)
@@ -73,9 +73,9 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageAliases($app)
     {
         return [
-            "OpenApiGenerator" => \LaravelJsonApi\OpenApiSpec\Facades\GeneratorFacade::class,
-            "JsonApi" => \LaravelJsonApi\Core\Facades\JsonApi::class,
-            "JsonApiRoute" => \LaravelJsonApi\Laravel\Facades\JsonApiRoute::class
+            'OpenApiGenerator' => \LaravelJsonApi\OpenApiSpec\Facades\GeneratorFacade::class,
+            'JsonApi' => \LaravelJsonApi\Core\Facades\JsonApi::class,
+            'JsonApiRoute' => \LaravelJsonApi\Laravel\Facades\JsonApiRoute::class,
         ];
     }
 }

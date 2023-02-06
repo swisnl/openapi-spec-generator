@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Example;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
@@ -13,9 +11,8 @@ use LaravelJsonApi\OpenApiSpec\Route;
 
 class ParameterBuilder extends Builder
 {
-
     /**
-     * @param  \LaravelJsonApi\OpenApiSpec\Route  $route
+     * @param \LaravelJsonApi\OpenApiSpec\Route $route
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter[]
      */
@@ -25,7 +22,7 @@ class ParameterBuilder extends Builder
         $schemaDescriptor = new Schema($this->generator);
         $parameters = [];
 
-        /**
+        /*
          * Add pagination, filters & sorts
          */
         if ($route->action() === 'index') {
@@ -46,6 +43,7 @@ class ParameterBuilder extends Builder
               ->resources($route->schema()::model()))
               ->map(function ($resource) {
                   $id = $resource->id();
+
                   return Example::create($id)->value($id);
               })->toArray();
 
@@ -59,5 +57,4 @@ class ParameterBuilder extends Builder
 
         return $parameters;
     }
-
 }

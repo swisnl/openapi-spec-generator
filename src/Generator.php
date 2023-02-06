@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
 use LaravelJsonApi\Contracts\Server\Server;
@@ -13,7 +11,6 @@ use LaravelJsonApi\OpenApiSpec\Builders\ServerBuilder;
 
 class Generator
 {
-
     protected string $key;
 
     protected Server $server;
@@ -78,15 +75,16 @@ class Generator
     /**
      * @return \LaravelJsonApi\OpenApiSpec\ComponentsContainer
      */
-    public function components(): ComponentsContainer{
+    public function components(): ComponentsContainer
+    {
         return $this->components;
     }
 
     /**
      * @return \LaravelJsonApi\OpenApiSpec\ResourceContainer
      */
-    public function resources(): ResourceContainer{
+    public function resources(): ResourceContainer
+    {
         return $this->resources;
     }
-
 }

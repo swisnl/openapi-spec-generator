@@ -1,6 +1,5 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Actions\Relationship;
 
 class Detach extends Attach

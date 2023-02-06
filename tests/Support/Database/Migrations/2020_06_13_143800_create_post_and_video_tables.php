@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePostAndVideoTables extends Migration
 {
-
     /**
      * Run the migration.
      *

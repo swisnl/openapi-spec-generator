@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Requests;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\MediaType;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\RequestBody;
@@ -16,16 +14,11 @@ use LaravelJsonApi\OpenApiSpec\Route;
 use Neomerx\JsonApi\Contracts\Http\Headers\MediaTypeInterface;
 
 /**
- * Class RequestDescriptor
- *
  * @todo Resolve to the request class
  * @todo Overlay resource schema with validation rules from the request class
- * @package LaravelJsonApi\OpenApiSpec\Descriptors\Requests
- *
  */
 abstract class RequestDescriptor extends Descriptor implements RequestDescriptorContract
 {
-
     protected Route $route;
 
     protected ComponentsContainer $components;
@@ -47,16 +40,15 @@ abstract class RequestDescriptor extends Descriptor implements RequestDescriptor
     {
         return RequestBody::create()
           ->content(
-            MediaType::create()
-              ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
-              ->schema(
-                Schema::object()->properties(
-                  $this->schemaBuilder->build($this->route, true)
-                    ->objectId('data')
+              MediaType::create()
+                ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
+                ->schema(
+                    Schema::object()->properties(
+                        $this->schemaBuilder->build($this->route, true)
+                          ->objectId('data')
+                    )
+                      ->required('data')
                 )
-                  ->required('data')
-              )
           );
     }
-
 }

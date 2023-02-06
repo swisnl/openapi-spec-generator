@@ -1,6 +1,5 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Schema\Filters;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Example;
@@ -9,21 +8,19 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use LaravelJsonApi\Core\Resources\JsonApiResource;
 use LaravelJsonApi\Eloquent\Filters\WhereIdNotIn;
 
-
 class WhereIdIn extends FilterDescriptor
 {
-
     /**
      * {@inheritDoc}
      */
     public function filter(): array
     {
-
         $key = $this->filter->key();
         $examples = collect($this->generator->resources()
           ->resources($this->route->schema()::model()))
           ->map(function (JsonApiResource $resource) {
               $id = $resource->id();
+
               return Example::create($id)->value([$id]);
           })
           ->toArray();
@@ -35,7 +32,7 @@ class WhereIdIn extends FilterDescriptor
             ->required(false)
             ->allowEmptyValue(false)
             ->schema(Schema::array()->items(Schema::string())->default([]))
-            ->examples( Example::create('empty')->value([]), ...$examples)
+            ->examples(Example::create('empty')->value([]), ...$examples)
             ->style('form')
             ->explode(false),
         ];
@@ -50,5 +47,4 @@ class WhereIdIn extends FilterDescriptor
           'A list of ids to exclude by.' :
           'A list of ids to filter by.';
     }
-
 }

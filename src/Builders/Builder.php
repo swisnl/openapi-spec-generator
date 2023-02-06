@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Builders;
-
 
 use LaravelJsonApi\OpenApiSpec\Generator;
 
@@ -10,8 +8,6 @@ use LaravelJsonApi\OpenApiSpec\Generator;
  * Builders represent the hierarchy of the OpenApi Spec.
  * They use Descriptors to extract the needed information from the JSON:API
  * implementation and convert it to OpenAPI specs.
- *
- * @package LaravelJsonApi\OpenApiSpec\Builders
  */
 abstract class Builder
 {
@@ -21,5 +17,4 @@ abstract class Builder
     {
         $this->generator = $generator;
     }
-
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Builders\Paths;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use LaravelJsonApi\Laravel\Http\Controllers;
@@ -13,10 +11,10 @@ use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\ResponseBuilder;
 use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\SchemaBuilder;
 use LaravelJsonApi\OpenApiSpec\ComponentsContainer;
 use LaravelJsonApi\OpenApiSpec\Concerns\ResolvesActionTraitToDescriptor;
+use LaravelJsonApi\OpenApiSpec\Descriptors;
+use LaravelJsonApi\OpenApiSpec\Generator;
 use LaravelJsonApi\OpenApiSpec\Route;
 use LaravelJsonApi\OpenApiSpec\Route as SpecRoute;
-use LaravelJsonApi\OpenApiSpec\Generator;
-use LaravelJsonApi\OpenApiSpec\Descriptors;
 
 class OperationBuilder extends Builder
 {
@@ -55,38 +53,39 @@ class OperationBuilder extends Builder
         $this->schemaBuilder = new SchemaBuilder($generator, $components);
         $this->parameterBuilder = new ParameterBuilder($generator);
         $this->requestBodyBuilder = new RequestBodyBuilder($generator,
-          $this->schemaBuilder);
+            $this->schemaBuilder);
         $this->responseBuilder = new ResponseBuilder($generator, $components,
-          $this->schemaBuilder);
+            $this->schemaBuilder);
     }
 
     /**
-     * @param  \LaravelJsonApi\OpenApiSpec\Route  $route
+     * @param \LaravelJsonApi\OpenApiSpec\Route $route
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Operation|null
      */
     public function build(SpecRoute $route): ?Operation
     {
-        return $this->getDescriptor($route) !== NULL ? $this->getDescriptor($route)->action() : NULL;
+        return $this->getDescriptor($route) !== null ? $this->getDescriptor($route)->action() : null;
     }
 
     /**
-     * @param  \LaravelJsonApi\OpenApiSpec\Route  $route
+     * @param \LaravelJsonApi\OpenApiSpec\Route $route
      *
      * @return \LaravelJsonApi\OpenApiSpec\Descriptors\Actions\ActionDescriptor|null
      */
-    protected function getDescriptor(Route $route): ?Descriptors\Actions\ActionDescriptor{
+    protected function getDescriptor(Route $route): ?Descriptors\Actions\ActionDescriptor
+    {
         $class = $this->descriptorClass($route);
-        if(isset($this->descriptors[$class])){
+        if (isset($this->descriptors[$class])) {
             return new $this->descriptors[$class](
-              $this->parameterBuilder,
-              $this->requestBodyBuilder,
-              $this->responseBuilder,
-              $this->generator,
-              $route
+                $this->parameterBuilder,
+                $this->requestBodyBuilder,
+                $this->responseBuilder,
+                $this->generator,
+                $route
             );
         }
+
         return null;
     }
-
 }

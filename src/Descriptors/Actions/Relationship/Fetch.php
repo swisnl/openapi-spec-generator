@@ -1,6 +1,5 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Actions\Relationship;
 
 use LaravelJsonApi\OpenApiSpec\Descriptors\Actions\ActionDescriptor;

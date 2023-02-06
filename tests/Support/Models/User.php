@@ -24,7 +24,6 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\UserFactory;
 
 class User extends Authenticatable
 {
-
     use HasFactory;
     use Notifiable;
     use Concerns\HashRouteKey;

@@ -19,9 +19,9 @@ declare(strict_types=1);
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories;
 
-use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\User;
 
 class UserFactory extends Factory
 {

@@ -1,18 +1,14 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Schema\Filters;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Example;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema as OASchema;
 
-
 class Where extends FilterDescriptor
 {
-
     /**
-     *
      * @todo Pay attention to isSingular
      */
     public function filter(): array
@@ -23,7 +19,7 @@ class Where extends FilterDescriptor
           ->pluck($key)
           ->map(function ($f) {
               // @todo Watch out for ids?
-                 return Example::create($f)->value($f);
+              return Example::create($f)->value($f);
           })
           ->toArray();
 
@@ -34,7 +30,7 @@ class Where extends FilterDescriptor
             ->required(false)
             ->allowEmptyValue(false)
             ->schema(OASchema::string()->default(''))
-            ->examples(...$examples)
+            ->examples(...$examples),
         ];
     }
 
@@ -42,5 +38,4 @@ class Where extends FilterDescriptor
     {
         return 'Filters the records';
     }
-
 }

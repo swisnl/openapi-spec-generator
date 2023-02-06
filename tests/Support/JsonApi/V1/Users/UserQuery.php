@@ -22,7 +22,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class UserQuery extends ResourceQuery
 {
-
     /**
      * Get the validation rules that apply to the request.
      *

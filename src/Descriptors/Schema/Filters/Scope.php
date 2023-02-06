@@ -1,6 +1,5 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Schema\Filters;
 
 class Scope extends BooleanFilter

@@ -24,7 +24,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class VideoRequest extends ResourceRequest
 {
-
     /**
      * @return array
      */
@@ -37,5 +36,4 @@ class VideoRequest extends ResourceRequest
             'url' => ['required', 'string'],
         ];
     }
-
 }

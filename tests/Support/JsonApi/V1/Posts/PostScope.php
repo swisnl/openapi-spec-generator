@@ -26,13 +26,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PostScope implements Scope
 {
-
     /**
      * @inheritDoc
      */
     public function apply(Builder $builder, Model $model)
     {
-        /**
+        /*
          * If there is no authenticated user, then we just
          * need to ensure only published posts are returned.
          */
@@ -40,10 +39,11 @@ class PostScope implements Scope
             $builder->whereNotNull(
                 $model->qualifyColumn('published_at')
             );
+
             return;
         }
 
-        /**
+        /*
          * If there is an authenticated user, then they
          * can see either published posts OR posts
          * where they are the author.
@@ -54,5 +54,4 @@ class PostScope implements Scope
                 ->orWhere($model->qualifyColumn('author_id'), Auth::id());
         });
     }
-
 }

@@ -26,7 +26,6 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\TagFactory;
 
 class Tag extends Model
 {
-
     use HasFactory;
     use Concerns\HashRouteKey;
 

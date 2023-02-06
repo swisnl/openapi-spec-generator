@@ -29,7 +29,6 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\PostFactory;
 
 class Post extends Model
 {
-
     use HasFactory;
     use SoftDeletes;
     use Concerns\HashRouteKey;
@@ -94,7 +93,8 @@ class Post extends Model
 
     /**
      * @param Builder $query
-     * @param bool $published
+     * @param bool    $published
+     *
      * @return Builder
      */
     public function scopeWherePublished(Builder $query, bool $published): Builder

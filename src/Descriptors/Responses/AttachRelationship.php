@@ -1,22 +1,18 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Responses;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use LaravelJsonApi\Eloquent\Fields\Relations\ToMany;
 
-/**
- * Class AttachRelationship
- *
- *@package LaravelJsonApi\OpenApiSpec\Descriptors\Responses
- */
 class AttachRelationship extends ResponseDescriptor
 {
     protected bool $hasId = true;
     protected bool $validates = true;
+
     /**
      * {@inheritDoc}
+     *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     public function response(): array
@@ -32,11 +28,11 @@ class AttachRelationship extends ResponseDescriptor
      */
     protected function data(): Schema
     {
-        if($this->route->relation() instanceof ToMany){
+        if ($this->route->relation() instanceof ToMany) {
             return Schema::array('data')
               ->items($this->schemaBuilder->build($this->route));
         }
+
         return $this->schemaBuilder->build($this->route)->objectId('data');
     }
-
 }

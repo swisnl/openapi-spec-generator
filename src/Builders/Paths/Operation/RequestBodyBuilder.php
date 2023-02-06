@@ -1,12 +1,10 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation;
 
-
 use GoldSpecDigital\ObjectOrientedOAS\Objects\RequestBody;
-use LaravelJsonApi\OpenApiSpec\Builders\Builder;
 use LaravelJsonApi\Laravel\Http\Controllers;
+use LaravelJsonApi\OpenApiSpec\Builders\Builder;
 use LaravelJsonApi\OpenApiSpec\Concerns\ResolvesActionTraitToDescriptor;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\RequestDescriptor;
 use LaravelJsonApi\OpenApiSpec\Descriptors;
@@ -15,7 +13,6 @@ use LaravelJsonApi\OpenApiSpec\Route;
 
 class RequestBodyBuilder extends Builder
 {
-
     use ResolvesActionTraitToDescriptor;
 
     protected SchemaBuilder $schemaBuilder;
@@ -38,11 +35,11 @@ class RequestBodyBuilder extends Builder
 
     public function build(Route $route): ?RequestBody
     {
-        return $this->getDescriptor($route) !== NULL ? $this->getDescriptor($route)->request() : NULL;
+        return $this->getDescriptor($route) !== null ? $this->getDescriptor($route)->request() : null;
     }
 
     /**
-     * @param  \LaravelJsonApi\OpenApiSpec\Route  $route
+     * @param \LaravelJsonApi\OpenApiSpec\Route $route
      *
      * @return \LaravelJsonApi\OpenApiSpec\Descriptors\Actions\ActionDescriptor|null
      */
@@ -51,12 +48,12 @@ class RequestBodyBuilder extends Builder
         $class = $this->descriptorClass($route);
         if (isset($this->descriptors[$class])) {
             return new $this->descriptors[$class](
-              $this->generator,
-              $route,
-              $this->schemaBuilder
+                $this->generator,
+                $route,
+                $this->schemaBuilder
             );
         }
+
         return null;
     }
-
 }

@@ -1,15 +1,12 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Builders;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Info;
 use LaravelJsonApi\OpenApiSpec\Descriptors\Server;
 
 class InfoBuilder extends Builder
 {
-
     /**
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Info
      */
@@ -17,5 +14,4 @@ class InfoBuilder extends Builder
     {
         return (new Server($this->generator))->info();
     }
-
 }

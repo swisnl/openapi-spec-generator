@@ -19,18 +19,16 @@ declare(strict_types=1);
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1;
 
+use Illuminate\Support\Facades\Auth;
+use LaravelJsonApi\Core\Server\Server as BaseServer;
+use LaravelJsonApi\Laravel\LaravelJsonApi;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Media\MediaCollectionQuery;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Posts\PostScope;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Post;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Video;
-use Illuminate\Support\Facades\Auth;
-use LaravelJsonApi\Core\Server\Server as BaseServer;
-use LaravelJsonApi\Laravel\LaravelJsonApi;
-use LogicException;
 
 class Server extends BaseServer
 {
-
     /**
      * The base URI namespace for this server.
      *
@@ -85,6 +83,6 @@ class Server extends BaseServer
             return $this->baseUri;
         }
 
-        throw new LogicException('No base URI set on server.');
+        throw new \LogicException('No base URI set on server.');
     }
 }

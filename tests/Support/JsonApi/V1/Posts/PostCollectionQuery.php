@@ -24,7 +24,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class PostCollectionQuery extends ResourceQuery
 {
-
     /**
      * Get the validation rules that apply to the request.
      *

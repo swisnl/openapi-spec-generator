@@ -7,7 +7,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class OpenApiGenerator
 {
-
     /**
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\ValidationException
      */
@@ -20,7 +19,7 @@ class OpenApiGenerator
 
         $storageDisk = Storage::disk(config('openapi.filesystem_disk'));
 
-        $fileName = $serverKey . '_openapi.' . $format;
+        $fileName = $serverKey.'_openapi.'.$format;
 
         if ($format === 'yaml') {
             $output = Yaml::dump($openapi->toArray());

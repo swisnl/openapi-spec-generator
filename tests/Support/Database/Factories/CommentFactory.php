@@ -19,10 +19,10 @@ declare(strict_types=1);
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Comment;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Post;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CommentFactory extends Factory
 {

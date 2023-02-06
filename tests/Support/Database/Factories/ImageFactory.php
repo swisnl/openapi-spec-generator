@@ -19,8 +19,8 @@ declare(strict_types=1);
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories;
 
-use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Image;
 
 class ImageFactory extends Factory
 {

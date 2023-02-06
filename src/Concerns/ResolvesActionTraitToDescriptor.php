@@ -1,15 +1,11 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Concerns;
-
 
 use LaravelJsonApi\OpenApiSpec\Route as SpecRoute;
 
 trait ResolvesActionTraitToDescriptor
 {
-
-
     /**
      * @todo Get descriptors from Attributes
      */
@@ -20,7 +16,7 @@ trait ResolvesActionTraitToDescriptor
             $reflection = new \ReflectionClass($class);
             $methodReflection = $reflection->getMethod($method);
 
-            if($methodReflection->getDeclaringClass()->name !== $reflection->name){
+            if ($methodReflection->getDeclaringClass()->name !== $reflection->name) {
                 $reflection = $methodReflection->getDeclaringClass();
             }
             $traitMethod = collect($reflection->getTraits())
@@ -29,13 +25,12 @@ trait ResolvesActionTraitToDescriptor
               })
               ->flatten()
               ->mapWithKeys(
-                fn(\ReflectionMethod $method) => [$method->name => $method])
+                  fn (\ReflectionMethod $method) => [$method->name => $method])
               ->get($method);
         } catch (\ReflectionException $exception) {
             return null;
         }
 
-        return $traitMethod !== NULL ? $traitMethod->getDeclaringClass()->name : NULL;
+        return $traitMethod !== null ? $traitMethod->getDeclaringClass()->name : null;
     }
-
 }

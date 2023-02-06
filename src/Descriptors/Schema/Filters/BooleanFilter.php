@@ -1,15 +1,12 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Schema\Filters;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema as OASchema;
 
-
 abstract class BooleanFilter extends FilterDescriptor
 {
-
     /**
      * {@inheritDoc}
      */
@@ -24,5 +21,4 @@ abstract class BooleanFilter extends FilterDescriptor
             ->schema(OASchema::boolean()),
         ];
     }
-
 }

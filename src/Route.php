@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec;
-
 
 use Illuminate\Routing\Route as IlluminateRoute;
 use Illuminate\Support\Facades\URL;
@@ -14,7 +12,6 @@ use LaravelJsonApi\Eloquent\Fields\Relations\Relation;
 
 class Route
 {
-
     protected Server $server;
 
     protected Schema $schema;
@@ -59,8 +56,8 @@ class Route
     /**
      * Route constructor.
      *
-     * @param  \LaravelJsonApi\Contracts\Server\Server  $server
-     * @param  \Illuminate\Routing\Route  $route
+     * @param \LaravelJsonApi\Contracts\Server\Server $server
+     * @param \Illuminate\Routing\Route               $route
      */
     public function __construct(Server $server, IlluminateRoute $route)
     {
@@ -69,8 +66,8 @@ class Route
 
         $segments = explode('.', $this->route->getName());
         $segments = array_slice(
-          $segments,
-          array_search($this->server->name(), $segments) + 1
+            $segments,
+            array_search($this->server->name(), $segments) + 1
         );
 
         $this->operationId = collect($segments)->join('.');
@@ -109,7 +106,7 @@ class Route
     public function method(): string
     {
         return collect($this->route->methods())
-          ->filter(fn($method) => $method !== 'HEAD')
+          ->filter(fn ($method) => $method !== 'HEAD')
           ->first();
     }
 
@@ -166,11 +163,11 @@ class Route
      */
     public function relation(): ?Relation
     {
-        $relation =  $this->relation ? $this->schema()
+        $relation = $this->relation ? $this->schema()
           ->relationship($this->relation) : null;
 
         if ($relation !== null && !($relation instanceof Relation)) {
-            throw new \RuntimeException("Unexpected Type");
+            throw new \RuntimeException('Unexpected Type');
         }
 
         return $relation;
@@ -206,12 +203,14 @@ class Route
     public function inversSchema(): ?Schema
     {
         if ($this->isRelation()) {
-            if($this->relation() instanceof PolymorphicRelation){
-                throw new \LogicException("Method is not allowed for Polymorphic relationships");
+            if ($this->relation() instanceof PolymorphicRelation) {
+                throw new \LogicException('Method is not allowed for Polymorphic relationships');
             }
+
             return $this->server->schemas()
-              ->schemaFor($this->relation() !== null ? $this->relation()->inverse() : NULL);
+              ->schemaFor($this->relation() !== null ? $this->relation()->inverse() : null);
         }
+
         return null;
     }
 
@@ -220,7 +219,6 @@ class Route
      */
     public function inversSchemas(): array
     {
-
         $schemas = [];
         if ($this->isRelation()) {
             $relation = $this->relation();
@@ -234,25 +232,27 @@ class Route
                   ->schemaFor($relation->inverse());
             }
         }
+
         return $schemas;
     }
 
     /**
-     * @param  bool  $singular
+     * @param bool $singular
      *
      * @return string|null
      */
     public function inverseName(bool $singular = false): ?string
     {
-      $relation = $this->relation() !== NULL ? $this->relation()->inverse() : NULL;
-      if ($singular) {
-          return Str::singular($relation);
-      }
-      return $relation;
+        $relation = $this->relation() !== null ? $this->relation()->inverse() : null;
+        if ($singular) {
+            return Str::singular($relation);
+        }
+
+        return $relation;
     }
 
     /**
-     * @param  false  $singular
+     * @param false $singular
      *
      * @return string
      */
@@ -261,6 +261,7 @@ class Route
         if ($singular) {
             return Str::singular($this->resource);
         }
+
         return $this->resource;
     }
 
@@ -282,24 +283,24 @@ class Route
       Server $server
     ): bool {
         return Str::contains(
-          $route->getName(),
-          $server->name(),
+            $route->getName(),
+            $server->name(),
         );
     }
 
-  protected function setUriForRoute(): void {
-    $domain = URL::to('/');
-    $serverBasePath = str_replace(
-      $domain,
-      '',
-      $this->server->url(),
-    );
+  protected function setUriForRoute(): void
+  {
+      $domain = URL::to('/');
+      $serverBasePath = str_replace(
+          $domain,
+          '',
+          $this->server->url(),
+      );
 
-    $this->uri = str_replace(
-      $serverBasePath,
-      '',
-      '/' . $this->route->uri(),
-    );
+      $this->uri = str_replace(
+          $serverBasePath,
+          '',
+          '/'.$this->route->uri(),
+      );
   }
-
 }

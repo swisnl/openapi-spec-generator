@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Builders;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
 use Illuminate\Routing\Route as IlluminateRoute;
@@ -15,7 +13,6 @@ use LaravelJsonApi\OpenApiSpec\Route as SpecRoute;
 
 class PathsBuilder extends Builder
 {
-
     protected ComponentsContainer $components;
 
     protected OperationBuilder $operation;
@@ -36,31 +33,30 @@ class PathsBuilder extends Builder
     {
         return collect(Route::getRoutes()->getRoutes())
           ->filter(
-            fn(IlluminateRoute $route) => SpecRoute::belongsTo($route,
-              $this->generator->server())
+              fn (IlluminateRoute $route) => SpecRoute::belongsTo($route,
+                  $this->generator->server())
           )
-          ->map(fn(IlluminateRoute $route
+          ->map(fn (IlluminateRoute $route
           ) => new SpecRoute($this->generator->server(), $route))
           ->mapToGroups(function (SpecRoute $route) {
               return [$route->uri() => $route];
           })
           ->map(function (Collection $routes, string $uri) {
-
               $operations = $routes
                 ->map(function (SpecRoute $route) {
                     return $this->operation->build($route);
                 })
-                ->filter(fn($val) => $val !== null);
+                ->filter(fn ($val) => $val !== null);
 
               if ($operations->isEmpty()) {
                   return null;
               }
+
               return PathItem::create()
                 ->route($uri)
                 ->operations(...$operations->toArray());
           })
-          ->filter(fn($val) => $val !== null)
+          ->filter(fn ($val) => $val !== null)
           ->toArray();
     }
-
 }

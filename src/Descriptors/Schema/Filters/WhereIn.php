@@ -1,22 +1,19 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Schema\Filters;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Example;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use LaravelJsonApi\Eloquent\Filters\WhereNotIn;
 
-
 class WhereIn extends FilterDescriptor
 {
-
     /**
      * @todo Pay attention to delimiter
      */
-    public function filter(): array {
+    public function filter(): array
+    {
         $key = $this->filter->key();
         $examples = collect($this->generator->resources()
           ->resources($this->route->schema()::model()))
@@ -44,5 +41,4 @@ class WhereIn extends FilterDescriptor
     {
         return $this->filter instanceof WhereNotIn ? "A list of {$this->filter->key()}s to exclude by." : "A list of {$this->filter->key()}s to filter by.";
     }
-
 }

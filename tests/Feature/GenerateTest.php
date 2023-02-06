@@ -2,7 +2,6 @@
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Feature;
 
-use GoldSpecDigital\ObjectOrientedOAS\Exceptions\ValidationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use LaravelJsonApi\OpenApiSpec\Facades\GeneratorFacade;
@@ -21,7 +20,7 @@ class GenerateTest extends TestCase
         $this->seed(DatabaseSeeder::class);
     }
 
-    public function test_spec_is_yaml()
+    public function testSpecIsYaml()
     {
         $openapiYaml = GeneratorFacade::generate('v1', 'yaml');
 
@@ -30,7 +29,7 @@ class GenerateTest extends TestCase
         $this->assertEquals('My JSON:API', $spec['info']['title']);
     }
 
-    public function test_spec_is_json()
+    public function testSpecIsJson()
     {
         $output = GeneratorFacade::generate('v1', 'json');
 
@@ -39,7 +38,7 @@ class GenerateTest extends TestCase
         $this->assertEquals('My JSON:API', $spec['info']['title']);
     }
 
-    public function test_spec_file_generated()
+    public function testSpecFileGenerated()
     {
         GeneratorFacade::generate('v1');
 
@@ -50,8 +49,7 @@ class GenerateTest extends TestCase
         $this->assertEquals('My JSON:API', $spec['info']['title']);
     }
 
-
-    public function test_url_is_properly_parsed()
+    public function testUrlIsProperlyParsed()
     {
         GeneratorFacade::generate('v1');
 

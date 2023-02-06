@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Responses;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\MediaType;
@@ -20,7 +18,6 @@ use Neomerx\JsonApi\Contracts\Http\Headers\MediaTypeInterface;
 
 abstract class ResponseDescriptor extends Descriptor implements ResponseDescriptorContract
 {
-
     protected Route $route;
 
     protected ComponentsContainer $components;
@@ -59,10 +56,10 @@ abstract class ResponseDescriptor extends Descriptor implements ResponseDescript
         return Response::ok()
           ->description($this->description())
           ->content(
-            MediaType::create()
-              ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
-              ->schema(ResponseBuilder::buildResponse($this->data(),
-                $this->meta(), $this->links()))
+              MediaType::create()
+                ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
+                ->schema(ResponseBuilder::buildResponse($this->data(),
+                    $this->meta(), $this->links()))
           );
     }
 
@@ -103,5 +100,4 @@ abstract class ResponseDescriptor extends Descriptor implements ResponseDescript
     {
         return null;
     }
-
 }

@@ -26,7 +26,6 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\CommentFactory;
 
 class Comment extends Model
 {
-
     use HasFactory;
     use Concerns\HashRouteKey;
 

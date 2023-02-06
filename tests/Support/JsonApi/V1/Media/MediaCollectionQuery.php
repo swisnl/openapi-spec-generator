@@ -24,7 +24,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class MediaCollectionQuery extends ResourceQuery
 {
-
     /**
      * Get the validation rules that apply to the request.
      *

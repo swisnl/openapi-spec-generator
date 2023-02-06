@@ -1,6 +1,5 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Requests;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\MediaType;
@@ -8,31 +7,25 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\RequestBody;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use Neomerx\JsonApi\Contracts\Http\Headers\MediaTypeInterface;
 
-/**
- * Class Store
- *
- * @package LaravelJsonApi\OpenApiSpec\Descriptors\Requests
- */
 class Store extends RequestDescriptor
 {
-
     /**
      * {@inheritDoc}
+     *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     public function request(): RequestBody
     {
         return RequestBody::create()
           ->content(
-            MediaType::create()
-              ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
-              ->schema(
-                Schema::object()->properties(
-                  $this->schemaBuilder->build($this->route, true)->objectId('data')
+              MediaType::create()
+                ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
+                ->schema(
+                    Schema::object()->properties(
+                        $this->schemaBuilder->build($this->route, true)->objectId('data')
+                    )
+                    ->required('data')
                 )
-                ->required('data')
-              )
           );
     }
-
 }

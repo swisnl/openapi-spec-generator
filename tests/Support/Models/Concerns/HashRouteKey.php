@@ -23,7 +23,6 @@ use Vinkla\Hashids\Facades\Hashids;
 
 trait HashRouteKey
 {
-
     /**
      * Get the value of the model's route key.
      *
@@ -39,8 +38,9 @@ trait HashRouteKey
     /**
      * Retrieve the model for a bound value.
      *
-     * @param  mixed  $value
-     * @param  string|null  $field
+     * @param mixed       $value
+     * @param string|null $field
+     *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function resolveRouteBinding($value, $field = null)

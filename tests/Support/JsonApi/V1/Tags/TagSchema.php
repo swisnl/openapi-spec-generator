@@ -19,7 +19,6 @@ declare(strict_types=1);
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Tags;
 
-use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Tag;
 use LaravelJsonApi\Eloquent\Fields\DateTime;
 use LaravelJsonApi\Eloquent\Fields\Relations\BelongsToMany;
 use LaravelJsonApi\Eloquent\Fields\Str;
@@ -27,10 +26,10 @@ use LaravelJsonApi\Eloquent\Filters\WhereIdIn;
 use LaravelJsonApi\Eloquent\Pagination\PagePagination;
 use LaravelJsonApi\Eloquent\Schema;
 use LaravelJsonApi\HashIds\HashId;
+use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Tag;
 
 class TagSchema extends Schema
 {
-
     /**
      * The model the schema corresponds to.
      *
@@ -74,5 +73,4 @@ class TagSchema extends Schema
     {
         return PagePagination::make()->withoutNestedMeta();
     }
-
 }

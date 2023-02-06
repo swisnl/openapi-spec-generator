@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\BaseObject;
@@ -15,7 +13,6 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityScheme;
 
 class ComponentsContainer
 {
-
     protected array $schemas = [];
 
     protected array $requestBodies = [];
@@ -25,7 +22,7 @@ class ComponentsContainer
     protected array $responses = [];
 
     /**
-     * @param  \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema  $schema
+     * @param \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema $schema
      *
      * @return Schema
      */
@@ -37,7 +34,7 @@ class ComponentsContainer
     }
 
     /**
-     * @param  string  $objectId
+     * @param string $objectId
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema|null
      */
@@ -75,7 +72,7 @@ class ComponentsContainer
         $this->responses[$response->objectId] = $response;
 
         return Response::ref('#/components/responses/'.$response->objectId,
-          $response->objectId)->statusCode($response->statusCode);
+            $response->objectId)->statusCode($response->statusCode);
     }
 
     public function getResponse(string $objectId): ?BaseObject
@@ -88,10 +85,10 @@ class ComponentsContainer
      */
     public function components(): Components
     {
-
         $schemas = collect($this->schemas)
-          ->sortBy(fn(BaseObject $schema) => $schema->objectId)
+          ->sortBy(fn (BaseObject $schema) => $schema->objectId)
           ->toArray();
+
         return Components::create()
           ->responses(...$this->responses)
           ->parameters(...$this->parameters)
@@ -100,35 +97,33 @@ class ComponentsContainer
     }
 
     /**
-     * @param  \GoldSpecDigital\ObjectOrientedOAS\Objects\BaseObject  $object
+     * @param \GoldSpecDigital\ObjectOrientedOAS\Objects\BaseObject $object
      *
      * @return mixed
      */
     protected function ref(BaseObject $object): BaseObject
     {
-
         switch (true) {
-          case $object instanceof Parameter:
-             $baseRef = '#/components/parameters/';
-             break;
-          case $object instanceof RequestBody:
-             $baseRef = '#/components/requestBodies/';
-             break;
-          case $object instanceof Response:
-             $baseRef = '#/components/responses/';
-             break;
-          case $object instanceof SchemaContract:
-             $baseRef = '#/components/schemas/';
-             break;
-          case $object instanceof SecurityScheme:
-             $baseRef = '#/components/securitySchemes/';
-             break;
-          default:
-            die(get_class($object));
-        };
+            case $object instanceof Parameter:
+                $baseRef = '#/components/parameters/';
+                break;
+            case $object instanceof RequestBody:
+                $baseRef = '#/components/requestBodies/';
+                break;
+            case $object instanceof Response:
+                $baseRef = '#/components/responses/';
+                break;
+            case $object instanceof SchemaContract:
+                $baseRef = '#/components/schemas/';
+                break;
+            case $object instanceof SecurityScheme:
+                $baseRef = '#/components/securitySchemes/';
+                break;
+            default:
+                exit(get_class($object));
+        }
 
         return $object::ref($baseRef.$object->objectId,
-          $object->objectId);
+            $object->objectId);
     }
-
 }

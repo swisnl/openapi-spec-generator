@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Contracts\Descriptors;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 

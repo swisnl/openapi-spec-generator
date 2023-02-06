@@ -26,7 +26,6 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\ImageFactory;
 
 class Image extends Model
 {
-
     use HasFactory;
 
     /**

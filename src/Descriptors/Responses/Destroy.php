@@ -1,19 +1,13 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Responses;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
-/**
- * Class Destroy
- *
- * @package LaravelJsonApi\OpenApiSpec\Descriptors\Responses
- */
 class Destroy extends ResponseDescriptor
 {
-
     protected bool $hasId = true;
+
     /**
      * {@inheritDoc}
      */
@@ -32,5 +26,4 @@ class Destroy extends ResponseDescriptor
     {
         return $this->schemaBuilder->build($this->route);
     }
-
 }

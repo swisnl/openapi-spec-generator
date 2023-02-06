@@ -3,7 +3,6 @@
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Category;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Comment;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Image;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Post;
@@ -12,11 +11,6 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Video;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run()
     {
         // \App\Models\User::factory(10)->create();

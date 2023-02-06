@@ -19,14 +19,13 @@ declare(strict_types=1);
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Posts;
 
-use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Post;
 use Illuminate\Validation\Rule;
 use LaravelJsonApi\Laravel\Http\Requests\ResourceRequest;
+use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Post;
 use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class PostRequest extends ResourceRequest
 {
-
     /**
      * @return array
      */
@@ -71,6 +70,7 @@ class PostRequest extends ResourceRequest
 
     /**
      * @param Post $post
+     *
      * @return array
      */
     public function metaForDelete(Post $post): array

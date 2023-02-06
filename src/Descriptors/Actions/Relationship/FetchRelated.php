@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Actions\Relationship;
-
 
 use LaravelJsonApi\OpenApiSpec\Descriptors\Actions\ActionDescriptor;
 
@@ -12,5 +10,4 @@ class FetchRelated extends ActionDescriptor
     {
         return "Show {$this->route->relationName()}";
     }
-
 }

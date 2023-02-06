@@ -19,16 +19,16 @@ declare(strict_types=1);
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\Policies;
 
+use LaravelJsonApi\Core\Store\LazyRelation;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Tag;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\User;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Video;
-use LaravelJsonApi\Core\Store\LazyRelation;
 
 class VideoPolicy
 {
-
     /**
      * @param User|null $user
+     *
      * @return bool
      */
     public function viewAny(?User $user): bool
@@ -38,7 +38,8 @@ class VideoPolicy
 
     /**
      * @param User|null $user
-     * @param Video $video
+     * @param Video     $video
+     *
      * @return bool
      */
     public function view(?User $user, Video $video): bool
@@ -48,7 +49,8 @@ class VideoPolicy
 
     /**
      * @param User|null $user
-     * @param Video $video
+     * @param Video     $video
+     *
      * @return bool
      */
     public function viewTags(?User $user, Video $video): bool
@@ -58,16 +60,18 @@ class VideoPolicy
 
     /**
      * @param User|null $user
+     *
      * @return bool
      */
     public function create(?User $user): bool
     {
-        return !!$user;
+        return (bool) $user;
     }
 
     /**
      * @param User|null $user
-     * @param Video $video
+     * @param Video     $video
+     *
      * @return bool
      */
     public function update(?User $user, Video $video): bool
@@ -76,22 +80,24 @@ class VideoPolicy
     }
 
     /**
-     * @param User|null $user
-     * @param Video $video
+     * @param User|null    $user
+     * @param Video        $video
      * @param LazyRelation $tags
+     *
      * @return bool
      */
     public function updateTags(?User $user, Video $video, LazyRelation $tags): bool
     {
-        $tags->collect()->each(fn(Tag $tag) => $tag);
+        $tags->collect()->each(fn (Tag $tag) => $tag);
 
         return $this->owner($user, $video);
     }
 
     /**
-     * @param User|null $user
-     * @param Video $video
+     * @param User|null    $user
+     * @param Video        $video
      * @param LazyRelation $tags
+     *
      * @return bool
      */
     public function attachTags(?User $user, Video $video, LazyRelation $tags): bool
@@ -100,9 +106,10 @@ class VideoPolicy
     }
 
     /**
-     * @param User|null $user
-     * @param Video $video
+     * @param User|null    $user
+     * @param Video        $video
      * @param LazyRelation $tags
+     *
      * @return bool
      */
     public function detachTags(?User $user, Video $video, LazyRelation $tags): bool
@@ -112,7 +119,8 @@ class VideoPolicy
 
     /**
      * @param User|null $user
-     * @param Video $video
+     * @param Video     $video
+     *
      * @return bool
      */
     public function delete(?User $user, Video $video): bool
@@ -122,7 +130,8 @@ class VideoPolicy
 
     /**
      * @param User|null $user
-     * @param Video $video
+     * @param Video     $video
+     *
      * @return bool
      */
     public function owner(?User $user, Video $video): bool

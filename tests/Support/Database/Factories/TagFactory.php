@@ -19,8 +19,8 @@ declare(strict_types=1);
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories;
 
-use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Tag;
 
 class TagFactory extends Factory
 {

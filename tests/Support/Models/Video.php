@@ -28,7 +28,6 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\VideoFactory;
 
 class Video extends Model
 {
-
     use HasFactory;
 
     /**

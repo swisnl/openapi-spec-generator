@@ -1,20 +1,14 @@
 <?php
 
-
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Responses;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
-/**
- * Class FetchMany
- *
- * @package LaravelJsonApi\OpenApiSpec\Descriptors\Responses
- */
 class FetchMany extends ResponseDescriptor
 {
-
     /**
      * {@inheritDoc}
+     *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     public function response(): array
@@ -33,5 +27,4 @@ class FetchMany extends ResponseDescriptor
         return Schema::array('data')
           ->items($this->schemaBuilder->build($this->route));
     }
-
 }
