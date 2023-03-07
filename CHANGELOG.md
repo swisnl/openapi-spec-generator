@@ -6,6 +6,11 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ## [Unreleased]
 
+- Nothing.
+
+
+## [0.5.1] - 2023-03-07
+
 ### Added
 - Add support for Laravel JSON:API v3 and Laravel 10 [#9](https://github.com/swisnl/openapi-spec-generator/pull/9).
 
