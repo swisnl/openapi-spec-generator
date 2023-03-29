@@ -584,6 +584,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
                 return $descriptor;
             }
         }
+
+        return Filters\DefaultDescriptor::class;
     }
 
     /**

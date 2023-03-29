@@ -12,6 +12,9 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 ### Changed
 - A meaningful exception is thrown when you forget to seed the database [#11](https://github.com/swisnl/openapi-spec-generator/pull/11).
 
+### Fixed
+- Fall back to a basic descriptor when no custom filter descriptor is found.
+
 
 ## [0.5.1] - 2023-03-07
 
