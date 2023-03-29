@@ -19,6 +19,7 @@ class WhereIn extends FilterDescriptor
         $examples = collect($this->generator->resources()
           ->resources($this->route->schema()::model()))
           ->pluck($key)
+          ->filter()
           ->map(function ($f) {
               if (function_exists('enum_exists') && $f instanceof \UnitEnum) {
                   $f = $f instanceof \BackedEnum ? $f->value : $f->name;
