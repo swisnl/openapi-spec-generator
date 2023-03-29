@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ## [Unreleased]
 
+### Added
+- Add support for enums in filter examples.
+
 ### Changed
 - A meaningful exception is thrown when you forget to seed the database [#11](https://github.com/swisnl/openapi-spec-generator/pull/11).
 

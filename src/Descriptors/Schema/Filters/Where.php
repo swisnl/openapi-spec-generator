@@ -18,6 +18,10 @@ class Where extends FilterDescriptor
           ->resources($this->route->schema()::model()))
           ->pluck($key)
           ->map(function ($f) {
+              if (function_exists('enum_exists') && $f instanceof \UnitEnum) {
+                  $f = $f instanceof \BackedEnum ? $f->value : $f->name;
+              }
+
               // @todo Watch out for ids?
               return Example::create($f)->value($f);
           })
