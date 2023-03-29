@@ -6,6 +6,11 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ## [Unreleased]
 
+- Nothing.
+
+
+## [0.6.0] - 2023-03-29
+
 ### Added
 - Add support for enums in filter examples.
 
