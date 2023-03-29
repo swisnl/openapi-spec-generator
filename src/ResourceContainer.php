@@ -30,7 +30,13 @@ class ResourceContainer
             $this->loadResources($fqn);
         }
 
-        return $this->resources[$fqn]->first();
+        $resource = $this->resources[$fqn]->first();
+
+        if (!$resource) {
+            throw new \RuntimeException(sprintf('No resource found for model [%s], make sure your database is seeded!', $fqn));
+        }
+
+        return $resource;
     }
 
     /**
@@ -45,7 +51,13 @@ class ResourceContainer
             $this->loadResources($fqn);
         }
 
-        return $this->resources[$fqn]->toArray();
+        $resources = $this->resources[$fqn]->toArray();
+
+        if (empty($resources)) {
+            throw new \RuntimeException(sprintf('No resources found for model [%s], make sure your database is seeded!', $fqn));
+        }
+
+        return $resources;
     }
 
     protected function getFQN($model): string
