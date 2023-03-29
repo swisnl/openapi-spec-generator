@@ -402,8 +402,9 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
 
               $schema = $fieldDataType->title($field->name());
 
-              if (isset($example[$field->name()])) {
-                  $schema = $schema->example($example[$field->name()]);
+              $column = $field instanceof Attribute ? $field->column() : $field->name();
+              if (isset($example[$column])) {
+                  $schema = $schema->example($example[$column]);
               }
               if ($field->isReadOnly(null)) {
                   $schema = $schema->readOnly(true);

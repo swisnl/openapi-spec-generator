@@ -14,6 +14,7 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ### Fixed
 - Fall back to a basic descriptor when no custom filter descriptor is found.
+- Use field column name to get example value.
 
 
 ## [0.5.1] - 2023-03-07
