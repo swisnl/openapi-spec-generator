@@ -19,6 +19,8 @@ declare(strict_types=1);
 
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Posts;
 
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema as OASchema;
 use LaravelJsonApi\Eloquent\Fields\DateTime;
 use LaravelJsonApi\Eloquent\Fields\Relations\BelongsTo;
 use LaravelJsonApi\Eloquent\Fields\Relations\BelongsToMany;
@@ -36,9 +38,10 @@ use LaravelJsonApi\Eloquent\SoftDeletes;
 use LaravelJsonApi\Eloquent\Sorting\SortCountable;
 use LaravelJsonApi\HashIds\HashId;
 use LaravelJsonApi\OpenApiSpec\Contracts\DescribesEndpoints;
+use LaravelJsonApi\OpenApiSpec\Contracts\ExtendsParameters;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Post;
 
-class PostSchema extends Schema implements DescribesEndpoints
+class PostSchema extends Schema implements DescribesEndpoints, ExtendsParameters
 {
     use SoftDeletes;
 
@@ -70,6 +73,22 @@ class PostSchema extends Schema implements DescribesEndpoints
     public function describeEndpoint(string $endpoint): string
     {
         return $this->descriptions[$endpoint] ?? '';
+    }
+
+    public function customParameters(string $endpoint): array
+    {
+        $parameters = [];
+
+        if ($endpoint == 'v1.posts.index') {
+            $parameters[] = Parameter::query('options')
+                ->name('options[products]')
+                ->description('Comma delimited list of options to include. Leave blank to return all options.')
+                ->schema(OASchema::array()->items(OASchema::string()))
+                ->allowEmptyValue(false)
+                ->required(false);
+        }
+
+        return $parameters;
     }
 
     /**

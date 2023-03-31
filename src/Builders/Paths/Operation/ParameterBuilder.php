@@ -22,37 +22,46 @@ class ParameterBuilder extends Builder
         $schemaDescriptor = new Schema($this->generator);
         $parameters = [];
 
-        /*
+        /**
          * Add pagination, filters & sorts
          */
         if ($route->action() === 'index') {
             $parameters = [
-              ...$parameters,
-              ...$schemaDescriptor->pagination($route),
-              ...$schemaDescriptor->sortables($route),
-              ...$schemaDescriptor->filters($route),
+                ...$parameters,
+                ...$schemaDescriptor->pagination($route),
+                ...$schemaDescriptor->sortables($route),
+                ...$schemaDescriptor->filters($route),
             ];
         }
 
-        /*
+        /**
          * Add id path parameter
          */
         if (isset($route->route()->defaults[\LaravelJsonApi\Laravel\Routing\Route::RESOURCE_ID_NAME])) {
             $id = $route->route()->defaults[\LaravelJsonApi\Laravel\Routing\Route::RESOURCE_ID_NAME];
             $examples = collect($this->generator->resources()
-              ->resources($route->schema()::model()))
-              ->map(function ($resource) {
-                  $id = $resource->id();
-
-                  return Example::create($id)->value($id);
-              })->toArray();
+                ->resources($route->schema()::model()))
+                ->map(function ($resource) {
+                    $id = $resource->id();
+                    return Example::create($id)->value($id);
+                })->toArray();
 
             $parameters[] = Parameter::path($id)
-              ->name($id)
-              ->required(true)
-              ->allowEmptyValue(false)
-              ->examples(...$examples)
-              ->schema(OASchema::string());
+                ->name($id)
+                ->required(true)
+                ->allowEmptyValue(false)
+                ->examples(...$examples)
+                ->schema(OASchema::string());
+        }
+
+        /**
+         * Add any custom parameters
+         */
+        if ($route->schema() instanceof \LaravelJsonApi\OpenApiSpec\Contracts\ExtendsParameters) {
+            $parameters = [
+                ...$parameters,
+                ...$route->schema()->customParameters($route->route()->getName()),
+            ];
         }
 
         return $parameters;

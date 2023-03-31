@@ -84,6 +84,8 @@ It's possible to add descriptions to your endpoints by implementing the Describe
 receives the generated route name as a parameter. This can be used to generate descriptions for all your schema
 endpoints.
 ``` php
+use LaravelJsonApi\OpenApiSpec\Contracts\DescribesEndpoints;
+
 class Post extends Schema implements DescribesEndpoints
 {
     public function describeEndpoint(string $endpoint) {
@@ -92,6 +94,33 @@ class Post extends Schema implements DescribesEndpoints
         }
 
         return 'Default description';
+    }
+}
+```
+
+### Custom Parameters
+
+You can also add custom parameters to your endpoints by implementing the ExtendsParameters interface. The added method
+receives the generated route name as a parameter.
+``` php
+use LaravelJsonApi\OpenApiSpec\Contracts\ExtendsParameters;
+
+class Post extends Schema implements ExtendsParameters
+{
+    public function customParameters(string $endpoint): array
+    {
+        $parameters = [];
+
+        if ($endpoint == 'storefront.posts.index') {
+            $parameters[] = Parameter::query('options')
+                ->name('options[products]')
+                ->description('Comma delimited list of options to include. Leave blank to return all options.')
+                ->schema(OASchema::array()->items(OASchema::string()))
+                ->allowEmptyValue(false)
+                ->required(false);
+        }
+
+        return $parameters;
     }
 }
 ```
