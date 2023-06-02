@@ -12,6 +12,7 @@ use LaravelJsonApi\Laravel\Http\Controllers\Actions;
 use LaravelJsonApi\OpenApiSpec\Builders\Builder;
 use LaravelJsonApi\OpenApiSpec\ComponentsContainer;
 use LaravelJsonApi\OpenApiSpec\Concerns\ResolvesActionTraitToDescriptor;
+use LaravelJsonApi\OpenApiSpec\Concerns\ResolvesAttributeToDescriptor;
 use LaravelJsonApi\OpenApiSpec\Descriptors\Responses;
 use LaravelJsonApi\OpenApiSpec\Generator;
 use LaravelJsonApi\OpenApiSpec\Route;
@@ -20,6 +21,7 @@ use Neomerx\JsonApi\Contracts\Http\Headers\MediaTypeInterface;
 class ResponseBuilder extends Builder
 {
     use ResolvesActionTraitToDescriptor;
+    use ResolvesAttributeToDescriptor;
 
     protected ComponentsContainer $components;
 
@@ -43,9 +45,9 @@ class ResponseBuilder extends Builder
     ];
 
     public function __construct(
-      Generator $generator,
-      ComponentsContainer $components,
-      SchemaBuilder $schemaBuilder
+        Generator $generator,
+        ComponentsContainer $components,
+        SchemaBuilder $schemaBuilder
     ) {
         parent::__construct($generator);
         $this->components = $components;
@@ -72,9 +74,9 @@ class ResponseBuilder extends Builder
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
      */
     public static function buildResponse(
-      SchemaContract $data,
-      Schema $meta = null,
-      Schema $links = null
+        SchemaContract $data,
+        Schema $meta = null,
+        Schema $links = null
     ): Schema {
         $jsonapi = Schema::object('jsonapi')
           ->properties(Schema::string('version')
@@ -100,6 +102,17 @@ class ResponseBuilder extends Builder
         $class = $this->descriptorClass($route);
         if (isset($this->descriptors[$class])) {
             return new $this->descriptors[$class](
+                $this->generator,
+                $route,
+                $this->schemaBuilder,
+                $this->defaults,
+            );
+        }
+
+        // If no descriptor is found using the action trait, try to find a DescriptorAttribute on the controller action
+        $descriptorAttributeClass = $this->responseAttributeDescriptorClass($route);
+        if ($descriptorAttributeClass !== null) {
+            return new $descriptorAttributeClass(
                 $this->generator,
                 $route,
                 $this->schemaBuilder,

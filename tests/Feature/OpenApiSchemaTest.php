@@ -41,4 +41,9 @@ class OpenApiSchemaTest extends TestCase
     {
         $this->assertEquals('', $this->spec['paths']['/videos']['get']['description']);
     }
+
+    public function testItUsesAttributeToParseCustomActions()
+    {
+        $this->assertEquals('Publish one post', $this->spec['paths']['/posts/{post}/-actions/publish']['post']['summary']);
+    }
 }
