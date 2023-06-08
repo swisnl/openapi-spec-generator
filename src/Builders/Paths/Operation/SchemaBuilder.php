@@ -105,17 +105,6 @@ class SchemaBuilder extends Builder
             $schema = $descriptor->fetchRelationship($route);
         } else {
             switch ($method) {
-                case 'index':
-                case 'show':
-                case 'store':
-                case 'update':
-                    $schema = $descriptor->fetch(
-                        $route->schema(),
-                        $objectId,
-                        $route->resource(),
-                        $route->name(true)
-                    );
-                    break;
                 case 'showRelated':
                     $schema = $descriptor->fetch(
                         $route->inversSchema(),
@@ -124,8 +113,19 @@ class SchemaBuilder extends Builder
                         $route->inverseName(true)
                     );
                     break;
+                case 'index':
+                case 'show':
+                case 'store':
+                case 'update':
                 default:
-                    exit($method); // @todo Add proper Exception
+                    //@todo add support for custom schema names
+                    $schema = $descriptor->fetch(
+                        $route->schema(),
+                        $objectId,
+                        $route->resource(),
+                        $route->name(true)
+                    );
+                    break;
             }
         }
 

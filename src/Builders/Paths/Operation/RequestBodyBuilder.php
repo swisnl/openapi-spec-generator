@@ -6,6 +6,7 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\RequestBody;
 use LaravelJsonApi\Laravel\Http\Controllers;
 use LaravelJsonApi\OpenApiSpec\Builders\Builder;
 use LaravelJsonApi\OpenApiSpec\Concerns\ResolvesActionTraitToDescriptor;
+use LaravelJsonApi\OpenApiSpec\Concerns\ResolvesAttributeToDescriptor;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\RequestDescriptor;
 use LaravelJsonApi\OpenApiSpec\Descriptors;
 use LaravelJsonApi\OpenApiSpec\Generator;
@@ -14,6 +15,7 @@ use LaravelJsonApi\OpenApiSpec\Route;
 class RequestBodyBuilder extends Builder
 {
     use ResolvesActionTraitToDescriptor;
+    use ResolvesAttributeToDescriptor;
 
     protected SchemaBuilder $schemaBuilder;
 
@@ -26,8 +28,8 @@ class RequestBodyBuilder extends Builder
     ];
 
     public function __construct(
-      Generator $generator,
-      SchemaBuilder $schemaBuilder
+        Generator $generator,
+        SchemaBuilder $schemaBuilder
     ) {
         parent::__construct($generator);
         $this->schemaBuilder = $schemaBuilder;
@@ -48,6 +50,16 @@ class RequestBodyBuilder extends Builder
         $class = $this->descriptorClass($route);
         if (isset($this->descriptors[$class])) {
             return new $this->descriptors[$class](
+                $this->generator,
+                $route,
+                $this->schemaBuilder
+            );
+        }
+
+        // If no descriptor is found using the action trait, try to find a DescriptorAttribute on the controller action
+        $descriptorAttributeClass = $this->requestAttributeDescriptorClass($route);
+        if ($descriptorAttributeClass !== null) {
+            return new $descriptorAttributeClass(
                 $this->generator,
                 $route,
                 $this->schemaBuilder

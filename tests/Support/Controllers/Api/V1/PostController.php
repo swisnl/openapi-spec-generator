@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -23,7 +24,11 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Response;
 use LaravelJsonApi\Core\Responses\DataResponse;
 use LaravelJsonApi\Laravel\Http\Controllers\Actions;
+use LaravelJsonApi\OpenApiSpec\Attributes\DescriptorsAttribute;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Controllers\Controller;
+use LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Posts\Descriptors\Publish\ActionDescriptor;
+use LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Posts\Descriptors\Publish\RequestDescriptor;
+use LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Posts\Descriptors\Publish\ResponseDescriptor;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Posts\PostQuery;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Posts\PostSchema;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Post;
@@ -66,6 +71,7 @@ class PostController extends Controller
      *
      * @return Responsable
      */
+    #[DescriptorsAttribute(ActionDescriptor::class, ResponseDescriptor::class)]
     public function publish(PostSchema $schema, PostQuery $query, Post $post): Responsable
     {
         $this->authorize('update', $post);
