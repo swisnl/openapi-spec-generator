@@ -6,10 +6,24 @@
 return [
     'servers' => [
         'v1' => [
+            /*
+             * Info section: title and version are required, everything else can be commented out if not needed.
+             * See https://swagger.io/specification/#info-object for more information.
+             */
             'info' => [
                 'title' => 'My JSON:API',
                 'description' => 'JSON:API built using Laravel',
                 'version' => '1.0.0',
+                'termsOfService' => 'https://example.com/terms-of-service',
+                'license' => [
+                    'name' => 'MIT',
+                    'url' => 'https://opensource.org/licenses/MIT',
+                ],
+                'contact' => [
+                    'name' => 'API Support',
+                    'url' => 'https://www.example.com/support',
+                    'email' => 'support@example.com',
+                ],
             ],
         ],
     ],
