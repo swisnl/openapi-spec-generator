@@ -21,16 +21,16 @@ class Server extends BaseDescriptor
             ->license(
                 Arr::has(config("openapi.servers.{$this->generator->key()}.info"), 'license')
                     ? Objects\License::create()
-                    ->name(config("openapi.servers.{$this->generator->key()}.info.license.name"))
-                    ->url(config("openapi.servers.{$this->generator->key()}.info.license.url"))
+                        ->name(config("openapi.servers.{$this->generator->key()}.info.license.name"))
+                        ->url(config("openapi.servers.{$this->generator->key()}.info.license.url"))
                     : null
             )
             ->contact(
                 Arr::has(config("openapi.servers.{$this->generator->key()}.info"), 'contact')
                     ? Objects\Contact::create()
-                    ->name(config("openapi.servers.{$this->generator->key()}.info.contact.name"))
-                    ->email(config("openapi.servers.{$this->generator->key()}.info.contact.email"))
-                    ->url(config("openapi.servers.{$this->generator->key()}.info.contact.url"))
+                        ->name(config("openapi.servers.{$this->generator->key()}.info.contact.name"))
+                        ->email(config("openapi.servers.{$this->generator->key()}.info.contact.email"))
+                        ->url(config("openapi.servers.{$this->generator->key()}.info.contact.url"))
                     : null
             );
     }
