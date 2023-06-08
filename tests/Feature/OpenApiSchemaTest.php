@@ -41,4 +41,17 @@ class OpenApiSchemaTest extends TestCase
     {
         $this->assertEquals('', $this->spec['paths']['/videos']['get']['description']);
     }
+
+    public function testItUsesInfoConfig()
+    {
+        $this->assertEquals('My JSON:API', $this->spec['info']['title']);
+        $this->assertEquals('JSON:API built using Laravel', $this->spec['info']['description']);
+        $this->assertEquals('1.0.0', $this->spec['info']['version']);
+        $this->assertEquals('https://example.com/terms-of-service', $this->spec['info']['termsOfService']);
+        $this->assertEquals('MIT', $this->spec['info']['license']['name']);
+        $this->assertEquals('https://opensource.org/licenses/MIT', $this->spec['info']['license']['url']);
+        $this->assertEquals('API Support', $this->spec['info']['contact']['name']);
+        $this->assertEquals('https://www.example.com/support', $this->spec['info']['contact']['url']);
+        $this->assertEquals('support@example.com', $this->spec['info']['contact']['email']);
+    }
 }
