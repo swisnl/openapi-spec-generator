@@ -22,7 +22,7 @@ class OpenApiGenerator
         $fileName = $serverKey.'_openapi.'.$format;
 
         if ($format === 'yaml') {
-            $output = Yaml::dump($openapi->toArray());
+            $output = Yaml::dump($openapi->toArray(), 2, 4, Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE);
         } elseif ($format === 'json') {
             $output = json_encode($openapi->toArray(), JSON_PRETTY_PRINT);
         }
