@@ -41,4 +41,18 @@ class OpenApiSchemaTest extends TestCase
     {
         $this->assertEquals('', $this->spec['paths']['/videos']['get']['description']);
     }
+
+    public function testItCreatesSecuritySchemes()
+    {
+        $this->assertEquals('http', $this->spec['components']['securitySchemes']['Bearer']['type']);
+        $this->assertEquals('bearer', $this->spec['components']['securitySchemes']['Bearer']['scheme']);
+        $this->assertEquals('JWT', $this->spec['components']['securitySchemes']['Bearer']['bearerFormat']);
+        $this->assertEquals('Test Bearer description', $this->spec['components']['securitySchemes']['Bearer']['description']);
+    }
+
+    public function testItCreatesSecurityEntries()
+    {
+        $this->assertArrayHasKey('Bearer', $this->spec['security'][0]);
+        $this->assertIsArray($this->spec['security'][0]['Bearer']);
+    }
 }
