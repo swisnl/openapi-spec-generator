@@ -25,6 +25,19 @@ abstract class TestCase extends BaseTestCase
             ],
           ],
         ]);
+
+        $app['config']->set('openapi.servers.v1.securitySchemes', [
+            'Bearer' => [
+                'type'         => 'http',
+                'scheme'       => 'bearer',
+                'bearerFormat' => 'JWT',
+                'description' => 'Test Bearer description',
+            ],
+        ]);
+
+        $app['config']->set('openapi.servers.v1.security', [
+            'Bearer',
+        ]);
     }
 
     protected function defineRoutes($router)

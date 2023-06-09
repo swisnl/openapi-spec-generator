@@ -42,7 +42,7 @@ class GenerateCommand extends Command
             collect($exception->getErrors())
               ->map(function ($val) {
                   return collect($val)->map(function ($val, $key) {
-                      return sprintf('%s: %s', ucfirst($key), $val);
+                      return sprintf('%s: %s', ucfirst($key), is_string($val) ? $val : json_encode($val));
                   })->join("\n");
               })->each(function ($string) {
                   $this->line($string);
@@ -55,13 +55,13 @@ class GenerateCommand extends Command
         /** @var \Illuminate\Filesystem\FilesystemAdapter $storageDisk */
         $storageDisk = Storage::disk(config('openapi.filesystem_disk'));
 
-        $fileName = $serverKey.'_openapi.'.$format;
-        $filePath = str_replace(base_path().'/', '', $storageDisk->path($fileName));
+        $fileName = $serverKey . '_openapi.' . $format;
+        $filePath = str_replace(base_path() . '/', '', $storageDisk->path($fileName));
 
-        $this->line('Complete! '.$filePath);
+        $this->line('Complete! ' . $filePath);
         $this->newLine();
         $this->line('Run the following to see your API docs');
-        $this->info('speccy serve '.$filePath);
+        $this->info('speccy serve ' . $filePath);
         $this->newLine();
 
         return 0;

@@ -96,6 +96,37 @@ class Post extends Schema implements DescribesEndpoints
 }
 ```
 
+### Security schemes & requirements
+
+It is possible to declare security schemes and requirements for each server using our config file.  
+Examples of each security scheme can be found in the config file.
+
+`config/openapi.php`:
+``` php
+return [
+    'servers'         => [
+        'v1' => [
+            //...
+
+            'securitySchemes' => [
+                'MyBearerScheme' => [
+                    'type'         => 'http',
+                    'description'  => 'Example scheme instructions, can be done in Markdown for long / formatted descriptions',
+                    'scheme'       => 'bearer',
+                    'bearerFormat' => 'JWT',
+                ],
+            ],
+
+            'security' => [
+                'MyBearerScheme',
+            ],
+            
+            //...
+        ],
+    ],
+    //...
+```
+
 ## Generating Documentation
 
 ### [Speccy](https://github.com/wework/speccy)
