@@ -53,10 +53,10 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
      */
     public function fetch(
-      JASchema $schema,
-      string $objectId,
-      string $type,
-      string $name
+        JASchema $schema,
+        string $objectId,
+        string $type,
+        string $name
     ): OASchema {
         $resource = $this->generator
           ->resources()
@@ -224,8 +224,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     public function fetchPolymorphicRelationship(
-      Route $route,
-      $objectId
+        Route $route,
+        $objectId
     ): OASchema {
         $resource = $this->generator->resources()
           ->resource($route->schema()::model());
@@ -341,8 +341,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @return \Illuminate\Support\Collection
      */
     protected function fields(
-      array $fields,
-      JsonApiResource $resource
+        array $fields,
+        JsonApiResource $resource
     ): Collection {
         return collect($fields)
           ->mapToGroups(function (Field $field) {
@@ -375,8 +375,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @return Schema[]
      */
     protected function attributes(
-      Collection $fields,
-      JsonApiResource $example
+        Collection $fields,
+        JsonApiResource $example
     ): array {
         return $fields
           ->filter(fn ($field) => !($field instanceof ID))
@@ -423,8 +423,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @todo Fix relation field names
      */
     protected function relationships(
-      Collection $relationships,
-      JsonApiResource $example
+        Collection $relationships,
+        JsonApiResource $example
     ): array {
         return $relationships
           ->map(function (RelationContract $relation) use ($example) {
@@ -442,9 +442,9 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
      */
     protected function relationship(
-      RelationContract $relation,
-      JsonApiResource $example,
-      bool $includeData = false
+        RelationContract $relation,
+        JsonApiResource $example,
+        bool $includeData = false
     ): OASchema {
         $fieldId = $relation->name();
 
@@ -478,9 +478,9 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
      */
     protected function relationshipData(
-      RelationContract $relation,
-      JsonApiResource $example,
-      string $type
+        RelationContract $relation,
+        JsonApiResource $example,
+        string $type
     ): OASchema {
         if ($relation instanceof PolymorphicRelation) {
             // @todo Add examples for each available type
@@ -519,9 +519,9 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
      */
     public function relationshipLinks(
-      $relation,
-      JsonApiResource $example,
-      string $type
+        $relation,
+        JsonApiResource $example,
+        string $type
     ): OASchema {
         $name = Str::dasherize(
             Str::plural(method_exists($relation, 'relationName')

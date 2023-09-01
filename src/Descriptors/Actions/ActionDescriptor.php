@@ -28,11 +28,11 @@ abstract class ActionDescriptor implements ActionDescriptorContract
     protected Route $route;
 
     public function __construct(
-      ParameterBuilder $parameterBuilder,
-      RequestBodyBuilder $requestBodyBuilder,
-      ResponseBuilder $responseBuilder,
-      Generator $generator,
-      Route $route
+        ParameterBuilder $parameterBuilder,
+        RequestBodyBuilder $requestBodyBuilder,
+        ResponseBuilder $responseBuilder,
+        Generator $generator,
+        Route $route
     ) {
         $this->parameterBuilder = $parameterBuilder;
         $this->requestBodyBuilder = $requestBodyBuilder;
