@@ -43,9 +43,9 @@ class ResponseBuilder extends Builder
     ];
 
     public function __construct(
-      Generator $generator,
-      ComponentsContainer $components,
-      SchemaBuilder $schemaBuilder
+        Generator $generator,
+        ComponentsContainer $components,
+        SchemaBuilder $schemaBuilder
     ) {
         parent::__construct($generator);
         $this->components = $components;
@@ -72,9 +72,9 @@ class ResponseBuilder extends Builder
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
      */
     public static function buildResponse(
-      SchemaContract $data,
-      Schema $meta = null,
-      Schema $links = null
+        SchemaContract $data,
+        Schema $meta = null,
+        Schema $links = null
     ): Schema {
         $jsonapi = Schema::object('jsonapi')
           ->properties(Schema::string('version')

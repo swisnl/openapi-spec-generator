@@ -279,8 +279,8 @@ class Route
     }
 
     public static function belongsTo(
-      IlluminateRoute $route,
-      Server $server
+        IlluminateRoute $route,
+        Server $server
     ): bool {
         return Str::contains(
             $route->getName(),
@@ -288,19 +288,19 @@ class Route
         );
     }
 
-  protected function setUriForRoute(): void
-  {
-      $domain = URL::to('/');
-      $serverBasePath = str_replace(
-          $domain,
-          '',
-          $this->server->url(),
-      );
+    protected function setUriForRoute(): void
+    {
+        $domain = URL::to('/');
+        $serverBasePath = str_replace(
+            $domain,
+            '',
+            $this->server->url(),
+        );
 
-      $this->uri = str_replace(
-          $serverBasePath,
-          '',
-          '/'.$this->route->uri(),
-      );
-  }
+        $this->uri = str_replace(
+            $serverBasePath,
+            '',
+            '/'.$this->route->uri(),
+        );
+    }
 }

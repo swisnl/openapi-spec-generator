@@ -26,8 +26,8 @@ class RequestBodyBuilder extends Builder
     ];
 
     public function __construct(
-      Generator $generator,
-      SchemaBuilder $schemaBuilder
+        Generator $generator,
+        SchemaBuilder $schemaBuilder
     ) {
         parent::__construct($generator);
         $this->schemaBuilder = $schemaBuilder;
