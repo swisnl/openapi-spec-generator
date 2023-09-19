@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use LaravelJsonApi\Contracts\Schema\Attribute as AttributeContract;
 use LaravelJsonApi\Contracts\Schema\Field;
+use LaravelJsonApi\Contracts\Schema\Filter;
 use LaravelJsonApi\Contracts\Schema\PolymorphicRelation;
 use LaravelJsonApi\Contracts\Schema\Relation as RelationContract;
 use LaravelJsonApi\Contracts\Schema\Schema as JASchema;
@@ -23,6 +24,7 @@ use LaravelJsonApi\Eloquent\Fields\Map;
 use LaravelJsonApi\Eloquent\Fields\Number;
 use LaravelJsonApi\Eloquent\Pagination\CursorPagination;
 use LaravelJsonApi\Eloquent\Pagination\PagePagination;
+use LaravelJsonApi\NonEloquent\Fields\Attribute;
 use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\SchemaBuilder;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\PaginationDescriptor;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\SortablesDescriptor;
@@ -324,7 +326,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     public function filters($route): array
     {
         return collect($route->schema()->filters())
-          ->map(function (Eloquent\Contracts\Filter $filterInstance) use ($route
+          ->map(function (Filter $filterInstance) use ($route
           ) {
               $descriptor = $this->getDescriptor($filterInstance);
 
@@ -402,12 +404,24 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
 
               $schema = $fieldDataType->title($field->name());
 
-              $column = $field instanceof AttributeContract ? $field->column() : $field->name();
-              if (isset($example[$column])) {
-                  $schema = $schema->example($example[$column]);
-              }
-              if (method_exists($field, 'isReadOnly') && $field->isReadOnly(null)) {
-                  $schema = $schema->readOnly(true);
+              try {
+                  $column = $field instanceof Eloquent\Fields\Attribute ? $field->column() : $field->name();
+
+                  if ($field instanceof Attribute) {
+                      $attributes = $example->attributes(null);
+                      if (isset($attributes[$column])) {
+                          $schema = $schema->example($attributes[$column]);
+                      }
+                  } else {
+                      if (isset($example[$column])) {
+                          $schema = $schema->example($example[$column]);
+                      }
+                      if (method_exists($field, 'isReadOnly') && $field->isReadOnly(null)) {
+                          $schema = $schema->readOnly(true);
+                      }
+                  }
+              } catch (\Throwable $e) {
+                  throw $e;
               }
 
               return $schema;
@@ -580,8 +594,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     /**
      * @todo Get descriptors from Attributes
      */
-    protected function getDescriptor(Eloquent\Contracts\Filter $filter
-    ): string {
+    protected function getDescriptor(Filter $filter): string
+    {
         foreach ($this->filterDescriptors as $filterClass => $descriptor) {
             if ($filter instanceof $filterClass) {
                 return $descriptor;
