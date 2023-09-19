@@ -4,6 +4,7 @@ namespace LaravelJsonApi\OpenApiSpec;
 
 use LaravelJsonApi\Contracts\Schema\Schema;
 use LaravelJsonApi\Contracts\Server\Server;
+use LaravelJsonApi\Contracts\Store\QueriesAll;
 use LaravelJsonApi\Core\Resources\JsonApiResource;
 
 class ResourceContainer
@@ -33,7 +34,7 @@ class ResourceContainer
         $resource = $this->resources[$fqn]->first();
 
         if (!$resource) {
-            throw new \RuntimeException(sprintf('No resource found for model [%s], make sure your database is seeded!', $fqn));
+            throw new \RuntimeException(sprintfz('No resource found for model [%s], make sure your database is seeded!', $fqn));
         }
 
         return $resource;
@@ -77,6 +78,17 @@ class ResourceContainer
      */
     protected function loadResources(string $model)
     {
+        $schema = $this->server->schemas()->schemaForModel($model);
+        $repository = $schema->repository();
+
+        if ($repository instanceof QueriesAll) {
+            $this->resources[$model] = $repository->queryAll()->get()->map(function ($model) {
+                return $this->server->resources()->create($model);
+            })->take(3);
+
+            return;
+        }
+
         if (method_exists($model, 'all')) {
             $resources = $model::all()->map(function ($model) {
                 return $this->server->resources()->create($model);
