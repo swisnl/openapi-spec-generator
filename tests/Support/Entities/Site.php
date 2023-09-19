@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace LaravelJsonApi\OpenApiSpec\Tests\Support\Entities;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
 
 class Site implements Arrayable
 {
@@ -49,16 +48,6 @@ class Site implements Arrayable
     public function getName(): ?string
     {
         return $this->name;
-    }
-
-    public static function all(): Collection
-    {
-        return collect([
-            self::fromArray('example', [
-                'domain' => 'example.com',
-                'name' => 'Johns Site',
-            ]),
-        ]);
     }
 
     public function setName(?string $name): Site
