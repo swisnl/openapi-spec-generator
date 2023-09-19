@@ -26,7 +26,7 @@ class ResourceContainer
     public function resource($model): JsonApiResource
     {
         $fqn = $this->getFQN($model);
-        if (!isset($this->resource[$fqn])) {
+        if (!isset($this->resources[$fqn])) {
             $this->loadResources($fqn);
         }
 
