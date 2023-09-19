@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use LaravelJsonApi\Contracts\Schema\Attribute as AttributeContract;
 use LaravelJsonApi\Contracts\Schema\Field;
+use LaravelJsonApi\Contracts\Schema\Filter;
 use LaravelJsonApi\Contracts\Schema\PolymorphicRelation;
 use LaravelJsonApi\Contracts\Schema\Relation as RelationContract;
 use LaravelJsonApi\Contracts\Schema\Schema as JASchema;
@@ -17,12 +18,14 @@ use LaravelJsonApi\Core\Support\Str;
 use LaravelJsonApi\Eloquent;
 use LaravelJsonApi\Eloquent\Fields\ArrayHash;
 use LaravelJsonApi\Eloquent\Fields\ArrayList;
+use LaravelJsonApi\Eloquent\Fields\Attribute as EloquentAttribute;
 use LaravelJsonApi\Eloquent\Fields\Boolean;
 use LaravelJsonApi\Eloquent\Fields\ID;
 use LaravelJsonApi\Eloquent\Fields\Map;
 use LaravelJsonApi\Eloquent\Fields\Number;
 use LaravelJsonApi\Eloquent\Pagination\CursorPagination;
 use LaravelJsonApi\Eloquent\Pagination\PagePagination;
+use LaravelJsonApi\NonEloquent\Fields\Attribute as NonEloquentAttribute;
 use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\SchemaBuilder;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\PaginationDescriptor;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\SortablesDescriptor;
@@ -324,7 +327,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     public function filters($route): array
     {
         return collect($route->schema()->filters())
-          ->map(function (Eloquent\Contracts\Filter $filterInstance) use ($route
+          ->map(function (Filter $filterInstance) use ($route
           ) {
               $descriptor = $this->getDescriptor($filterInstance);
 
@@ -402,12 +405,20 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
 
               $schema = $fieldDataType->title($field->name());
 
-              $column = $field instanceof AttributeContract ? $field->column() : $field->name();
-              if (isset($example[$column])) {
-                  $schema = $schema->example($example[$column]);
-              }
-              if (method_exists($field, 'isReadOnly') && $field->isReadOnly(null)) {
-                  $schema = $schema->readOnly(true);
+              $column = $field instanceof EloquentAttribute ? $field->column() : $field->name();
+
+              if ($field instanceof NonEloquentAttribute) {
+                  $attributes = $example->attributes(null);
+                  if (isset($attributes[$column])) {
+                      $schema = $schema->example($attributes[$column]);
+                  }
+              } else {
+                  if (isset($example[$column])) {
+                      $schema = $schema->example($example[$column]);
+                  }
+                  if ($field instanceof EloquentAttribute && $field->isReadOnly(null)) {
+                      $schema = $schema->readOnly(true);
+                  }
               }
 
               return $schema;
@@ -433,9 +444,9 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param \LaravelJsonApi\Contracts\Schema\Relation      $relation
-     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $example
-     * @param bool                                           $includeData
+     * @param RelationContract $relation
+     * @param JsonApiResource  $example
+     * @param bool             $includeData
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
@@ -450,7 +461,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
 
         $type = $relation->inverse();
 
-        $linkSchema = $this->relationshipLinks($relation, $example, $type);
+        $linkSchema = $this->relationshipLinks($relation, $example);
 
         $dataSchema = $this->relationshipData($relation, $example, $type);
 
@@ -469,9 +480,9 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param \LaravelJsonApi\Contracts\Schema\Relation      $relation
-     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $example
-     * @param string                                         $type
+     * @param RelationContract $relation
+     * @param JsonApiResource  $example
+     * @param string           $type
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
@@ -511,23 +522,11 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
         return $dataSchema;
     }
 
-    /**
-     * @param mixed           $relation
-     * @param JsonApiResource $example
-     * @param string          $type
-     *
-     * @return OASchema
-     */
     public function relationshipLinks(
-        $relation,
+        RelationContract $relation,
         JsonApiResource $example,
-        string $type,
     ): OASchema {
-        $name = Str::dasherize(
-            Str::plural(method_exists($relation, 'relationName')
-                ? $relation->relationName()
-                : Str::camel($relation->name()))
-        );
+        $name = Str::dasherize(Str::plural(Str::camel($relation->name())));
 
         /*
          * @todo Create real links
@@ -580,7 +579,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     /**
      * @todo Get descriptors from Attributes
      */
-    protected function getDescriptor(Eloquent\Contracts\Filter $filter): string
+    protected function getDescriptor(Filter $filter): string
     {
         foreach ($this->filterDescriptors as $filterClass => $descriptor) {
             if ($filter instanceof $filterClass) {

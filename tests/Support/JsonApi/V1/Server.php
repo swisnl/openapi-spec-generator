@@ -69,6 +69,7 @@ class Server extends BaseServer
             Tags\TagSchema::class,
             Users\UserSchema::class,
             Videos\VideoSchema::class,
+            Sites\SiteSchema::class,
         ];
     }
 
