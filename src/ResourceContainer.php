@@ -34,7 +34,7 @@ class ResourceContainer
         $resource = $this->resources[$fqn]->first();
 
         if (!$resource) {
-            throw new \RuntimeException(sprintfz('No resource found for model [%s], make sure your database is seeded!', $fqn));
+            throw new \RuntimeException(sprintf('No resource found for model [%s], make sure your database is seeded!', $fqn));
         }
 
         return $resource;
