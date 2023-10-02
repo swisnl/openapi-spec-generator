@@ -18,13 +18,14 @@ use LaravelJsonApi\Core\Support\Str;
 use LaravelJsonApi\Eloquent;
 use LaravelJsonApi\Eloquent\Fields\ArrayHash;
 use LaravelJsonApi\Eloquent\Fields\ArrayList;
+use LaravelJsonApi\Eloquent\Fields\Attribute as EloquentAttribute;
 use LaravelJsonApi\Eloquent\Fields\Boolean;
 use LaravelJsonApi\Eloquent\Fields\ID;
 use LaravelJsonApi\Eloquent\Fields\Map;
 use LaravelJsonApi\Eloquent\Fields\Number;
 use LaravelJsonApi\Eloquent\Pagination\CursorPagination;
 use LaravelJsonApi\Eloquent\Pagination\PagePagination;
-use LaravelJsonApi\NonEloquent\Fields\Attribute;
+use LaravelJsonApi\NonEloquent\Fields\Attribute as NonEloquentAttribute;
 use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\SchemaBuilder;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\PaginationDescriptor;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\SortablesDescriptor;
@@ -404,24 +405,17 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
 
               $schema = $fieldDataType->title($field->name());
 
-              try {
-                  $column = $field instanceof Eloquent\Fields\Attribute ? $field->column() : $field->name();
+              $column = $field instanceof EloquentAttribute ? $field->column() : $field->name();
 
-                  if ($field instanceof Attribute) {
-                      $attributes = $example->attributes(null);
-                      if (isset($attributes[$column])) {
-                          $schema = $schema->example($attributes[$column]);
-                      }
-                  } else {
-                      if (isset($example[$column])) {
-                          $schema = $schema->example($example[$column]);
-                      }
-                      if (method_exists($field, 'isReadOnly') && $field->isReadOnly(null)) {
-                          $schema = $schema->readOnly(true);
-                      }
+              if ($field instanceof NonEloquentAttribute) {
+                  $attributes = $example->attributes(null);
+                  if (isset($attributes[$column])) {
+                      $schema = $schema->example($attributes[$column]);
                   }
-              } catch (\Throwable $e) {
-                  throw $e;
+              } else {
+                  if (isset($example[$column])) {
+                      $schema = $schema->example($example[$column]);
+                  }
               }
 
               return $schema;
@@ -464,7 +458,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
 
         $type = $relation->inverse();
 
-        $linkSchema = $this->relationshipLinks($relation, $example, $type);
+        $linkSchema = $this->relationshipLinks($relation, $example);
 
         $dataSchema = $this->relationshipData($relation, $example, $type);
 
@@ -525,23 +519,11 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
         return $dataSchema;
     }
 
-    /**
-     * @param mixed           $relation
-     * @param JsonApiResource $example
-     * @param string          $type
-     *
-     * @return OASchema
-     */
     public function relationshipLinks(
-        $relation,
+        RelationContract $relation,
         JsonApiResource $example,
-        string $type,
     ): OASchema {
-        $name = Str::dasherize(
-            Str::plural(method_exists($relation, 'relationName')
-                ? $relation->relationName()
-                : Str::camel($relation->name()))
-        );
+        $name = Str::dasherize(Str::plural(Str::camel($relation->name())));
 
         /*
          * @todo Create real links
