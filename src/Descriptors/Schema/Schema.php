@@ -18,13 +18,14 @@ use LaravelJsonApi\Core\Support\Str;
 use LaravelJsonApi\Eloquent;
 use LaravelJsonApi\Eloquent\Fields\ArrayHash;
 use LaravelJsonApi\Eloquent\Fields\ArrayList;
+use LaravelJsonApi\Eloquent\Fields\Attribute as EloquentAttribute;
 use LaravelJsonApi\Eloquent\Fields\Boolean;
 use LaravelJsonApi\Eloquent\Fields\ID;
 use LaravelJsonApi\Eloquent\Fields\Map;
 use LaravelJsonApi\Eloquent\Fields\Number;
 use LaravelJsonApi\Eloquent\Pagination\CursorPagination;
 use LaravelJsonApi\Eloquent\Pagination\PagePagination;
-use LaravelJsonApi\NonEloquent\Fields\Attribute;
+use LaravelJsonApi\NonEloquent\Fields\Attribute as NonEloquentAttribute;
 use LaravelJsonApi\OpenApiSpec\Builders\Paths\Operation\SchemaBuilder;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\PaginationDescriptor;
 use LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\Schema\SortablesDescriptor;
@@ -405,9 +406,9 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
               $schema = $fieldDataType->title($field->name());
 
               try {
-                  $column = $field instanceof Eloquent\Fields\Attribute ? $field->column() : $field->name();
+                  $column = $field instanceof EloquentAttribute ? $field->column() : $field->name();
 
-                  if ($field instanceof Attribute) {
+                  if ($field instanceof NonEloquentAttribute) {
                       $attributes = $example->attributes(null);
                       if (isset($attributes[$column])) {
                           $schema = $schema->example($attributes[$column]);
