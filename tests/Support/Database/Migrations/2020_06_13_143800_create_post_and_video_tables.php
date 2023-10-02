@@ -167,6 +167,6 @@ class CreatePostAndVideoTables extends Migration
         Schema::dropIfExists('tags');
         Schema::dropIfExists('comments');
         Schema::dropIfExists('videos');
-//        Schema::dropIfExists('posts');
+        //        Schema::dropIfExists('posts');
     }
 }

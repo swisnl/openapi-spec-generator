@@ -22,8 +22,8 @@ class SchemaBuilder extends Builder
      * @param \LaravelJsonApi\OpenApiSpec\ComponentsContainer $components
      */
     public function __construct(
-      Generator $generator,
-      ComponentsContainer $components
+        Generator $generator,
+        ComponentsContainer $components
     ) {
         parent::__construct($generator);
         $this->components = $components;
@@ -69,9 +69,9 @@ class SchemaBuilder extends Builder
      * @return \GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract
      */
     protected function buildResponseSchema(
-      Route $route,
-      SchemaDescriptorContract $descriptor,
-      string $objectId
+        Route $route,
+        SchemaDescriptorContract $descriptor,
+        string $objectId
     ): SchemaContract {
         $method = $route->action();
 
@@ -142,9 +142,9 @@ class SchemaBuilder extends Builder
      * @return \GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract
      */
     protected function buildRequestSchema(
-      Route $route,
-      SchemaDescriptorContract $descriptor,
-      string $objectId
+        Route $route,
+        SchemaDescriptorContract $descriptor,
+        string $objectId
     ): SchemaContract {
         $method = $route->action();
         if ($route->isRelation()) {
@@ -184,8 +184,8 @@ class SchemaBuilder extends Builder
      * @return string
      */
     public static function objectId(
-      Route $route,
-      bool $isRequest = false
+        Route $route,
+        bool $isRequest = false
     ): string {
         if ($isRequest) {
             $method = $route->action();

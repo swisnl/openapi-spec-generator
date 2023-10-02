@@ -18,8 +18,8 @@ class PathsBuilder extends Builder
     protected OperationBuilder $operation;
 
     public function __construct(
-      Generator $generator,
-      ComponentsContainer $components
+        Generator $generator,
+        ComponentsContainer $components
     ) {
         parent::__construct($generator);
         $this->components = $components;

@@ -3,6 +3,8 @@
 namespace LaravelJsonApi\OpenApiSpec\Tests;
 
 use Illuminate\Support\Facades\App;
+use LaravelJsonApi\Laravel\Routing\Registrar;
+use LaravelJsonApi\Laravel\Routing\ResourceRegistrar;
 use LaravelJsonApi\OpenApiSpec\OpenApiServiceProvider;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\JsonApi\V1\Server;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -30,12 +32,13 @@ abstract class TestCase extends BaseTestCase
     protected function defineRoutes($router)
     {
         $router->group(['prefix' => 'api', 'middleware' => 'api', 'namespace' => 'LaravelJsonApi\OpenApiSpec\Tests\Support\Controllers'], function () {
+            /** @var Registrar $jsonApiRoute */
             $jsonApiRoute = App::make(\LaravelJsonApi\Laravel\Routing\Registrar::class);
 
             $jsonApiRoute->server('v1')
               ->prefix('v1')
               ->namespace('Api\V1')
-              ->resources(function ($server) {
+              ->resources(function (ResourceRegistrar $server) {
                   /* Posts */
                   $server->resource('posts')->relationships(function ($relationships) {
                       $relationships->hasOne('author')->readOnly();
@@ -51,6 +54,8 @@ abstract class TestCase extends BaseTestCase
                   $server->resource('videos')->relationships(function ($relationships) {
                       $relationships->hasMany('tags');
                   });
+
+                  $server->resource('sites');
               });
         });
     }
