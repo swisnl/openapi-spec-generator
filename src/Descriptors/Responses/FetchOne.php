@@ -16,8 +16,8 @@ class FetchOne extends ResponseDescriptor
     public function response(): array
     {
         return [
-          $this->ok(),
-          ...$this->defaults(),
+            $this->ok(),
+            ...$this->defaults(),
         ];
     }
 

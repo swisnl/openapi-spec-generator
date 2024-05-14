@@ -17,13 +17,13 @@ abstract class TestCase extends BaseTestCase
         ]);
 
         $app['config']->set('hashids', [
-          'default' => 'main',
-          'connections' => [
-            'main' => [
-              'salt' => 'Z3wxm8m6fxPMRtjX',
-              'length' => 10,
+            'default' => 'main',
+            'connections' => [
+                'main' => [
+                    'salt' => 'Z3wxm8m6fxPMRtjX',
+                    'length' => 10,
+                ],
             ],
-          ],
         ]);
     }
 

@@ -56,8 +56,8 @@ class Route
     /**
      * Route constructor.
      *
-     * @param \LaravelJsonApi\Contracts\Server\Server $server
-     * @param \Illuminate\Routing\Route               $route
+     * @param Server          $server
+     * @param IlluminateRoute $route
      */
     public function __construct(Server $server, IlluminateRoute $route)
     {
@@ -111,7 +111,7 @@ class Route
     }
 
     /**
-     * @return \LaravelJsonApi\Contracts\Schema\Schema
+     * @return Schema
      */
     public function schema(): Schema
     {
@@ -119,7 +119,7 @@ class Route
     }
 
     /**
-     * @return \Illuminate\Routing\Route
+     * @return IlluminateRoute
      */
     public function route(): IlluminateRoute
     {
@@ -159,7 +159,7 @@ class Route
     }
 
     /**
-     * @return \LaravelJsonApi\Eloquent\Fields\Relations\Relation|null
+     * @return Relation|null
      */
     public function relation(): ?Relation
     {
@@ -198,7 +198,7 @@ class Route
     }
 
     /**
-     * @return \LaravelJsonApi\Contracts\Schema\Schema|null
+     * @return Schema|null
      */
     public function inversSchema(): ?Schema
     {
@@ -279,8 +279,8 @@ class Route
     }
 
     public static function belongsTo(
-      IlluminateRoute $route,
-      Server $server
+        IlluminateRoute $route,
+        Server $server
     ): bool {
         return Str::contains(
             $route->getName(),
@@ -288,19 +288,19 @@ class Route
         );
     }
 
-  protected function setUriForRoute(): void
-  {
-      $domain = URL::to('/');
-      $serverBasePath = str_replace(
-          $domain,
-          '',
-          $this->server->url(),
-      );
+    protected function setUriForRoute(): void
+    {
+        $domain = URL::to('/');
+        $serverBasePath = str_replace(
+            $domain,
+            '',
+            $this->server->url(),
+        );
 
-      $this->uri = str_replace(
-          $serverBasePath,
-          '',
-          '/'.$this->route->uri(),
-      );
-  }
+        $this->uri = str_replace(
+            $serverBasePath,
+            '',
+            '/'.$this->route->uri(),
+        );
+    }
 }

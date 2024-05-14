@@ -13,12 +13,12 @@ abstract class BooleanFilter extends FilterDescriptor
     public function filter(): array
     {
         return [
-          Parameter::query()
-            ->name("filter[{$this->filter->key()}]")
-            ->description($this->description())
-            ->required(false)
-            ->allowEmptyValue(false)
-            ->schema(OASchema::boolean()),
+            Parameter::query()
+              ->name("filter[{$this->filter->key()}]")
+              ->description($this->description())
+              ->required(false)
+              ->allowEmptyValue(false)
+              ->schema(OASchema::boolean()),
         ];
     }
 }

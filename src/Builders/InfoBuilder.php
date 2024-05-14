@@ -8,7 +8,7 @@ use LaravelJsonApi\OpenApiSpec\Descriptors\Server;
 class InfoBuilder extends Builder
 {
     /**
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Info
+     * @return Info
      */
     public function build(): Info
     {

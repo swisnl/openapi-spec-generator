@@ -7,7 +7,7 @@ use LaravelJsonApi\OpenApiSpec\Route;
 interface PolicyDescriptor extends Descriptor
 {
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     * @param Route $route
      *
      * @return bool
      */

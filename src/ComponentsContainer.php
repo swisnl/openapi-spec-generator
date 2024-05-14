@@ -22,7 +22,7 @@ class ComponentsContainer
     protected array $responses = [];
 
     /**
-     * @param \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema $schema
+     * @param Schema $schema
      *
      * @return Schema
      */
@@ -36,7 +36,7 @@ class ComponentsContainer
     /**
      * @param string $objectId
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema|null
+     * @return Schema|null
      */
     public function getSchema(string $objectId): ?Schema
     {
@@ -97,7 +97,7 @@ class ComponentsContainer
     }
 
     /**
-     * @param \GoldSpecDigital\ObjectOrientedOAS\Objects\BaseObject $object
+     * @param BaseObject $object
      *
      * @return mixed
      */

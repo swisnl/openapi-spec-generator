@@ -31,10 +31,10 @@ abstract class ResponseDescriptor extends Descriptor implements ResponseDescript
     protected bool $validates = false;
 
     public function __construct(
-      Generator $generator,
-      Route $route,
-      SchemaBuilder $schemaBuilder,
-      Collection $defaults
+        Generator $generator,
+        Route $route,
+        SchemaBuilder $schemaBuilder,
+        Collection $defaults
     ) {
         parent::__construct($generator);
         $this->route = $route;

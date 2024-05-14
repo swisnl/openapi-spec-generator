@@ -18,16 +18,16 @@ class RequestBodyBuilder extends Builder
     protected SchemaBuilder $schemaBuilder;
 
     protected array $descriptors = [
-      Controllers\Actions\Store::class => Descriptors\Requests\Store::class,
-      Controllers\Actions\Update::class => Descriptors\Requests\Update::class,
-      Controllers\Actions\AttachRelationship::class => Descriptors\Requests\AttachRelationship::class,
-      Controllers\Actions\DetachRelationship::class => Descriptors\Requests\DetachRelationship::class,
-      Controllers\Actions\UpdateRelationship::class => Descriptors\Requests\UpdateRelationship::class,
+        Controllers\Actions\Store::class => Descriptors\Requests\Store::class,
+        Controllers\Actions\Update::class => Descriptors\Requests\Update::class,
+        Controllers\Actions\AttachRelationship::class => Descriptors\Requests\AttachRelationship::class,
+        Controllers\Actions\DetachRelationship::class => Descriptors\Requests\DetachRelationship::class,
+        Controllers\Actions\UpdateRelationship::class => Descriptors\Requests\UpdateRelationship::class,
     ];
 
     public function __construct(
-      Generator $generator,
-      SchemaBuilder $schemaBuilder
+        Generator $generator,
+        SchemaBuilder $schemaBuilder
     ) {
         parent::__construct($generator);
         $this->schemaBuilder = $schemaBuilder;
@@ -39,9 +39,9 @@ class RequestBodyBuilder extends Builder
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     * @param Route $route
      *
-     * @return \LaravelJsonApi\OpenApiSpec\Descriptors\Actions\ActionDescriptor|null
+     * @return Descriptors\Actions\ActionDescriptor|null
      */
     protected function getDescriptor(Route $route): ?RequestDescriptor
     {

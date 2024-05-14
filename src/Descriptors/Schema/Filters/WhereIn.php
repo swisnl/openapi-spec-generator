@@ -31,15 +31,15 @@ class WhereIn extends FilterDescriptor
           ->toArray();
 
         return [
-          Parameter::query()
-            ->name("filter[{$this->filter->key()}]")
-            ->description($this->description())
-            ->required(false)
-            ->allowEmptyValue(false)
-            ->schema(Schema::array()->items(Schema::string())->default(Example::create('empty')->value([])))
-            ->examples(...$examples)
-            ->style('form')
-            ->explode(false),
+            Parameter::query()
+              ->name("filter[{$this->filter->key()}]")
+              ->description($this->description())
+              ->required(false)
+              ->allowEmptyValue(false)
+              ->schema(Schema::array()->items(Schema::string())->default(Example::create('empty')->value([])))
+              ->examples(...$examples)
+              ->style('form')
+              ->explode(false),
         ];
     }
 

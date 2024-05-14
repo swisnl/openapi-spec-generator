@@ -18,20 +18,20 @@ class SchemaBuilder extends Builder
     protected ComponentsContainer $components;
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Generator           $generator
-     * @param \LaravelJsonApi\OpenApiSpec\ComponentsContainer $components
+     * @param Generator           $generator
+     * @param ComponentsContainer $components
      */
     public function __construct(
-      Generator $generator,
-      ComponentsContainer $components
+        Generator $generator,
+        ComponentsContainer $components
     ) {
         parent::__construct($generator);
         $this->components = $components;
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
-     * @param bool                              $isRequest
+     * @param Route $route
+     * @param bool  $isRequest
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
@@ -60,18 +60,18 @@ class SchemaBuilder extends Builder
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route                                  $route
-     * @param \LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\SchemaDescriptor $descriptor
-     * @param string                                                             $objectId
+     * @param Route                    $route
+     * @param SchemaDescriptorContract $descriptor
+     * @param string                   $objectId
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract
+     * @return SchemaContract
      */
     protected function buildResponseSchema(
-      Route $route,
-      SchemaDescriptorContract $descriptor,
-      string $objectId
+        Route $route,
+        SchemaDescriptorContract $descriptor,
+        string $objectId
     ): SchemaContract {
         $method = $route->action();
 
@@ -133,18 +133,18 @@ class SchemaBuilder extends Builder
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route                                  $route
-     * @param \LaravelJsonApi\OpenApiSpec\Contracts\Descriptors\SchemaDescriptor $descriptor
-     * @param string                                                             $objectId
+     * @param Route                    $route
+     * @param SchemaDescriptorContract $descriptor
+     * @param string                   $objectId
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract
+     * @return SchemaContract
      */
     protected function buildRequestSchema(
-      Route $route,
-      SchemaDescriptorContract $descriptor,
-      string $objectId
+        Route $route,
+        SchemaDescriptorContract $descriptor,
+        string $objectId
     ): SchemaContract {
         $method = $route->action();
         if ($route->isRelation()) {
@@ -178,14 +178,14 @@ class SchemaBuilder extends Builder
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
-     * @param bool                              $isRequest
+     * @param Route $route
+     * @param bool  $isRequest
      *
      * @return string
      */
     public static function objectId(
-      Route $route,
-      bool $isRequest = false
+        Route $route,
+        bool $isRequest = false
     ): string {
         if ($isRequest) {
             $method = $route->action();

@@ -31,21 +31,21 @@ class OperationBuilder extends Builder
     protected SchemaBuilder $schemaBuilder;
 
     protected array $descriptors = [
-      Controllers\Actions\FetchMany::class => Descriptors\Actions\FetchMany::class,
-      Controllers\Actions\FetchOne::class => Descriptors\Actions\FetchOne::class,
-      Controllers\Actions\Store::class => Descriptors\Actions\Store::class,
-      Controllers\Actions\Update::class => Descriptors\Actions\Update::class,
-      Controllers\Actions\Destroy::class => Descriptors\Actions\Destroy::class,
-      Controllers\Actions\FetchRelated::class => Descriptors\Actions\Relationship\FetchRelated::class,
-      Controllers\Actions\AttachRelationship::class => Descriptors\Actions\Relationship\Attach::class,
-      Controllers\Actions\DetachRelationship::class => Descriptors\Actions\Relationship\Detach::class,
-      Controllers\Actions\FetchRelationship::class => Descriptors\Actions\Relationship\Fetch::class,
-      Controllers\Actions\UpdateRelationship::class => Descriptors\Actions\Relationship\Update::class,
+        Controllers\Actions\FetchMany::class => Descriptors\Actions\FetchMany::class,
+        Controllers\Actions\FetchOne::class => Descriptors\Actions\FetchOne::class,
+        Controllers\Actions\Store::class => Descriptors\Actions\Store::class,
+        Controllers\Actions\Update::class => Descriptors\Actions\Update::class,
+        Controllers\Actions\Destroy::class => Descriptors\Actions\Destroy::class,
+        Controllers\Actions\FetchRelated::class => Descriptors\Actions\Relationship\FetchRelated::class,
+        Controllers\Actions\AttachRelationship::class => Descriptors\Actions\Relationship\Attach::class,
+        Controllers\Actions\DetachRelationship::class => Descriptors\Actions\Relationship\Detach::class,
+        Controllers\Actions\FetchRelationship::class => Descriptors\Actions\Relationship\Fetch::class,
+        Controllers\Actions\UpdateRelationship::class => Descriptors\Actions\Relationship\Update::class,
     ];
 
     public function __construct(
-      Generator $generator,
-      ComponentsContainer $components
+        Generator $generator,
+        ComponentsContainer $components
     ) {
         parent::__construct($generator);
         $this->components = $components;
@@ -59,9 +59,9 @@ class OperationBuilder extends Builder
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     * @param SpecRoute $route
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Operation|null
+     * @return Operation|null
      */
     public function build(SpecRoute $route): ?Operation
     {
@@ -69,9 +69,9 @@ class OperationBuilder extends Builder
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     * @param SpecRoute $route
      *
-     * @return \LaravelJsonApi\OpenApiSpec\Descriptors\Actions\ActionDescriptor|null
+     * @return Descriptors\Actions\ActionDescriptor|null
      */
     protected function getDescriptor(Route $route): ?Descriptors\Actions\ActionDescriptor
     {

@@ -12,7 +12,7 @@ use LaravelJsonApi\OpenApiSpec\Route;
 class ParameterBuilder extends Builder
 {
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     * @param Route $route
      *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter[]
      */
@@ -27,10 +27,10 @@ class ParameterBuilder extends Builder
          */
         if ($route->action() === 'index') {
             $parameters = [
-              ...$parameters,
-              ...$schemaDescriptor->pagination($route),
-              ...$schemaDescriptor->sortables($route),
-              ...$schemaDescriptor->filters($route),
+                ...$parameters,
+                ...$schemaDescriptor->pagination($route),
+                ...$schemaDescriptor->sortables($route),
+                ...$schemaDescriptor->filters($route),
             ];
         }
 

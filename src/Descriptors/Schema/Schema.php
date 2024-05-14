@@ -33,30 +33,30 @@ use LaravelJsonApi\OpenApiSpec\Route;
 class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor, PaginationDescriptor
 {
     protected array $filterDescriptors = [
-      Eloquent\Filters\WhereIdIn::class => Filters\WhereIdIn::class,
-      Eloquent\Filters\WhereIn::class => Filters\WhereIn::class,
-      Eloquent\Filters\Scope::class => Filters\Scope::class,
-      Eloquent\Filters\WithTrashed::class => Filters\WithTrashed::class,
-      Eloquent\Filters\Where::class => Filters\Where::class,
-      Eloquent\Filters\WhereNull::class => Filters\WhereNull::class,
-      Eloquent\Filters\Has::class => Filters\Has::class,
+        Eloquent\Filters\WhereIdIn::class => Filters\WhereIdIn::class,
+        Eloquent\Filters\WhereIn::class => Filters\WhereIn::class,
+        Eloquent\Filters\Scope::class => Filters\Scope::class,
+        Eloquent\Filters\WithTrashed::class => Filters\WithTrashed::class,
+        Eloquent\Filters\Where::class => Filters\Where::class,
+        Eloquent\Filters\WhereNull::class => Filters\WhereNull::class,
+        Eloquent\Filters\Has::class => Filters\Has::class,
     ];
 
     /**
-     * @param \LaravelJsonApi\Contracts\Schema\Schema $schema
-     * @param string                                  $objectId
-     * @param string                                  $type
-     * @param string                                  $name
+     * @param JASchema $schema
+     * @param string   $objectId
+     * @param string   $type
+     * @param string   $name
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
+     * @return OASchema
      */
     public function fetch(
-      JASchema $schema,
-      string $objectId,
-      string $type,
-      string $name
+        JASchema $schema,
+        string $objectId,
+        string $type,
+        string $name
     ): OASchema {
         $resource = $this->generator
           ->resources()
@@ -64,13 +64,13 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
 
         $fields = $this->fields($schema->fields(), $resource);
         $properties = [
-          OASchema::string('type')
-            ->title('type')
-            ->default($type),
-          OASchema::string('id')
-            ->example($resource->id()),
-          OASchema::object('attributes')
-            ->properties(...$fields->get('attributes')),
+            OASchema::string('type')
+              ->title('type')
+              ->default($type),
+            OASchema::string('id')
+              ->example($resource->id()),
+            OASchema::object('attributes')
+              ->properties(...$fields->get('attributes')),
         ];
 
         if ($fields->has('relationships')) {
@@ -85,11 +85,11 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     * @param Route $route
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
+     * @return OASchema
      */
     public function store(Route $route): OASchema
     {
@@ -115,11 +115,11 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     * @param Route $route
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
+     * @return OASchema
      */
     public function update(Route $route): OASchema
     {
@@ -224,8 +224,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      */
     public function fetchPolymorphicRelationship(
-      Route $route,
-      $objectId
+        Route $route,
+        $objectId
     ): OASchema {
         $resource = $this->generator->resources()
           ->resource($route->schema()::model());
@@ -255,18 +255,18 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
           })->flatten()->toArray();
 
         return [
-          Parameter::query('sort')
-            ->name('sort')
-            ->schema(OASchema::array()
-              ->items(OASchema::string()->enum(...$fields))
-            )
-            ->allowEmptyValue(false)
-            ->required(false),
+            Parameter::query('sort')
+              ->name('sort')
+              ->schema(OASchema::array()
+                ->items(OASchema::string()->enum(...$fields))
+              )
+              ->allowEmptyValue(false)
+              ->required(false),
         ];
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route $route
+     * @param Route $route
      *
      * @return array
      */
@@ -275,41 +275,41 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
         $pagination = $route->schema()->pagination();
         if ($pagination instanceof PagePagination) {
             return [
-              Parameter::query('pageSize')
-                ->name('page[size]')
-                ->description('The page size for paginated results')
-                ->required(false)
-                ->allowEmptyValue(false)
-                ->schema(OASchema::integer()),
-              Parameter::query('pageNumber')
-                ->name('page[number]')
-                ->description('The page number for paginated results')
-                ->required(false)
-                ->allowEmptyValue(false)
-                ->schema(OASchema::integer()),
+                Parameter::query('pageSize')
+                  ->name('page[size]')
+                  ->description('The page size for paginated results')
+                  ->required(false)
+                  ->allowEmptyValue(false)
+                  ->schema(OASchema::integer()),
+                Parameter::query('pageNumber')
+                  ->name('page[number]')
+                  ->description('The page number for paginated results')
+                  ->required(false)
+                  ->allowEmptyValue(false)
+                  ->schema(OASchema::integer()),
             ];
         }
 
         if ($pagination instanceof CursorPagination) {
             return [
-              Parameter::query('pageLimit')
-                ->name('page[limit]')
-                ->description('The page limit for paginated results')
-                ->required(false)
-                ->allowEmptyValue(false)
-                ->schema(OASchema::integer()),
-              Parameter::query('pageAfter')
-                ->name('page[after]')
-                ->description('The page offset for paginated results')
-                ->required(false)
-                ->allowEmptyValue(false)
-                ->schema(OASchema::string()),
-              Parameter::query('pageBefore')
-                ->name('page[before]')
-                ->description('The page offset for paginated results')
-                ->required(false)
-                ->allowEmptyValue(false)
-                ->schema(OASchema::string()),
+                Parameter::query('pageLimit')
+                  ->name('page[limit]')
+                  ->description('The page limit for paginated results')
+                  ->required(false)
+                  ->allowEmptyValue(false)
+                  ->schema(OASchema::integer()),
+                Parameter::query('pageAfter')
+                  ->name('page[after]')
+                  ->description('The page offset for paginated results')
+                  ->required(false)
+                  ->allowEmptyValue(false)
+                  ->schema(OASchema::string()),
+                Parameter::query('pageBefore')
+                  ->name('page[before]')
+                  ->description('The page offset for paginated results')
+                  ->required(false)
+                  ->allowEmptyValue(false)
+                  ->schema(OASchema::string()),
             ];
         }
 
@@ -335,14 +335,14 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param \LaravelJsonApi\Contracts\Schema\Field[]       $fields
-     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $resource
+     * @param \LaravelJsonApi\Contracts\Schema\Field[] $fields
+     * @param JsonApiResource                          $resource
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function fields(
-      array $fields,
-      JsonApiResource $resource
+        array $fields,
+        JsonApiResource $resource
     ): Collection {
         return collect($fields)
           ->mapToGroups(function (Field $field) {
@@ -375,8 +375,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      * @return Schema[]
      */
     protected function attributes(
-      Collection $fields,
-      JsonApiResource $example
+        Collection $fields,
+        JsonApiResource $example
     ): array {
         return $fields
           ->filter(fn ($field) => !($field instanceof ID))
@@ -415,16 +415,16 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param \Illuminate\Support\Collection                 $relationships
-     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $example
+     * @param Collection      $relationships
+     * @param JsonApiResource $example
      *
      * @return array
      *
      * @todo Fix relation field names
      */
     protected function relationships(
-      Collection $relationships,
-      JsonApiResource $example
+        Collection $relationships,
+        JsonApiResource $example
     ): array {
         return $relationships
           ->map(function (Relation $relation) use ($example) {
@@ -433,18 +433,18 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param \LaravelJsonApi\Eloquent\Fields\Relations\Relation $relation
-     * @param \LaravelJsonApi\Core\Resources\JsonApiResource     $example
-     * @param bool                                               $includeData
+     * @param Relation        $relation
+     * @param JsonApiResource $example
+     * @param bool            $includeData
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
+     * @return OASchema
      */
     protected function relationship(
-      Relation $relation,
-      JsonApiResource $example,
-      bool $includeData = false
+        Relation $relation,
+        JsonApiResource $example,
+        bool $includeData = false
     ): OASchema {
         $fieldId = $relation->name();
 
@@ -469,18 +469,18 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param \LaravelJsonApi\Eloquent\Fields\Relations\Relation $relation
-     * @param \LaravelJsonApi\Core\Resources\JsonApiResource     $example
-     * @param string                                             $type
+     * @param Relation        $relation
+     * @param JsonApiResource $example
+     * @param string          $type
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
+     * @return OASchema
      */
     protected function relationshipData(
-      Relation $relation,
-      JsonApiResource $example,
-      string $type
+        Relation $relation,
+        JsonApiResource $example,
+        string $type
     ): OASchema {
         if ($relation instanceof PolymorphicRelation) {
             // @todo Add examples for each available type
@@ -512,16 +512,16 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param mixed                                          $relation
-     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $example
-     * @param string                                         $type
+     * @param mixed           $relation
+     * @param JsonApiResource $example
+     * @param string          $type
      *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
+     * @return OASchema
      */
     public function relationshipLinks(
-      $relation,
-      JsonApiResource $example,
-      string $type
+        $relation,
+        JsonApiResource $example,
+        string $type
     ): OASchema {
         $name = Str::dasherize(
             Str::plural($relation->relationName())
@@ -531,16 +531,16 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
          * @todo Create real links
          */
         $relatedLink = $this->generator->server()->url([
-          $name,
-          $example->id(),
+            $name,
+            $example->id(),
         ]);
 
         /*
          * @todo Create real links
          */
         $selfLink = $this->generator->server()->url([
-          $name,
-          $example->id(),
+            $name,
+            $example->id(),
         ]);
 
         return OASchema::object('links')
@@ -556,22 +556,22 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     }
 
     /**
-     * @param \LaravelJsonApi\OpenApiSpec\Route              $route
-     * @param \LaravelJsonApi\Core\Resources\JsonApiResource $resource
+     * @param Route           $route
+     * @param JsonApiResource $resource
      *
      * @return array
      */
     protected function links(Route $route, JsonApiResource $resource): array
     {
         $url = $this->generator->server()->url([
-          $route->name(),
-          $resource->id(),
+            $route->name(),
+            $resource->id(),
         ]);
 
         return [
-          OASchema::string('self')
-            ->title('self')
-            ->example($url),
+            OASchema::string('self')
+              ->title('self')
+              ->example($url),
         ];
     }
 

@@ -21,7 +21,7 @@ class ResourceContainer
     /**
      * @param mixed $model Model class as FQN, model instance or an Schema instance
      *
-     * @return \LaravelJsonApi\Core\Resources\JsonApiResource
+     * @return JsonApiResource
      */
     public function resource($model): JsonApiResource
     {

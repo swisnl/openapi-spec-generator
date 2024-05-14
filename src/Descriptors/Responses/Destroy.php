@@ -14,8 +14,8 @@ class Destroy extends ResponseDescriptor
     public function response(): array
     {
         return [
-          $this->noContent(),
-          ...$this->defaults(),
+            $this->noContent(),
+            ...$this->defaults(),
         ];
     }
 

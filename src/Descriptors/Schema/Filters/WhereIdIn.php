@@ -26,15 +26,15 @@ class WhereIdIn extends FilterDescriptor
           ->toArray();
 
         return [
-          Parameter::query()
-            ->name("filter[{$key}]")
-            ->description($this->description())
-            ->required(false)
-            ->allowEmptyValue(false)
-            ->schema(Schema::array()->items(Schema::string())->default([]))
-            ->examples(Example::create('empty')->value([]), ...$examples)
-            ->style('form')
-            ->explode(false),
+            Parameter::query()
+              ->name("filter[{$key}]")
+              ->description($this->description())
+              ->required(false)
+              ->allowEmptyValue(false)
+              ->schema(Schema::array()->items(Schema::string())->default([]))
+              ->examples(Example::create('empty')->value([]), ...$examples)
+              ->style('form')
+              ->explode(false),
         ];
     }
 

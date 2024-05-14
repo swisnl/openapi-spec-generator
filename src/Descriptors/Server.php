@@ -8,7 +8,7 @@ use LaravelJsonApi\OpenApiSpec\Descriptors\Descriptor as BaseDescriptor;
 class Server extends BaseDescriptor
 {
     /**
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Info
+     * @return Objects\Info
      *
      * @todo Add contact
      * @todo Add TOS
@@ -32,11 +32,11 @@ class Server extends BaseDescriptor
     public function servers(): array
     {
         return [
-          Objects\Server::create()
-            ->url('{serverUrl}')
-            ->variables(Objects\ServerVariable::create('serverUrl')
-              ->default($this->generator->server()->url())
-            ),
+            Objects\Server::create()
+              ->url('{serverUrl}')
+              ->variables(Objects\ServerVariable::create('serverUrl')
+                ->default($this->generator->server()->url())
+              ),
         ];
     }
 }

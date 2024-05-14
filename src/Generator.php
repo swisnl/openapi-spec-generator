@@ -47,7 +47,7 @@ class Generator
     }
 
     /**
-     * @return \GoldSpecDigital\ObjectOrientedOAS\OpenApi
+     * @return OpenApi
      */
     public function generate(): OpenApi
     {
@@ -73,7 +73,7 @@ class Generator
     }
 
     /**
-     * @return \LaravelJsonApi\OpenApiSpec\ComponentsContainer
+     * @return ComponentsContainer
      */
     public function components(): ComponentsContainer
     {
@@ -81,7 +81,7 @@ class Generator
     }
 
     /**
-     * @return \LaravelJsonApi\OpenApiSpec\ResourceContainer
+     * @return ResourceContainer
      */
     public function resources(): ResourceContainer
     {
