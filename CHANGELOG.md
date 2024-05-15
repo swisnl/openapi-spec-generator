@@ -9,6 +9,12 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 - Nothing.
 
 
+## [0.6.1] - 2024-05-15
+
+### Added
+- Add support for Laravel JSON:API v4 and Laravel 11 [#19](https://github.com/swisnl/openapi-spec-generator/pull/19).
+
+
 ## [0.6.0] - 2023-03-29
 
 ### Added
