@@ -9,6 +9,9 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 ### Changed
 - Dropped PHP 7 support.
 
+### Fixed
+- Use filter column name instead of filter key to retrieve example data [#20](https://github.com/swisnl/openapi-spec-generator/pull/20).
+
 
 ## [0.6.1] - 2024-05-15
 
