@@ -5,18 +5,23 @@ namespace LaravelJsonApi\OpenApiSpec\Descriptors\Schema\Filters;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Example;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema as OASchema;
+use LaravelJsonApi\Contracts\Schema\Filter;
 
 class Where extends FilterDescriptor
 {
+    /**
+     * @var \LaravelJsonApi\Eloquent\Filters\Where
+     */
+    protected Filter $filter;
+
     /**
      * @todo Pay attention to isSingular
      */
     public function filter(): array
     {
-        $key = $this->filter->key();
         $examples = collect($this->generator->resources()
           ->resources($this->route->schema()::model()))
-          ->pluck($key)
+          ->pluck($this->filter->column())
           ->filter()
           ->map(function ($f) {
               if (function_exists('enum_exists') && $f instanceof \UnitEnum) {

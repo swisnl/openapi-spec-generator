@@ -5,20 +5,25 @@ namespace LaravelJsonApi\OpenApiSpec\Descriptors\Schema\Filters;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Example;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use LaravelJsonApi\Contracts\Schema\Filter;
 use LaravelJsonApi\Eloquent\Filters\WhereNotIn;
 use LaravelJsonApi\Eloquent\Filters\WherePivotNotIn;
 
 class WhereIn extends FilterDescriptor
 {
     /**
+     * @var \LaravelJsonApi\Eloquent\Filters\WhereIn
+     */
+    protected Filter $filter;
+
+    /**
      * @todo Pay attention to delimiter
      */
     public function filter(): array
     {
-        $key = $this->filter->key();
         $examples = collect($this->generator->resources()
           ->resources($this->route->schema()::model()))
-          ->pluck($key)
+          ->pluck($this->filter->column())
           ->filter()
           ->map(function ($f) {
               if (function_exists('enum_exists') && $f instanceof \UnitEnum) {
