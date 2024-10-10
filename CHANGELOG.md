@@ -6,7 +6,8 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ## [Unreleased]
 
-- Nothing.
+### Changed
+- Dropped PHP 7 support.
 
 
 ## [0.6.1] - 2024-05-15
