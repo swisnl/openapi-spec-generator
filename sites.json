@@ -1,0 +1,10 @@
+{
+    "example": {
+        "domain": "johnsmith.com",
+        "name": "Johns site"
+    },
+    "foo": {
+        "domain": "foo.bar",
+        "name": "Foo Bar"
+    }
+}
