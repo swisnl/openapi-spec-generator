@@ -45,7 +45,7 @@ class ResponseBuilder extends Builder
     public function __construct(
         Generator $generator,
         ComponentsContainer $components,
-        SchemaBuilder $schemaBuilder
+        SchemaBuilder $schemaBuilder,
     ) {
         parent::__construct($generator);
         $this->components = $components;
@@ -74,7 +74,7 @@ class ResponseBuilder extends Builder
     public static function buildResponse(
         SchemaContract $data,
         ?Schema $meta = null,
-        ?Schema $links = null
+        ?Schema $links = null,
     ): Schema {
         $jsonapi = Schema::object('jsonapi')
           ->properties(Schema::string('version')
@@ -95,8 +95,8 @@ class ResponseBuilder extends Builder
      *
      * @return \LaravelJsonApi\OpenApiSpec\Descriptors\Actions\ActionDescriptor|null
      */
-    protected function getDescriptor(Route $route
-    ): ?Responses\ResponseDescriptor {
+    protected function getDescriptor(Route $route): ?Responses\ResponseDescriptor
+    {
         $class = $this->descriptorClass($route);
         if (isset($this->descriptors[$class])) {
             return new $this->descriptors[$class](

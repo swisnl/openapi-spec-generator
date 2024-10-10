@@ -19,7 +19,7 @@ class PathsBuilder extends Builder
 
     public function __construct(
         Generator $generator,
-        ComponentsContainer $components
+        ComponentsContainer $components,
     ) {
         parent::__construct($generator);
         $this->components = $components;
@@ -36,8 +36,7 @@ class PathsBuilder extends Builder
               fn (IlluminateRoute $route) => SpecRoute::belongsTo($route,
                   $this->generator->server())
           )
-          ->map(fn (IlluminateRoute $route
-          ) => new SpecRoute($this->generator->server(), $route))
+          ->map(fn (IlluminateRoute $route) => new SpecRoute($this->generator->server(), $route))
           ->mapToGroups(function (SpecRoute $route) {
               return [$route->uri() => $route];
           })

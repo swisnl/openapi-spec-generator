@@ -56,7 +56,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
         JASchema $schema,
         string $objectId,
         string $type,
-        string $name
+        string $name,
     ): OASchema {
         $resource = $this->generator
           ->resources()
@@ -225,7 +225,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      */
     public function fetchPolymorphicRelationship(
         Route $route,
-        $objectId
+        $objectId,
     ): OASchema {
         $resource = $this->generator->resources()
           ->resource($route->schema()::model());
@@ -342,7 +342,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      */
     protected function fields(
         array $fields,
-        JsonApiResource $resource
+        JsonApiResource $resource,
     ): Collection {
         return collect($fields)
           ->mapToGroups(function (Field $field) {
@@ -376,7 +376,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      */
     protected function attributes(
         Collection $fields,
-        JsonApiResource $example
+        JsonApiResource $example,
     ): array {
         return $fields
           ->filter(fn ($field) => !($field instanceof ID))
@@ -424,7 +424,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
      */
     protected function relationships(
         Collection $relationships,
-        JsonApiResource $example
+        JsonApiResource $example,
     ): array {
         return $relationships
           ->map(function (Relation $relation) use ($example) {
@@ -444,7 +444,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     protected function relationship(
         Relation $relation,
         JsonApiResource $example,
-        bool $includeData = false
+        bool $includeData = false,
     ): OASchema {
         $fieldId = $relation->name();
 
@@ -480,7 +480,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     protected function relationshipData(
         Relation $relation,
         JsonApiResource $example,
-        string $type
+        string $type,
     ): OASchema {
         if ($relation instanceof PolymorphicRelation) {
             // @todo Add examples for each available type
@@ -521,7 +521,7 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     public function relationshipLinks(
         $relation,
         JsonApiResource $example,
-        string $type
+        string $type,
     ): OASchema {
         $name = Str::dasherize(
             Str::plural($relation->relationName())
@@ -578,8 +578,8 @@ class Schema extends Descriptor implements SchemaDescriptor, SortablesDescriptor
     /**
      * @todo Get descriptors from Attributes
      */
-    protected function getDescriptor(Eloquent\Contracts\Filter $filter
-    ): string {
+    protected function getDescriptor(Eloquent\Contracts\Filter $filter): string
+    {
         foreach ($this->filterDescriptors as $filterClass => $descriptor) {
             if ($filter instanceof $filterClass) {
                 return $descriptor;

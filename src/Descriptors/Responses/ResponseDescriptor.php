@@ -34,7 +34,7 @@ abstract class ResponseDescriptor extends Descriptor implements ResponseDescript
         Generator $generator,
         Route $route,
         SchemaBuilder $schemaBuilder,
-        Collection $defaults
+        Collection $defaults,
     ) {
         parent::__construct($generator);
         $this->route = $route;

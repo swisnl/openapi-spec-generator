@@ -28,7 +28,7 @@ abstract class RequestDescriptor extends Descriptor implements RequestDescriptor
     public function __construct(
         Generator $generator,
         Route $route,
-        SchemaBuilder $schemaBuilder
+        SchemaBuilder $schemaBuilder,
     ) {
         parent::__construct($generator);
         $this->route = $route;

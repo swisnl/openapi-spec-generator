@@ -280,7 +280,7 @@ class Route
 
     public static function belongsTo(
         IlluminateRoute $route,
-        Server $server
+        Server $server,
     ): bool {
         return Str::contains(
             $route->getName(),

@@ -32,7 +32,7 @@ abstract class ActionDescriptor implements ActionDescriptorContract
         RequestBodyBuilder $requestBodyBuilder,
         ResponseBuilder $responseBuilder,
         Generator $generator,
-        Route $route
+        Route $route,
     ) {
         $this->parameterBuilder = $parameterBuilder;
         $this->requestBodyBuilder = $requestBodyBuilder;

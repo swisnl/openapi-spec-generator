@@ -45,7 +45,7 @@ class OperationBuilder extends Builder
 
     public function __construct(
         Generator $generator,
-        ComponentsContainer $components
+        ComponentsContainer $components,
     ) {
         parent::__construct($generator);
         $this->components = $components;

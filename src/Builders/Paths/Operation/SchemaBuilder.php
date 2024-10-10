@@ -23,7 +23,7 @@ class SchemaBuilder extends Builder
      */
     public function __construct(
         Generator $generator,
-        ComponentsContainer $components
+        ComponentsContainer $components,
     ) {
         parent::__construct($generator);
         $this->components = $components;
@@ -71,7 +71,7 @@ class SchemaBuilder extends Builder
     protected function buildResponseSchema(
         Route $route,
         SchemaDescriptorContract $descriptor,
-        string $objectId
+        string $objectId,
     ): SchemaContract {
         $method = $route->action();
 
@@ -144,7 +144,7 @@ class SchemaBuilder extends Builder
     protected function buildRequestSchema(
         Route $route,
         SchemaDescriptorContract $descriptor,
-        string $objectId
+        string $objectId,
     ): SchemaContract {
         $method = $route->action();
         if ($route->isRelation()) {
@@ -185,7 +185,7 @@ class SchemaBuilder extends Builder
      */
     public static function objectId(
         Route $route,
-        bool $isRequest = false
+        bool $isRequest = false,
     ): string {
         if ($isRequest) {
             $method = $route->action();
