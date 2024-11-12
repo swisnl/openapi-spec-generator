@@ -6,6 +6,13 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ## [Unreleased]
 
+- Nothing
+
+## [0.7.0] - 2024-11-12
+
+### Added
+- Add support for doc generation for non-eloquent resources [#18](https://github.com/swisnl/openapi-spec-generator/pull/18).
+
 ### Changed
 - Dropped PHP 7 support.
 
