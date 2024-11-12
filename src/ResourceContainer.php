@@ -4,6 +4,7 @@ namespace LaravelJsonApi\OpenApiSpec;
 
 use LaravelJsonApi\Contracts\Schema\Schema;
 use LaravelJsonApi\Contracts\Server\Server;
+use LaravelJsonApi\Contracts\Store\QueriesAll;
 use LaravelJsonApi\Core\Resources\JsonApiResource;
 
 class ResourceContainer
@@ -26,7 +27,7 @@ class ResourceContainer
     public function resource($model): JsonApiResource
     {
         $fqn = $this->getFQN($model);
-        if (!isset($this->resource[$fqn])) {
+        if (!isset($this->resources[$fqn])) {
             $this->loadResources($fqn);
         }
 
@@ -77,6 +78,19 @@ class ResourceContainer
      */
     protected function loadResources(string $model)
     {
+        $schema = $this->server->schemas()->schemaForModel($model);
+        $repository = $schema->repository();
+
+        if ($repository instanceof QueriesAll) {
+            $this->resources[$model] = collect($repository->queryAll()->get())
+                ->map(function ($model) {
+                    return $this->server->resources()->create($model);
+                })
+                ->take(3);
+
+            return;
+        }
+
         if (method_exists($model, 'all')) {
             $resources = $model::all()->map(function ($model) {
                 return $this->server->resources()->create($model);
