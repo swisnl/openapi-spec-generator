@@ -19,10 +19,14 @@ class OpenApiGenerator
 
         $storageDisk = Storage::disk(config('openapi.filesystem_disk'));
 
-        $fileName = $serverKey.'_openapi.'.$format;
+        $fileName = $serverKey . '_openapi.' . $format;
 
         if ($format === 'yaml') {
-            $output = Yaml::dump($openapi->toArray());
+            $output = Yaml::dump(
+                $openapi->toArray(),
+                config('openapi.yaml.format.inline', 2),
+                config('openapi.yaml.format.indent', 4)
+            );
         } elseif ($format === 'json') {
             $output = json_encode($openapi->toArray(), JSON_PRETTY_PRINT);
         }
