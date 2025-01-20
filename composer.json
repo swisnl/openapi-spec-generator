@@ -45,7 +45,7 @@
     },
     "require-dev": {
         "ext-json": "*",
-        "laravel-json-api/laravel": "^2.0|^3.0|^4.0",
+        "laravel-json-api/laravel": "^2.0|^3.0|^4.0|^5.0",
         "laravel-json-api/non-eloquent": "^2.0|^3.0|^v4.0",
         "laravel/pint": "^1.20",
         "nesbot/carbon": "^2.63|^3.0",
