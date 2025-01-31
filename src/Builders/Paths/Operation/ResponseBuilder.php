@@ -63,13 +63,9 @@ class ResponseBuilder extends Builder
     }
 
     /**
-     * @param Schema      $data
-     * @param Schema|null $meta
-     * @param Schema|null $links
+     * @param  Schema  $data
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
-     *
-     * @return Schema
      */
     public static function buildResponse(
         SchemaContract $data,
@@ -77,22 +73,20 @@ class ResponseBuilder extends Builder
         ?Schema $links = null,
     ): Schema {
         $jsonapi = Schema::object('jsonapi')
-          ->properties(Schema::string('version')
-            ->title('version')
-            ->example('1.0')
-          );
+            ->properties(Schema::string('version')
+                ->title('version')
+                ->example('1.0')
+            );
 
         $schemas = collect([$jsonapi, $data, $meta, $links])
-          ->whereNotNull()->toArray();
+            ->whereNotNull()->toArray();
 
         return Schema::object()
-          ->properties(...$schemas)
-          ->required('jsonapi', 'data');
+            ->properties(...$schemas)
+            ->required('jsonapi', 'data');
     }
 
     /**
-     * @param Route $route
-     *
      * @return \LaravelJsonApi\OpenApiSpec\Descriptors\Actions\ActionDescriptor|null
      */
     protected function getDescriptor(Route $route): ?Responses\ResponseDescriptor
@@ -117,118 +111,118 @@ class ResponseBuilder extends Builder
     {
         $this->jsonapi = $this->components->addSchema(
             Schema::object('helper.jsonapi')
-              ->title('Helper/JSONAPI')
-              ->properties(Schema::string('version')
-                ->title('version')
-                ->example('1.0')
-              )
-              ->required('version')
+                ->title('Helper/JSONAPI')
+                ->properties(Schema::string('version')
+                    ->title('version')
+                    ->example('1.0')
+                )
+                ->required('version')
         );
 
         $errors = $this->components->addSchema(
             Schema::array('helper.errors')
-              ->title('Helper/Errors')
-              ->items(Schema::object('error')
-                ->title('Error')
-                ->properties(
-                    Schema::string('detail'),
-                    Schema::string('status'),
-                    Schema::string('title'),
-                    Schema::object('source')
-                      ->properties(Schema::string('pointer'))
+                ->title('Helper/Errors')
+                ->items(Schema::object('error')
+                    ->title('Error')
+                    ->properties(
+                        Schema::string('detail'),
+                        Schema::string('status'),
+                        Schema::string('title'),
+                        Schema::object('source')
+                            ->properties(Schema::string('pointer'))
+                    )
+                    ->required('status', 'title')
                 )
-                ->required('status', 'title')
-              )
         );
         $errorBody = Schema::object()->properties($this->jsonapi, $errors);
         $this->defaults = collect([
             Response::badRequest('400')
-              ->description('Bad request')
-              ->content(
-                  MediaType::create()
-                    ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
-                    ->schema($errorBody)
-                    ->examples(Example::create('-')->value([
-                        'jsonapi' => [
-                            'version' => '1.0',
-                        ],
-                        'errors' => [
-                            [
-                                'detail' => 'The member id is required.',
-                                'source' => ['pointer' => '/data'],
-                                'status' => '400',
-                                'title' => 'Non-Compliant JSON:API Document',
+                ->description('Bad request')
+                ->content(
+                    MediaType::create()
+                        ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
+                        ->schema($errorBody)
+                        ->examples(Example::create('-')->value([
+                            'jsonapi' => [
+                                'version' => '1.0',
                             ],
-                        ],
-                    ])
-                    )
-              ),
+                            'errors' => [
+                                [
+                                    'detail' => 'The member id is required.',
+                                    'source' => ['pointer' => '/data'],
+                                    'status' => '400',
+                                    'title' => 'Non-Compliant JSON:API Document',
+                                ],
+                            ],
+                        ])
+                        )
+                ),
             Response::unauthorized('401')
-              ->description('Unauthorized Action')
-              ->content(
-                  MediaType::create()
-                    ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
-                    ->schema($errorBody)
-                    ->examples(Example::create('-')->value([
-                        'jsonapi' => [
-                            'version' => '1.0',
-                        ],
-                        'errors' => [
-                            [
-                                'title' => 'Unauthorized.',
-                                'status' => '401',
-                                'detail' => 'Unauthenticated.',
+                ->description('Unauthorized Action')
+                ->content(
+                    MediaType::create()
+                        ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
+                        ->schema($errorBody)
+                        ->examples(Example::create('-')->value([
+                            'jsonapi' => [
+                                'version' => '1.0',
                             ],
-                        ],
-                    ])
-                    )
-              ),
+                            'errors' => [
+                                [
+                                    'title' => 'Unauthorized.',
+                                    'status' => '401',
+                                    'detail' => 'Unauthenticated.',
+                                ],
+                            ],
+                        ])
+                        )
+                ),
             Response::notFound('404')
-              ->description('Content Not Found')
-              ->content(
-                  MediaType::create()
-                    ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
-                    ->schema($errorBody)
-                    ->examples(Example::create('-')->value([
-                        'jsonapi' => [
-                            'version' => '1.0',
-                        ],
-                        'errors' => [
-                            [
-                                'title' => 'Not Found',
-                                'status' => '404',
+                ->description('Content Not Found')
+                ->content(
+                    MediaType::create()
+                        ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
+                        ->schema($errorBody)
+                        ->examples(Example::create('-')->value([
+                            'jsonapi' => [
+                                'version' => '1.0',
                             ],
-                        ],
-                    ])
-                    )
-              ),
+                            'errors' => [
+                                [
+                                    'title' => 'Not Found',
+                                    'status' => '404',
+                                ],
+                            ],
+                        ])
+                        )
+                ),
             Response::unprocessableEntity('422')
-              ->statusCode(422)
-              ->description('Unprocessable Entity')
-              ->content(
-                  MediaType::create()
-                    ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
-                    ->schema($errorBody)
-                    ->examples(Example::create('-')->value([
-                        'jsonapi' => [
-                            'version' => '1.0',
-                        ],
-                        'errors' => [
-                            [
-                                'detail' => 'Lorem Ipsum',
-                                'source' => ['pointer' => '/data/attributes/lorem'],
-                                'title' => 'Unprocessable Entity',
-                                'status' => '422',
+                ->statusCode(422)
+                ->description('Unprocessable Entity')
+                ->content(
+                    MediaType::create()
+                        ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
+                        ->schema($errorBody)
+                        ->examples(Example::create('-')->value([
+                            'jsonapi' => [
+                                'version' => '1.0',
                             ],
-                        ],
-                    ])
-                    )
-              ),
+                            'errors' => [
+                                [
+                                    'detail' => 'Lorem Ipsum',
+                                    'source' => ['pointer' => '/data/attributes/lorem'],
+                                    'title' => 'Unprocessable Entity',
+                                    'status' => '422',
+                                ],
+                            ],
+                        ])
+                        )
+                ),
         ])
-          ->mapWithKeys(function (Response $response) {
-              $ref = $this->components->addResponse($response);
+            ->mapWithKeys(function (Response $response) {
+                $ref = $this->components->addResponse($response);
 
-              return [$response->objectId => $ref];
-          });
+                return [$response->objectId => $ref];
+            });
     }
 }

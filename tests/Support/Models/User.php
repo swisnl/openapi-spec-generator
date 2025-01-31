@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -24,9 +25,9 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\UserFactory;
 
 class User extends Authenticatable
 {
+    use Concerns\HashRouteKey;
     use HasFactory;
     use Notifiable;
-    use Concerns\HashRouteKey;
 
     /**
      * The attributes that are mass assignable.
@@ -55,12 +56,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * @return bool
-     */
     public function isAdmin(): bool
     {
-        return 'support@example.com' === $this->email;
+        return $this->email === 'support@example.com';
     }
 
     /**
@@ -70,6 +68,6 @@ class User extends Authenticatable
      */
     protected static function newFactory()
     {
-        return new UserFactory();
+        return new UserFactory;
     }
 }

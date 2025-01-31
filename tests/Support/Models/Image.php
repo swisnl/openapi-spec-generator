@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -67,6 +68,6 @@ class Image extends Model
      */
     protected static function newFactory()
     {
-        return new ImageFactory();
+        return new ImageFactory;
     }
 }

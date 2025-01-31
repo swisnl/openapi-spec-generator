@@ -58,21 +58,11 @@ class OperationBuilder extends Builder
             $this->schemaBuilder);
     }
 
-    /**
-     * @param SpecRoute $route
-     *
-     * @return Operation|null
-     */
     public function build(SpecRoute $route): ?Operation
     {
         return $this->getDescriptor($route) !== null ? $this->getDescriptor($route)->action() : null;
     }
 
-    /**
-     * @param SpecRoute $route
-     *
-     * @return Descriptors\Actions\ActionDescriptor|null
-     */
     protected function getDescriptor(Route $route): ?Descriptors\Actions\ActionDescriptor
     {
         $class = $this->descriptorClass($route);

@@ -8,8 +8,6 @@ use LaravelJsonApi\OpenApiSpec\Route;
 interface SortablesDescriptor extends Descriptor
 {
     /**
-     * @param Route $route
-     *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter[]
      */
     public function sortables(Route $route): array;

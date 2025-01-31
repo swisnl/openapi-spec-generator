@@ -20,20 +20,18 @@ class ResourceContainer
     }
 
     /**
-     * @param mixed $model Model class as FQN, model instance or an Schema instance
-     *
-     * @return JsonApiResource
+     * @param  mixed  $model  Model class as FQN, model instance or an Schema instance
      */
     public function resource($model): JsonApiResource
     {
         $fqn = $this->getFQN($model);
-        if (!isset($this->resources[$fqn])) {
+        if (! isset($this->resources[$fqn])) {
             $this->loadResources($fqn);
         }
 
         $resource = $this->resources[$fqn]->first();
 
-        if (!$resource) {
+        if (! $resource) {
             throw new \RuntimeException(sprintf('No resource found for model [%s], make sure your database is seeded!', $fqn));
         }
 
@@ -41,14 +39,13 @@ class ResourceContainer
     }
 
     /**
-     * @param mixed $model
-     *
+     * @param  mixed  $model
      * @return JsonApiResource[]
      */
     public function resources($model): array
     {
         $fqn = $this->getFQN($model);
-        if (!isset($this->resource[$fqn])) {
+        if (! isset($this->resource[$fqn])) {
             $this->loadResources($fqn);
         }
 
@@ -73,9 +70,6 @@ class ResourceContainer
         return $fqn;
     }
 
-    /**
-     * @param string $model
-     */
     protected function loadResources(string $model)
     {
         $schema = $this->server->schemas()->schemaForModel($model);

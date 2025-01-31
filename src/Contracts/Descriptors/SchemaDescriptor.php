@@ -2,6 +2,4 @@
 
 namespace LaravelJsonApi\OpenApiSpec\Contracts\Descriptors;
 
-interface SchemaDescriptor extends Descriptor
-{
-}
+interface SchemaDescriptor extends Descriptor {}

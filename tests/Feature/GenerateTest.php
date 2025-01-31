@@ -20,7 +20,7 @@ class GenerateTest extends TestCase
         $this->seed(DatabaseSeeder::class);
     }
 
-    public function testSpecIsYaml()
+    public function test_spec_is_yaml()
     {
         $openapiYaml = GeneratorFacade::generate('v1', 'yaml');
 
@@ -29,7 +29,7 @@ class GenerateTest extends TestCase
         $this->assertEquals('My JSON:API', $spec['info']['title']);
     }
 
-    public function testSpecIsJson()
+    public function test_spec_is_json()
     {
         $output = GeneratorFacade::generate('v1', 'json');
 
@@ -38,7 +38,7 @@ class GenerateTest extends TestCase
         $this->assertEquals('My JSON:API', $spec['info']['title']);
     }
 
-    public function testSpecFileGenerated()
+    public function test_spec_file_generated()
     {
         GeneratorFacade::generate('v1');
 
@@ -49,7 +49,7 @@ class GenerateTest extends TestCase
         $this->assertEquals('My JSON:API', $spec['info']['title']);
     }
 
-    public function testUrlIsProperlyParsed()
+    public function test_url_is_properly_parsed()
     {
         GeneratorFacade::generate('v1');
 

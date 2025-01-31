@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -31,8 +32,6 @@ class ImageSchema extends Schema
 {
     /**
      * The model the schema corresponds to.
-     *
-     * @var string
      */
     public static string $model = Image::class;
 

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -26,8 +27,6 @@ class MediaCollectionQuery extends ResourceQuery
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {

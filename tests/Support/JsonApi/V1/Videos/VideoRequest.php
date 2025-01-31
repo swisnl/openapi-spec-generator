@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -24,9 +25,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class VideoRequest extends ResourceRequest
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

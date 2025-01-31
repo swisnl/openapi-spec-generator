@@ -39,16 +39,16 @@ abstract class RequestDescriptor extends Descriptor implements RequestDescriptor
     public function request(): RequestBody
     {
         return RequestBody::create()
-          ->content(
-              MediaType::create()
-                ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
-                ->schema(
-                    Schema::object()->properties(
-                        $this->schemaBuilder->build($this->route, true)
-                          ->objectId('data')
+            ->content(
+                MediaType::create()
+                    ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
+                    ->schema(
+                        Schema::object()->properties(
+                            $this->schemaBuilder->build($this->route, true)
+                                ->objectId('data')
+                        )
+                            ->required('data')
                     )
-                      ->required('data')
-                )
-          );
+            );
     }
 }

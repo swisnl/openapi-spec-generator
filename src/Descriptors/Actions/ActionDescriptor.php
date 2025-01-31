@@ -65,33 +65,27 @@ abstract class ActionDescriptor implements ActionDescriptorContract
         }
 
         return $operation
-          ->operationId($this->route->id())
-          ->responses(...$this->responses())
-          ->parameters(...$this->parameters())
-          ->requestBody($this->requestBody())
-          ->description($this->description())
-          ->summary($this->summary())
-          ->tags(...$this->tags());
+            ->operationId($this->route->id())
+            ->responses(...$this->responses())
+            ->parameters(...$this->parameters())
+            ->requestBody($this->requestBody())
+            ->description($this->description())
+            ->summary($this->summary())
+            ->tags(...$this->tags());
     }
 
-    /**
-     * @return string
-     */
     protected function description(): string
     {
         /** @var DescribesEndpoints $schema */
         $schema = $this->route->schema();
 
-        if (!$schema instanceof DescribesEndpoints) {
+        if (! $schema instanceof DescribesEndpoints) {
             return '';
         }
 
         return $schema->describeEndpoint($this->route->route()->getName());
     }
 
-    /**
-     * @return string
-     */
     protected function summary(): string
     {
         return '';
@@ -121,9 +115,6 @@ abstract class ActionDescriptor implements ActionDescriptorContract
         return $this->responseBuilder->build($this->route);
     }
 
-    /**
-     * @return RequestBody|null
-     */
     protected function requestBody(): ?RequestBody
     {
         return $this->requestBodyBuilder->build($this->route);

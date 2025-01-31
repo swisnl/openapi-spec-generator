@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -62,17 +63,11 @@ class Video extends Model
         });
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return MorphToMany
-     */
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable');
@@ -85,6 +80,6 @@ class Video extends Model
      */
     protected static function newFactory()
     {
-        return new VideoFactory();
+        return new VideoFactory;
     }
 }

@@ -20,13 +20,13 @@ trait ResolvesActionTraitToDescriptor
                 $reflection = $methodReflection->getDeclaringClass();
             }
             $traitMethod = collect($reflection->getTraits())
-              ->map(function (\ReflectionClass $trait) {
-                  return $trait->getMethods();
-              })
-              ->flatten()
-              ->mapWithKeys(
-                  fn (\ReflectionMethod $method) => [$method->name => $method])
-              ->get($method);
+                ->map(function (\ReflectionClass $trait) {
+                    return $trait->getMethods();
+                })
+                ->flatten()
+                ->mapWithKeys(
+                    fn (\ReflectionMethod $method) => [$method->name => $method])
+                ->get($method);
         } catch (\ReflectionException $exception) {
             return null;
         }

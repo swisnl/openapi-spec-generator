@@ -8,8 +8,6 @@ use LaravelJsonApi\OpenApiSpec\Descriptors\Descriptor as BaseDescriptor;
 class Server extends BaseDescriptor
 {
     /**
-     * @return Objects\Info
-     *
      * @todo Add contact
      * @todo Add TOS
      * @todo Add License
@@ -17,9 +15,9 @@ class Server extends BaseDescriptor
     public function info(): Objects\Info
     {
         return Objects\Info::create()
-          ->title(config("openapi.servers.{$this->generator->key()}.info.title"))
-          ->description(config("openapi.servers.{$this->generator->key()}.info.description"))
-          ->version(config("openapi.servers.{$this->generator->key()}.info.version"));
+            ->title(config("openapi.servers.{$this->generator->key()}.info.title"))
+            ->description(config("openapi.servers.{$this->generator->key()}.info.description"))
+            ->version(config("openapi.servers.{$this->generator->key()}.info.version"));
     }
 
     /**
@@ -33,10 +31,10 @@ class Server extends BaseDescriptor
     {
         return [
             Objects\Server::create()
-              ->url('{serverUrl}')
-              ->variables(Objects\ServerVariable::create('serverUrl')
-                ->default($this->generator->server()->url())
-              ),
+                ->url('{serverUrl}')
+                ->variables(Objects\ServerVariable::create('serverUrl')
+                    ->default($this->generator->server()->url())
+                ),
         ];
     }
 }

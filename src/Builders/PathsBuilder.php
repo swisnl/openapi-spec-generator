@@ -32,30 +32,30 @@ class PathsBuilder extends Builder
     public function build(): array
     {
         return collect(Route::getRoutes()->getRoutes())
-          ->filter(
-              fn (IlluminateRoute $route) => SpecRoute::belongsTo($route,
-                  $this->generator->server())
-          )
-          ->map(fn (IlluminateRoute $route) => new SpecRoute($this->generator->server(), $route))
-          ->mapToGroups(function (SpecRoute $route) {
-              return [$route->uri() => $route];
-          })
-          ->map(function (Collection $routes, string $uri) {
-              $operations = $routes
-                ->map(function (SpecRoute $route) {
-                    return $this->operation->build($route);
-                })
-                ->filter(fn ($val) => $val !== null);
+            ->filter(
+                fn (IlluminateRoute $route) => SpecRoute::belongsTo($route,
+                    $this->generator->server())
+            )
+            ->map(fn (IlluminateRoute $route) => new SpecRoute($this->generator->server(), $route))
+            ->mapToGroups(function (SpecRoute $route) {
+                return [$route->uri() => $route];
+            })
+            ->map(function (Collection $routes, string $uri) {
+                $operations = $routes
+                    ->map(function (SpecRoute $route) {
+                        return $this->operation->build($route);
+                    })
+                    ->filter(fn ($val) => $val !== null);
 
-              if ($operations->isEmpty()) {
-                  return null;
-              }
+                if ($operations->isEmpty()) {
+                    return null;
+                }
 
-              return PathItem::create()
-                ->route($uri)
-                ->operations(...$operations->toArray());
-          })
-          ->filter(fn ($val) => $val !== null)
-          ->toArray();
+                return PathItem::create()
+                    ->route($uri)
+                    ->operations(...$operations->toArray());
+            })
+            ->filter(fn ($val) => $val !== null)
+            ->toArray();
     }
 }

@@ -54,13 +54,13 @@ abstract class ResponseDescriptor extends Descriptor implements ResponseDescript
     protected function ok(): Response
     {
         return Response::ok()
-          ->description($this->description())
-          ->content(
-              MediaType::create()
-                ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
-                ->schema(ResponseBuilder::buildResponse($this->data(),
-                    $this->meta(), $this->links()))
-          );
+            ->description($this->description())
+            ->content(
+                MediaType::create()
+                    ->mediaType(MediaTypeInterface::JSON_API_MEDIA_TYPE)
+                    ->schema(ResponseBuilder::buildResponse($this->data(),
+                        $this->meta(), $this->links()))
+            );
     }
 
     protected function noContent(): Response
@@ -71,19 +71,16 @@ abstract class ResponseDescriptor extends Descriptor implements ResponseDescript
     protected function defaults(): array
     {
         $except = [];
-        if (!$this->hasId) {
+        if (! $this->hasId) {
             $except[] = '404';
         }
-        if (!$this->validates) {
+        if (! $this->validates) {
             $except[] = '422';
         }
 
         return $this->defaults->except($except)->toArray();
     }
 
-    /**
-     * @return string
-     */
     protected function description(): string
     {
         return ucfirst($this->route->action()).' '.$this->route->name();

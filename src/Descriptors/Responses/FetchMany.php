@@ -25,6 +25,6 @@ class FetchMany extends ResponseDescriptor
     protected function data(): Schema
     {
         return Schema::array('data')
-          ->items($this->schemaBuilder->build($this->route));
+            ->items($this->schemaBuilder->build($this->route));
     }
 }

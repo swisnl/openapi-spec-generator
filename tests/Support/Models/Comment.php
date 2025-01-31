@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -26,25 +27,19 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\CommentFactory;
 
 class Comment extends Model
 {
-    use HasFactory;
     use Concerns\HashRouteKey;
+    use HasFactory;
 
     /**
      * @var string[]
      */
     protected $fillable = ['content'];
 
-    /**
-     * @return BelongsTo
-     */
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -57,6 +52,6 @@ class Comment extends Model
      */
     protected static function newFactory()
     {
-        return new CommentFactory();
+        return new CommentFactory;
     }
 }

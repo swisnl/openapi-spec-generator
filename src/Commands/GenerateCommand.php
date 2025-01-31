@@ -40,14 +40,14 @@ class GenerateCommand extends Command
             $this->error('Validation failed');
             $this->line('Errors:');
             collect($exception->getErrors())
-              ->map(function ($val) {
-                  return collect($val)->map(function ($val, $key) {
-                      return sprintf('%s: %s', ucfirst($key), $val);
-                  })->join("\n");
-              })->each(function ($string) {
-                  $this->line($string);
-                  $this->line("\n");
-              });
+                ->map(function ($val) {
+                    return collect($val)->map(function ($val, $key) {
+                        return sprintf('%s: %s', ucfirst($key), $val);
+                    })->join("\n");
+                })->each(function ($string) {
+                    $this->line($string);
+                    $this->line("\n");
+                });
 
             return 1;
         }

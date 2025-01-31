@@ -11,7 +11,7 @@ use LaravelJsonApi\NonEloquent\AbstractRepository;
 use LaravelJsonApi\NonEloquent\Concerns\HasCrudCapability;
 use LaravelJsonApi\OpenApiSpec\Tests\Support\Entities\SiteStorage;
 
-class SiteRepository extends AbstractRepository implements QueriesAll, CreatesResources, UpdatesResources, DeletesResources
+class SiteRepository extends AbstractRepository implements CreatesResources, DeletesResources, QueriesAll, UpdatesResources
 {
     use HasCrudCapability;
 

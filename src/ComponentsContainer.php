@@ -22,8 +22,7 @@ class ComponentsContainer
     protected array $responses = [];
 
     /**
-     * @param Schema $schema
-     *
+     * @param  Schema  $schema
      * @return Schema
      */
     public function addSchema(SchemaContract $schema): SchemaContract
@@ -33,11 +32,6 @@ class ComponentsContainer
         return $this->ref($schema);
     }
 
-    /**
-     * @param string $objectId
-     *
-     * @return Schema|null
-     */
     public function getSchema(string $objectId): ?Schema
     {
         return isset($this->schemas[$objectId]) ? $this->ref($this->schemas[$objectId]) : null;
@@ -80,25 +74,20 @@ class ComponentsContainer
         return $this->responses[$objectId] ?? null;
     }
 
-    /**
-     * @return Components
-     */
     public function components(): Components
     {
         $schemas = collect($this->schemas)
-          ->sortBy(fn (BaseObject $schema) => $schema->objectId)
-          ->toArray();
+            ->sortBy(fn (BaseObject $schema) => $schema->objectId)
+            ->toArray();
 
         return Components::create()
-          ->responses(...$this->responses)
-          ->parameters(...$this->parameters)
-          ->requestBodies(...$this->requestBodies)
-          ->schemas(...array_values($schemas));
+            ->responses(...$this->responses)
+            ->parameters(...$this->parameters)
+            ->requestBodies(...$this->requestBodies)
+            ->schemas(...array_values($schemas));
     }
 
     /**
-     * @param BaseObject $object
-     *
      * @return mixed
      */
     protected function ref(BaseObject $object): BaseObject
