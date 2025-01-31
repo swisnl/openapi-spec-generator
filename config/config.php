@@ -23,4 +23,15 @@ return [
      * Set it to `null` to use your default disk.
      */
     'filesystem_disk' => env('OPEN_API_SPEC_GENERATOR_FILESYSTEM_DISK', null),
+
+    /*
+     * Dump option for the yaml output file, see https://symfony.com/doc/current/components/yaml.html#expanded-and-inlined-arrays
+     * If you want the yaml output to be fully expanded, set inline to a high value like 1000
+     */
+    'yaml' => [
+        'format' => [
+            'inline' => 2,
+            'indent' => 4
+        ]
+    ]
 ];
