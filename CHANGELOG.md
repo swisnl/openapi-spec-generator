@@ -8,6 +8,14 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 - Nothing
 
+## [0.8.0] - 2025-01-31
+
+### Added
+- Add support for Laravel JSON:API v5 [#24](https://github.com/swisnl/openapi-spec-generator/pull/24)
+
+### Changed
+- Dropped PHP 8.0 support.
+
 ## [0.7.0] - 2024-11-12
 
 ### Added
