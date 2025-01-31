@@ -2,6 +2,4 @@
 
 namespace LaravelJsonApi\OpenApiSpec\Descriptors\Requests;
 
-class UpdateRelationship extends RequestDescriptor
-{
-}
+class UpdateRelationship extends RequestDescriptor {}

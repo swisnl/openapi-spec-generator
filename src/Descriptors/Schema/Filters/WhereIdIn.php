@@ -17,24 +17,24 @@ class WhereIdIn extends FilterDescriptor
     {
         $key = $this->filter->key();
         $examples = collect($this->generator->resources()
-          ->resources($this->route->schema()::model()))
-          ->map(function (JsonApiResource $resource) {
-              $id = $resource->id();
+            ->resources($this->route->schema()::model()))
+            ->map(function (JsonApiResource $resource) {
+                $id = $resource->id();
 
-              return Example::create($id)->value([$id]);
-          })
-          ->toArray();
+                return Example::create($id)->value([$id]);
+            })
+            ->toArray();
 
         return [
             Parameter::query()
-              ->name("filter[{$key}]")
-              ->description($this->description())
-              ->required(false)
-              ->allowEmptyValue(false)
-              ->schema(Schema::array()->items(Schema::string())->default([]))
-              ->examples(Example::create('empty')->value([]), ...$examples)
-              ->style('form')
-              ->explode(false),
+                ->name("filter[{$key}]")
+                ->description($this->description())
+                ->required(false)
+                ->allowEmptyValue(false)
+                ->schema(Schema::array()->items(Schema::string())->default([]))
+                ->examples(Example::create('empty')->value([]), ...$examples)
+                ->style('form')
+                ->explode(false),
         ];
     }
 

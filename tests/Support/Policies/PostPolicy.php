@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -26,22 +27,11 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\User;
 
 class PostPolicy
 {
-    /**
-     * @param User|null $user
-     *
-     * @return bool
-     */
     public function viewAny(?User $user): bool
     {
         return true;
     }
 
-    /**
-     * @param User|null $user
-     * @param Post      $post
-     *
-     * @return bool
-     */
     public function view(?User $user, Post $post): bool
     {
         if ($post->published_at) {
@@ -51,90 +41,41 @@ class PostPolicy
         return $this->author($user, $post);
     }
 
-    /**
-     * @param User|null $user
-     * @param Post      $post
-     *
-     * @return bool
-     */
     public function viewAuthor(?User $user, Post $post): bool
     {
         return $this->view($user, $post);
     }
 
-    /**
-     * @param User|null $user
-     * @param Post      $post
-     *
-     * @return bool
-     */
     public function viewComments(?User $user, Post $post): bool
     {
         return $this->view($user, $post);
     }
 
-    /**
-     * @param User|null $user
-     * @param Post      $post
-     *
-     * @return bool
-     */
     public function viewMedia(?User $user, Post $post): bool
     {
         return $this->view($user, $post);
     }
 
-    /**
-     * @param User|null $user
-     * @param Post      $post
-     *
-     * @return bool
-     */
     public function viewTags(?User $user, Post $post): bool
     {
         return $this->view($user, $post);
     }
 
-    /**
-     * @param User|null $user
-     *
-     * @return bool
-     */
     public function create(?User $user): bool
     {
         return (bool) $user;
     }
 
-    /**
-     * @param User|null $user
-     * @param Post      $post
-     *
-     * @return bool
-     */
     public function update(?User $user, Post $post): bool
     {
         return $this->author($user, $post);
     }
 
-    /**
-     * @param User|null    $user
-     * @param Post         $post
-     * @param LazyRelation $tags
-     *
-     * @return bool
-     */
     public function updateMedia(?User $user, Post $post, LazyRelation $tags): bool
     {
         return $this->author($user, $post);
     }
 
-    /**
-     * @param User|null    $user
-     * @param Post         $post
-     * @param LazyRelation $tags
-     *
-     * @return bool
-     */
     public function updateTags(?User $user, Post $post, LazyRelation $tags): bool
     {
         $tags->collect()->each(fn (Tag $tag) => $tag);
@@ -142,81 +83,36 @@ class PostPolicy
         return $this->author($user, $post);
     }
 
-    /**
-     * @param User|null    $user
-     * @param Post         $post
-     * @param LazyRelation $tags
-     *
-     * @return bool
-     */
     public function attachMedia(?User $user, Post $post, LazyRelation $tags): bool
     {
         return $this->author($user, $post);
     }
 
-    /**
-     * @param User|null    $user
-     * @param Post         $post
-     * @param LazyRelation $tags
-     *
-     * @return bool
-     */
     public function attachTags(?User $user, Post $post, LazyRelation $tags): bool
     {
         return $this->updateTags($user, $post, $tags);
     }
 
-    /**
-     * @param User|null    $user
-     * @param Post         $post
-     * @param LazyRelation $tags
-     *
-     * @return bool
-     */
     public function detachMedia(?User $user, Post $post, LazyRelation $tags): bool
     {
         return $this->author($user, $post);
     }
 
-    /**
-     * @param User|null    $user
-     * @param Post         $post
-     * @param LazyRelation $tags
-     *
-     * @return bool
-     */
     public function detachTags(?User $user, Post $post, LazyRelation $tags): bool
     {
         return $this->updateTags($user, $post, $tags);
     }
 
-    /**
-     * @param User|null $user
-     * @param Post      $post
-     *
-     * @return bool
-     */
     public function delete(?User $user, Post $post): bool
     {
         return $this->author($user, $post);
     }
 
-    /**
-     * @param User|null $user
-     *
-     * @return bool
-     */
     public function deleteAll(?User $user): bool
     {
         return $user && $user->isAdmin();
     }
 
-    /**
-     * @param User|null $user
-     * @param Post      $post
-     *
-     * @return bool
-     */
     public function author(?User $user, Post $post): bool
     {
         return $user && $post->author->is($user);

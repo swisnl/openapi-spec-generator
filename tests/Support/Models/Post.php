@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -29,9 +30,9 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\PostFactory;
 
 class Post extends Model
 {
+    use Concerns\HashRouteKey;
     use HasFactory;
     use SoftDeletes;
-    use Concerns\HashRouteKey;
 
     /**
      * @var string[]
@@ -51,52 +52,31 @@ class Post extends Model
         'published_at' => 'datetime',
     ];
 
-    /**
-     * @return BelongsTo
-     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return HasMany
-     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function images(): BelongsToMany
     {
         return $this->belongsToMany(Image::class);
     }
 
-    /**
-     * @return MorphToMany
-     */
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function videos(): BelongsToMany
     {
         return $this->belongsToMany(Video::class);
     }
 
-    /**
-     * @param Builder $query
-     * @param bool    $published
-     *
-     * @return Builder
-     */
     public function scopeWherePublished(Builder $query, bool $published): Builder
     {
         $column = $this->qualifyColumn('published_at');
@@ -115,6 +95,6 @@ class Post extends Model
      */
     protected static function newFactory()
     {
-        return new PostFactory();
+        return new PostFactory;
     }
 }

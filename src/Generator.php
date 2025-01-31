@@ -27,8 +27,6 @@ class Generator
 
     /**
      * Generator constructor.
-     *
-     * @param $key
      */
     public function __construct($key)
     {
@@ -41,27 +39,21 @@ class Generator
 
         $this->infoBuilder = new InfoBuilder($this);
         $this->serverBuilder = new ServerBuilder($this);
-        $this->components = new ComponentsContainer();
+        $this->components = new ComponentsContainer;
         $this->resources = new ResourceContainer($this->server);
         $this->pathsBuilder = new PathsBuilder($this, $this->components);
     }
 
-    /**
-     * @return OpenApi
-     */
     public function generate(): OpenApi
     {
         return OpenApi::create()
-          ->openapi(OpenApi::OPENAPI_3_0_2)
-          ->info($this->infoBuilder->build())
-          ->servers(...$this->serverBuilder->build())
-          ->paths(...array_values($this->pathsBuilder->build()))
-          ->components($this->components()->components());
+            ->openapi(OpenApi::OPENAPI_3_0_2)
+            ->info($this->infoBuilder->build())
+            ->servers(...$this->serverBuilder->build())
+            ->paths(...array_values($this->pathsBuilder->build()))
+            ->components($this->components()->components());
     }
 
-    /**
-     * @return string
-     */
     public function key(): string
     {
         return $this->key;
@@ -72,17 +64,11 @@ class Generator
         return $this->server;
     }
 
-    /**
-     * @return ComponentsContainer
-     */
     public function components(): ComponentsContainer
     {
         return $this->components;
     }
 
-    /**
-     * @return ResourceContainer
-     */
     public function resources(): ResourceContainer
     {
         return $this->resources;

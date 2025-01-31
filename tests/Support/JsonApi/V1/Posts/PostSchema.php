@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -44,15 +45,11 @@ class PostSchema extends Schema implements DescribesEndpoints
 
     /**
      * The model the schema corresponds to.
-     *
-     * @var string
      */
     public static string $model = Post::class;
 
     /**
      * The maximum depth of include paths.
-     *
-     * @var int
      */
     protected int $maxDepth = 3;
 

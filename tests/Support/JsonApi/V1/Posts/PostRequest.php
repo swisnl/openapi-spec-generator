@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -26,9 +27,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class PostRequest extends ResourceRequest
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         $unique = Rule::unique('posts');
@@ -48,9 +46,6 @@ class PostRequest extends ResourceRequest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function deleteRules(): array
     {
         return [
@@ -58,9 +53,6 @@ class PostRequest extends ResourceRequest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function deleteMessages(): array
     {
         return [
@@ -68,11 +60,6 @@ class PostRequest extends ResourceRequest
         ];
     }
 
-    /**
-     * @param Post $post
-     *
-     * @return array
-     */
     public function metaForDelete(Post $post): array
     {
         return [

@@ -8,6 +8,7 @@ use LaravelJsonApi\Eloquent\Fields\Relations\ToMany;
 class AttachRelationship extends ResponseDescriptor
 {
     protected bool $hasId = true;
+
     protected bool $validates = true;
 
     /**
@@ -30,7 +31,7 @@ class AttachRelationship extends ResponseDescriptor
     {
         if ($this->route->relation() instanceof ToMany) {
             return Schema::array('data')
-              ->items($this->schemaBuilder->build($this->route));
+                ->items($this->schemaBuilder->build($this->route));
         }
 
         return $this->schemaBuilder->build($this->route)->objectId('data');

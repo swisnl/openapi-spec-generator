@@ -20,27 +20,27 @@ class Where extends FilterDescriptor
     public function filter(): array
     {
         $examples = collect($this->generator->resources()
-          ->resources($this->route->schema()::model()))
-          ->pluck($this->filter->column())
-          ->filter()
-          ->map(function ($f) {
-              if (function_exists('enum_exists') && $f instanceof \UnitEnum) {
-                  $f = $f instanceof \BackedEnum ? $f->value : $f->name;
-              }
+            ->resources($this->route->schema()::model()))
+            ->pluck($this->filter->column())
+            ->filter()
+            ->map(function ($f) {
+                if (function_exists('enum_exists') && $f instanceof \UnitEnum) {
+                    $f = $f instanceof \BackedEnum ? $f->value : $f->name;
+                }
 
-              // @todo Watch out for ids?
-              return Example::create($f)->value($f);
-          })
-          ->toArray();
+                // @todo Watch out for ids?
+                return Example::create($f)->value($f);
+            })
+            ->toArray();
 
         return [
             Parameter::query()
-              ->name("filter[{$this->filter->key()}]")
-              ->description($this->description())
-              ->required(false)
-              ->allowEmptyValue(false)
-              ->schema(OASchema::string()->default(''))
-              ->examples(...$examples),
+                ->name("filter[{$this->filter->key()}]")
+                ->description($this->description())
+                ->required(false)
+                ->allowEmptyValue(false)
+                ->schema(OASchema::string()->default(''))
+                ->examples(...$examples),
         ];
     }
 

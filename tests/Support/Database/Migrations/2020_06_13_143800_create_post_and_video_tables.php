@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -23,8 +24,6 @@ class CreatePostAndVideoTables extends Migration
 {
     /**
      * Run the migration.
-     *
-     * @return void
      */
     public function up(): void
     {
@@ -157,8 +156,6 @@ class CreatePostAndVideoTables extends Migration
 
     /**
      * Reverse the migration.
-     *
-     * @return void
      */
     public function down(): void
     {

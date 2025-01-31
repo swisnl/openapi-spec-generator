@@ -23,7 +23,7 @@ class SiteStorage
 
     public function find(string $slug): ?Site
     {
-        if (!isset($this->sites[$slug])) {
+        if (! isset($this->sites[$slug])) {
             return null;
         }
 

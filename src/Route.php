@@ -33,8 +33,6 @@ class Route
     /**
      * The last part of the route name. For the 'showRelated' method, the name
      * is manually added.
-     *
-     * @var string
      */
     protected string $action;
 
@@ -43,21 +41,12 @@ class Route
      */
     protected string $operationId;
 
-    /**
-     * @var string
-     */
     protected string $uri;
 
-    /**
-     * @var string|null
-     */
     protected ?string $relation = null;
 
     /**
      * Route constructor.
-     *
-     * @param Server          $server
-     * @param IlluminateRoute $route
      */
     public function __construct(Server $server, IlluminateRoute $route)
     {
@@ -106,21 +95,15 @@ class Route
     public function method(): string
     {
         return collect($this->route->methods())
-          ->filter(fn ($method) => $method !== 'HEAD')
-          ->first();
+            ->filter(fn ($method) => $method !== 'HEAD')
+            ->first();
     }
 
-    /**
-     * @return Schema
-     */
     public function schema(): Schema
     {
         return $this->schema;
     }
 
-    /**
-     * @return IlluminateRoute
-     */
     public function route(): IlluminateRoute
     {
         return $this->route;
@@ -134,72 +117,48 @@ class Route
         return [$this->controller, $this->method];
     }
 
-    /**
-     * @return string
-     */
     public function id(): string
     {
         return $this->operationId;
     }
 
-    /**
-     * @return string
-     */
     public function uri(): string
     {
         return $this->uri;
     }
 
-    /**
-     * @return string|null
-     */
     public function relationName(): ?string
     {
         return $this->relation;
     }
 
-    /**
-     * @return Relation|null
-     */
     public function relation(): ?Relation
     {
         $relation = $this->relation ? $this->schema()
-          ->relationship($this->relation) : null;
+            ->relationship($this->relation) : null;
 
-        if ($relation !== null && !($relation instanceof Relation)) {
+        if ($relation !== null && ! ($relation instanceof Relation)) {
             throw new \RuntimeException('Unexpected Type');
         }
 
         return $relation;
     }
 
-    /**
-     * @return bool
-     */
     public function isRelation(): bool
     {
         return $this->relation !== null;
     }
 
-    /**
-     * @return bool
-     */
     public function isPolymorphic(): bool
     {
         return $this->relation() instanceof PolymorphicRelation;
     }
 
-    /**
-     * @return string|null
-     */
     public function invers(): ?string
     {
         return $this->relation() !== null ? $this->relation()->inverse() : null;
     }
 
-    /**
-     * @return Schema|null
-     */
     public function inversSchema(): ?Schema
     {
         if ($this->isRelation()) {
@@ -208,7 +167,7 @@ class Route
             }
 
             return $this->server->schemas()
-              ->schemaFor($this->relation() !== null ? $this->relation()->inverse() : null);
+                ->schemaFor($this->relation() !== null ? $this->relation()->inverse() : null);
         }
 
         return null;
@@ -225,22 +184,17 @@ class Route
             if ($relation instanceof PolymorphicRelation) {
                 foreach ($relation->inverseTypes() as $type) {
                     $schemas[$type] = $this->server->schemas()
-                      ->schemaFor($type);
+                        ->schemaFor($type);
                 }
             } else {
                 $schemas[$relation->inverse()] = $this->server->schemas()
-                  ->schemaFor($relation->inverse());
+                    ->schemaFor($relation->inverse());
             }
         }
 
         return $schemas;
     }
 
-    /**
-     * @param bool $singular
-     *
-     * @return string|null
-     */
     public function inverseName(bool $singular = false): ?string
     {
         $relation = $this->relation() !== null ? $this->relation()->inverse() : null;
@@ -252,9 +206,7 @@ class Route
     }
 
     /**
-     * @param false $singular
-     *
-     * @return string
+     * @param  false  $singular
      */
     public function name(bool $singular = false): string
     {
@@ -270,9 +222,6 @@ class Route
         return $this->resource;
     }
 
-    /**
-     * @return string
-     */
     public function action(): string
     {
         return $this->action;

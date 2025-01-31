@@ -39,8 +39,6 @@ class RequestBodyBuilder extends Builder
     }
 
     /**
-     * @param Route $route
-     *
      * @return Descriptors\Actions\ActionDescriptor|null
      */
     protected function getDescriptor(Route $route): ?RequestDescriptor

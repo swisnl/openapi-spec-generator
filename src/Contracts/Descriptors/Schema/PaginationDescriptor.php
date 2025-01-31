@@ -8,8 +8,6 @@ use LaravelJsonApi\OpenApiSpec\Route;
 interface PaginationDescriptor extends Descriptor
 {
     /**
-     * @param Route $route
-     *
      * @return mixed
      */
     public function pagination(Route $route);

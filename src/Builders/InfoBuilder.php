@@ -7,9 +7,6 @@ use LaravelJsonApi\OpenApiSpec\Descriptors\Server;
 
 class InfoBuilder extends Builder
 {
-    /**
-     * @return Info
-     */
     public function build(): Info
     {
         return (new Server($this->generator))->info();

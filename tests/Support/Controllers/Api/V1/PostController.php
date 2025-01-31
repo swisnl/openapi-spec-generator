@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -30,21 +31,19 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Models\Post;
 
 class PostController extends Controller
 {
+    use Actions\AttachRelationship;
+    use Actions\Destroy;
+    use Actions\DetachRelationship;
     use Actions\FetchMany;
     use Actions\FetchOne;
-    use Actions\Store;
-    use Actions\Update;
-    use Actions\Destroy;
     use Actions\FetchRelated;
     use Actions\FetchRelationship;
+    use Actions\Store;
+    use Actions\Update;
     use Actions\UpdateRelationship;
-    use Actions\AttachRelationship;
-    use Actions\DetachRelationship;
 
     /**
      * @throws \Illuminate\Auth\Access\AuthorizationException
-     *
-     * @return Response
      */
     public function purge(): Response
     {
@@ -58,13 +57,8 @@ class PostController extends Controller
     /**
      * Publish a post.
      *
-     * @param PostSchema $schema
-     * @param PostQuery  $query
-     * @param Post       $post
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
-     *
-     * @return Responsable
      */
     public function publish(PostSchema $schema, PostQuery $query, Post $post): Responsable
     {

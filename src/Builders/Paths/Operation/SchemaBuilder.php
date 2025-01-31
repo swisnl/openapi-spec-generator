@@ -17,10 +17,6 @@ class SchemaBuilder extends Builder
 {
     protected ComponentsContainer $components;
 
-    /**
-     * @param Generator           $generator
-     * @param ComponentsContainer $components
-     */
     public function __construct(
         Generator $generator,
         ComponentsContainer $components,
@@ -30,12 +26,9 @@ class SchemaBuilder extends Builder
     }
 
     /**
-     * @param Route $route
-     * @param bool  $isRequest
+     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
      *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
-     *
-     * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Schema
      *
      * @todo Use a schema descriptor container (Container should allow customs
      *   via attribute)
@@ -60,13 +53,7 @@ class SchemaBuilder extends Builder
     }
 
     /**
-     * @param Route                    $route
-     * @param SchemaDescriptorContract $descriptor
-     * @param string                   $objectId
-     *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
-     *
-     * @return SchemaContract
      */
     protected function buildResponseSchema(
         Route $route,
@@ -81,24 +68,24 @@ class SchemaBuilder extends Builder
 
         if ($method === 'showRelated' && $route->isPolymorphic()) {
             $schemas = collect($route->inversSchemas())
-              ->map(function (JASchema $schema, string $name) use ($descriptor) {
-                  $objectId = "resources.$name.resource.fetch";
-                  if ($data = $this->components->getSchema($objectId)) {
-                      return $data;
-                  }
+                ->map(function (JASchema $schema, string $name) use ($descriptor) {
+                    $objectId = "resources.$name.resource.fetch";
+                    if ($data = $this->components->getSchema($objectId)) {
+                        return $data;
+                    }
 
-                  return $this->components->addSchema(
-                      $descriptor->fetch(
-                          $schema,
-                          $objectId,
-                          $name,
-                          ucfirst(Str::singular($name))
-                      )
-                  );
-              });
+                    return $this->components->addSchema(
+                        $descriptor->fetch(
+                            $schema,
+                            $objectId,
+                            $name,
+                            ucfirst(Str::singular($name))
+                        )
+                    );
+                });
 
             return OneOf::create($objectId)
-              ->schemas(...array_values($schemas->toArray()));
+                ->schemas(...array_values($schemas->toArray()));
         }
 
         if ($method !== 'showRelated' && $route->isRelation()) {
@@ -133,13 +120,7 @@ class SchemaBuilder extends Builder
     }
 
     /**
-     * @param Route                    $route
-     * @param SchemaDescriptorContract $descriptor
-     * @param string                   $objectId
-     *
      * @throws \GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException
-     *
-     * @return SchemaContract
      */
     protected function buildRequestSchema(
         Route $route,
@@ -177,12 +158,6 @@ class SchemaBuilder extends Builder
         return $schema->objectId($objectId);
     }
 
-    /**
-     * @param Route $route
-     * @param bool  $isRequest
-     *
-     * @return string
-     */
     public static function objectId(
         Route $route,
         bool $isRequest = false,

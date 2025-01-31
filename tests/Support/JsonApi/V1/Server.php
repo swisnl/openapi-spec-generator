@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -31,19 +32,15 @@ class Server extends BaseServer
 {
     /**
      * The base URI namespace for this server.
-     *
-     * @var string
      */
     protected string $baseUri = '/api/v1';
 
     /**
      * Bootstrap the server when it is handling an HTTP request.
-     *
-     * @return void
      */
     public function serving(): void
     {
-        Post::addGlobalScope(new PostScope());
+        Post::addGlobalScope(new PostScope);
         Post::creating(static function (Post $post) {
             $post->author()->associate(Auth::user());
         });
@@ -57,8 +54,6 @@ class Server extends BaseServer
 
     /**
      * Get the server's list of schemas.
-     *
-     * @return array
      */
     protected function allSchemas(): array
     {
@@ -75,12 +70,10 @@ class Server extends BaseServer
 
     /**
      * The base URI namespace for this server.
-     *
-     * @return string
      */
     public function baseUri(): string
     {
-        if (!empty($this->baseUri)) {
+        if (! empty($this->baseUri)) {
             return $this->baseUri;
         }
 

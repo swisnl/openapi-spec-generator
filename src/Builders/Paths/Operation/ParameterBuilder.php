@@ -12,8 +12,6 @@ use LaravelJsonApi\OpenApiSpec\Route;
 class ParameterBuilder extends Builder
 {
     /**
-     * @param Route $route
-     *
      * @return \GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter[]
      */
     public function build(Route $route): array
@@ -40,19 +38,19 @@ class ParameterBuilder extends Builder
         if (isset($route->route()->defaults[\LaravelJsonApi\Laravel\Routing\Route::RESOURCE_ID_NAME])) {
             $id = $route->route()->defaults[\LaravelJsonApi\Laravel\Routing\Route::RESOURCE_ID_NAME];
             $examples = collect($this->generator->resources()
-              ->resources($route->schema()::model()))
-              ->map(function ($resource) {
-                  $id = $resource->id();
+                ->resources($route->schema()::model()))
+                ->map(function ($resource) {
+                    $id = $resource->id();
 
-                  return Example::create($id)->value($id);
-              })->toArray();
+                    return Example::create($id)->value($id);
+                })->toArray();
 
             $parameters[] = Parameter::path($id)
-              ->name($id)
-              ->required(true)
-              ->allowEmptyValue(false)
-              ->examples(...$examples)
-              ->schema(OASchema::string());
+                ->name($id)
+                ->required(true)
+                ->allowEmptyValue(false)
+                ->examples(...$examples)
+                ->schema(OASchema::string());
         }
 
         return $parameters;

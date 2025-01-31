@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -48,9 +49,6 @@ class UserFactory extends Factory
         ];
     }
 
-    /**
-     * @return UserFactory
-     */
     public function admin(): self
     {
         return $this->state(['email' => 'support@example.com']);

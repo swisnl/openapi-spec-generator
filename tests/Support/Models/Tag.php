@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -26,25 +27,19 @@ use LaravelJsonApi\OpenApiSpec\Tests\Support\Database\Factories\TagFactory;
 
 class Tag extends Model
 {
-    use HasFactory;
     use Concerns\HashRouteKey;
+    use HasFactory;
 
     /**
      * @var string[]
      */
     protected $fillable = ['name'];
 
-    /**
-     * @return MorphToMany
-     */
     public function posts(): MorphToMany
     {
         return $this->morphedByMany(Post::class, 'taggable');
     }
 
-    /**
-     * @return MorphToMany
-     */
     public function videos(): MorphToMany
     {
         return $this->morphedByMany(Video::class, 'taggable');
@@ -57,6 +52,6 @@ class Tag extends Model
      */
     protected static function newFactory()
     {
-        return new TagFactory();
+        return new TagFactory;
     }
 }

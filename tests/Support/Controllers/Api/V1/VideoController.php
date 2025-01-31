@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Cloud Creativity Limited
  *
@@ -21,6 +22,4 @@ namespace LaravelJsonApi\OpenApiSpec\Tests\Support\Controllers\Api\V1;
 
 use LaravelJsonApi\Laravel\Http\Controllers\JsonApiController;
 
-class VideoController extends JsonApiController
-{
-}
+class VideoController extends JsonApiController {}

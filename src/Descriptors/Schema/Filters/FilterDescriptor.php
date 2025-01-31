@@ -11,6 +11,7 @@ use LaravelJsonApi\OpenApiSpec\Route;
 abstract class FilterDescriptor extends Descriptor implements FilterDescriptorContract
 {
     protected Route $route;
+
     protected Filter $filter;
 
     public function __construct(Generator $generator, Route $route, Filter $filter)
@@ -21,8 +22,5 @@ abstract class FilterDescriptor extends Descriptor implements FilterDescriptorCo
         $this->filter = $filter;
     }
 
-    /**
-     * @return string
-     */
     abstract protected function description(): string;
 }
